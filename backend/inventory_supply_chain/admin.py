@@ -1,0 +1,20 @@
+from django.contrib import admin
+from .models import InventoryItem, StockMovement, DemandForecast, InventoryValuation, DeadStock, Location, InventoryAudit, TurnoverMetric, Supplier, ProcurementOrder, ProductionPlan, WarehouseOperation, LogisticsMetric, MarketVolatility, RegulatoryCompliance, DisruptionRisk, SustainabilityMetric
+
+admin.site.register(InventoryItem)
+admin.site.register(StockMovement)
+admin.site.register(DemandForecast)
+admin.site.register(InventoryValuation)
+admin.site.register(DeadStock)
+admin.site.register(Location)
+admin.site.register(InventoryAudit)
+admin.site.register(TurnoverMetric)
+admin.site.register(Supplier)
+admin.site.register(ProcurementOrder)
+admin.site.register(ProductionPlan)
+admin.site.register(WarehouseOperation)
+admin.site.register(LogisticsMetric)
+admin.site.register(MarketVolatility)
+admin.site.register(RegulatoryCompliance)
+admin.site.register(DisruptionRisk)
+admin.site.register(SustainabilityMetric)

@@ -1,0 +1,19 @@
+from rest_framework.routers import DefaultRouter
+from .views import (
+    CustomerProfileViewSet,
+    RevenueProjectionViewSet,
+    CostStructureViewSet,
+    CashFlowForecastViewSet,
+    KPIViewSet,
+    ScenarioPlanningViewSet,
+)
+
+router = DefaultRouter()
+router.register(r'customer-profiles', CustomerProfileViewSet)
+router.register(r'revenue-projections', RevenueProjectionViewSet)
+router.register(r'cost-structures', CostStructureViewSet)
+router.register(r'cash-flow-forecasts', CashFlowForecastViewSet)
+router.register(r'kpis', KPIViewSet)
+router.register(r'scenario-plannings', ScenarioPlanningViewSet)
+
+urlpatterns = router.urls

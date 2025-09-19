@@ -1,0 +1,195 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /**
+   * Tailwind CSS theme
+   * tailwind.config.ts expects the following color variables to be expressed as HSL values.
+   * A different format will require also updating the theme in tailwind.config.ts.
+  */
+  :root {
+    /* Base colors - Professional blue-gray theme */
+    --background: 240 10% 98%;
+    --foreground: 240 10% 9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 9%;
+
+    /* Professional blue primary */
+    --primary: 217 91% 35%;
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 240 5% 96%;
+    --secondary-foreground: 240 6% 10%;
+
+    --muted: 240 5% 96%;
+    --muted-foreground: 240 4% 46%;
+
+    --accent: 240 5% 96%;
+    --accent-foreground: 240 6% 10%;
+
+    --destructive: 0 75% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 6% 90%;
+    --input: 240 6% 90%;
+    --ring: 217 91% 35%;
+
+    --radius: 0.75rem;
+
+    /* Economic/Financial specific colors */
+    --economic-positive: 142 71% 45%;
+    --economic-positive-foreground: 0 0% 98%;
+    --economic-negative: 0 75% 60%;
+    --economic-negative-foreground: 0 0% 98%;
+    --economic-neutral: 240 4% 46%;
+    --economic-neutral-foreground: 0 0% 98%;
+    --economic-warning: 38 92% 50%;
+    --economic-warning-foreground: 0 0% 98%;
+
+    /* Chart colors */
+    --chart-1: 217 91% 35%;
+    --chart-2: 142 71% 45%;
+    --chart-3: 0 75% 60%;
+    --chart-4: 38 92% 50%;
+    --chart-5: 271 81% 56%;
+
+    /* Sidebar */
+    --sidebar-background: 240 6% 97%;
+    --sidebar-foreground: 240 5% 26%;
+    --sidebar-primary: 240 6% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 5% 94%;
+    --sidebar-accent-foreground: 240 6% 10%;
+    --sidebar-border: 240 6% 88%;
+    --sidebar-ring: 217 91% 35%;
+  }
+
+  .dark {
+    /* Dark theme - Professional dark blue */
+    --background: 240 10% 4%;
+    --foreground: 240 5% 90%;
+
+    --card: 240 10% 6%;
+    --card-foreground: 240 5% 90%;
+
+    --popover: 240 10% 6%;
+    --popover-foreground: 240 5% 90%;
+
+    --primary: 217 91% 60%;
+    --primary-foreground: 240 10% 4%;
+
+    --secondary: 240 4% 16%;
+    --secondary-foreground: 240 5% 90%;
+
+    --muted: 240 4% 16%;
+    --muted-foreground: 240 5% 64%;
+
+    --accent: 240 4% 16%;
+    --accent-foreground: 240 5% 90%;
+
+    --destructive: 0 63% 50%;
+    --destructive-foreground: 240 5% 90%;
+
+    --border: 240 4% 16%;
+    --input: 240 4% 16%;
+    --ring: 217 91% 60%;
+
+    /* Economic colors for dark mode */
+    --economic-positive: 142 71% 55%;
+    --economic-positive-foreground: 240 10% 4%;
+    --economic-negative: 0 75% 65%;
+    --economic-negative-foreground: 240 10% 4%;
+    --economic-neutral: 240 5% 64%;
+    --economic-neutral-foreground: 240 10% 4%;
+    --economic-warning: 38 92% 60%;
+    --economic-warning-foreground: 240 10% 4%;
+
+    /* Chart colors for dark mode */
+    --chart-1: 217 91% 60%;
+    --chart-2: 142 71% 55%;
+    --chart-3: 0 75% 65%;
+    --chart-4: 38 92% 60%;
+    --chart-5: 271 81% 66%;
+
+    /* Sidebar dark */
+    --sidebar-background: 240 6% 8%;
+    --sidebar-foreground: 240 5% 90%;
+    --sidebar-primary: 217 91% 60%;
+    --sidebar-primary-foreground: 240 10% 4%;
+    --sidebar-accent: 240 4% 14%;
+    --sidebar-accent-foreground: 240 5% 90%;
+    --sidebar-border: 240 4% 14%;
+    --sidebar-ring: 217 91% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-semibold tracking-tight;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-muted;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-border rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted-foreground/50;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .data-table-row:hover {
+    @apply bg-muted/50;
+  }
+
+  .metric-card {
+    @apply relative overflow-hidden rounded-lg border bg-card p-6 text-card-foreground shadow-sm transition-all hover:shadow-md;
+  }
+
+  .trend-positive {
+    @apply text-economic-positive;
+  }
+
+  .trend-negative {
+    @apply text-economic-negative;
+  }
+
+  .trend-neutral {
+    @apply text-economic-neutral;
+  }
+}

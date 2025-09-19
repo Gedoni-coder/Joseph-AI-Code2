@@ -1,0 +1,20 @@
+from django.contrib import admin
+from .models import LoanEligibility, FundingOption, LoanFee, LoanComparison, ApplicationDocument, BusinessPlanSection, BusinessPlan, FundingTimeline, EquityImpact, DebtImpact, FundingStrategy, RecentInvestment, ContactInfo, InvestorPreferences, InvestorMatch, LoanUpdate, Watchlist
+
+admin.site.register(LoanEligibility)
+admin.site.register(FundingOption)
+admin.site.register(LoanFee)
+admin.site.register(LoanComparison)
+admin.site.register(ApplicationDocument)
+admin.site.register(BusinessPlanSection)
+admin.site.register(BusinessPlan)
+admin.site.register(FundingTimeline)
+admin.site.register(EquityImpact)
+admin.site.register(DebtImpact)
+admin.site.register(FundingStrategy)
+admin.site.register(RecentInvestment)
+admin.site.register(ContactInfo)
+admin.site.register(InvestorPreferences)
+admin.site.register(InvestorMatch)
+admin.site.register(LoanUpdate)
+admin.site.register(Watchlist)
