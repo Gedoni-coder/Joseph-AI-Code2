@@ -1,9 +1,20 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { EconomicForecast } from "@/lib/economic-data";
 import { TrendingUp, TrendingDown, BarChart3 } from "lucide-react";
 import { cn } from "@/lib/utils";
+
+// Type alias to match hook data structure
+interface EconomicForecast {
+  id: number;
+  context: string;
+  indicator: string;
+  period: string;
+  forecast: number;
+  confidence: number;
+  range_low: number;
+  range_high: number;
+}
 
 interface ForecastPanelProps {
   forecasts: EconomicForecast[];
@@ -14,15 +25,15 @@ export function ForecastPanel({
   forecasts,
   title = "Economic Forecasts",
 }: ForecastPanelProps) {
-  const getForecastTrend = (current: number, forecast: number) => {
-    if (forecast > current) return "up";
-    if (forecast < current) return "down";
+  const getForecastTrend = (forecast: number, range_low: number, range_high: number) => {
+    if (forecast > range_high) return "up";
+    if (forecast < range_low) return "down";
     return "stable";
   };
 
-  const getForecastChange = (current: number, forecast: number) => {
-    const change = forecast - current;
-    const changePercent = (change / current) * 100;
+  const getForecastChange = (forecast: number, range_low: number, range_high: number) => {
+    const change = forecast - ((range_low + range_high) / 2);
+    const changePercent = change / ((range_low + range_high) / 2) * 100;
     return { change, changePercent };
   };
 
@@ -51,12 +62,14 @@ export function ForecastPanel({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {forecasts.map((forecast) => {
           const trend = getForecastTrend(
-            forecast.currentValue,
-            forecast.forecastValue,
+            forecast.forecast,
+            forecast.range_low,
+            forecast.range_high,
           );
           const { change, changePercent } = getForecastChange(
-            forecast.currentValue,
-            forecast.forecastValue,
+            forecast.forecast,
+            forecast.range_low,
+            forecast.range_high,
           );
 
           return (
@@ -69,9 +82,9 @@ export function ForecastPanel({
               <CardContent className="space-y-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-2xs text-muted-foreground">Current</p>
+                    <p className="text-2xs text-muted-foreground">Range</p>
                     <p className="text-lg font-semibold">
-                      {formatValue(forecast.currentValue, forecast.indicator)}
+                      {formatValue(forecast.range_low, forecast.indicator)} - {formatValue(forecast.range_high, forecast.indicator)}
                     </p>
                   </div>
                   <div className="flex items-center">
@@ -82,11 +95,11 @@ export function ForecastPanel({
                     ) : null}
                     <div className="text-right">
                       <p className="text-2xs text-muted-foreground">
-                        Forecast ({forecast.timeframe})
+                        Forecast ({forecast.period})
                       </p>
                       <p className="text-lg font-semibold">
                         {formatValue(
-                          forecast.forecastValue,
+                          forecast.forecast,
                           forecast.indicator,
                         )}
                       </p>
@@ -118,7 +131,7 @@ export function ForecastPanel({
                 </div>
 
                 <div className="text-xs text-muted-foreground">
-                  Method: {forecast.methodology}
+                  Range: {formatValue(forecast.range_low, forecast.indicator)} - {formatValue(forecast.range_high, forecast.indicator)}
                 </div>
               </CardContent>
             </Card>

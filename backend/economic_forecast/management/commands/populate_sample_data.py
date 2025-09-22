@@ -240,4 +240,3 @@ class Command(BaseCommand):
             f'- {len(forecasts_data)} economic forecasts\n'
             f'- {len(events_data)} economic events'
         ))
-</create_file>

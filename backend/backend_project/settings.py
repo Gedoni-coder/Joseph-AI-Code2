@@ -21,15 +21,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-svinma#7^fs$na$^1yk(oo)^^w9o6!#v5-n_v2-17srnhg9j-y'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-svinma#7^fs$na$^1yk(oo)^^w9o6!#v5-n_v2-17srnhg9j-y')
 
 # Google Gemini API Key
 GEMINI_API_KEY = os.getenv('GEMINI_API_KEY', 'AIzaSyAY96qhn5P1eUQHl05MGHu3oZp5f_Sbmzs')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 
 
 # Application definition
@@ -144,6 +144,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "http://localhost:8080",
+    "http://127.0.0.1:8080",
 ]
 
-CORS_ALLOW_ALL_ORIGINS = True  # For development only
+# Allow all origins in development, restrict in production
+CORS_ALLOW_ALL_ORIGINS = DEBUG
+
+# Additional CORS settings for production
+if not DEBUG:
+    CORS_ALLOWED_ORIGIN_REGEXES = [
+        r"^https://.*\.yourdomain\.com$",
+    ]

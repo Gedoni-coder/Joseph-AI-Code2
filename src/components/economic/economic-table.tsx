@@ -9,7 +9,19 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { EconomicNews } from "@/lib/economic-data";
+import { useState } from "react";
+
+// Type alias to match hook data structure
+interface EconomicNews {
+  id: number;
+  context: string;
+  title: string;
+  summary: string;
+  source: string;
+  timestamp: string;
+  impact: string;
+  category: string;
+}
 import {
   ExternalLink,
   Clock,
@@ -18,7 +30,6 @@ import {
   Minus,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
 
 interface EconomicTableProps {
   news: EconomicNews[];
@@ -29,9 +40,9 @@ export function EconomicTable({
   news,
   title = "Economic News & Headlines",
 }: EconomicTableProps) {
-  const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
+  const [expandedRows, setExpandedRows] = useState<Set<number>>(new Set());
 
-  const toggleRow = (id: string) => {
+  const toggleRow = (id: number) => {
     const newExpanded = new Set(expandedRows);
     if (expandedRows.has(id)) {
       newExpanded.delete(id);
@@ -63,10 +74,11 @@ export function EconomicTable({
     }
   };
 
-  const formatTimestamp = (timestamp: Date) => {
+  const formatTimestamp = (timestamp: string) => {
+    const date = new Date(timestamp);
     const now = new Date();
     const diffInHours = Math.floor(
-      (now.getTime() - timestamp.getTime()) / (1000 * 60 * 60),
+      (now.getTime() - date.getTime()) / (1000 * 60 * 60),
     );
 
     if (diffInHours < 24) {
@@ -117,12 +129,12 @@ export function EconomicTable({
                   onClick={() => toggleRow(item.id)}
                 >
                   <TableCell className="text-center font-mono text-sm">
-                    {item.sn.toString().padStart(2, "0")}
+                    {item.id.toString().padStart(2, "0")}
                   </TableCell>
                   <TableCell className="font-medium">
                     <div className="space-y-1">
                       <p className="line-clamp-2 text-sm leading-relaxed">
-                        {item.headline}
+                        {item.title}
                       </p>
                       <div className="flex items-center gap-2 md:hidden">
                         <Badge
@@ -171,14 +183,14 @@ export function EconomicTable({
                     <TableCell colSpan={6} className="bg-muted/20 border-b">
                       <div className="py-4 space-y-3">
                         <div className="text-sm leading-relaxed text-foreground">
-                          {item.news}
+                          {item.summary}
                         </div>
                         <div className="flex items-center justify-between text-xs text-muted-foreground">
                           <div className="flex items-center gap-4">
                             <span>Source: {item.source}</span>
                             <span>Category: {item.category}</span>
                           </div>
-                          <span>{item.timestamp.toLocaleDateString()}</span>
+                          <span>{new Date(item.timestamp).toLocaleDateString()}</span>
                         </div>
                       </div>
                     </TableCell>

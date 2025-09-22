@@ -48,28 +48,28 @@ export function useEconomicData() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const API_BASE_URL = "http://localhost:8000/api/economic";
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL + import.meta.env.VITE_ECONOMIC_API_ENDPOINT;
 
   const fetchMetrics = useCallback(async () => {
-    const response = await fetch(\`\${API_BASE_URL}/metrics/\`);
+    const response = await fetch(`${API_BASE_URL}/metrics/`);
     if (!response.ok) throw new Error("Failed to fetch economic metrics");
     return response.json();
   }, []);
 
   const fetchNews = useCallback(async () => {
-    const response = await fetch(\`\${API_BASE_URL}/news/\`);
+    const response = await fetch(`${API_BASE_URL}/news/`);
     if (!response.ok) throw new Error("Failed to fetch economic news");
     return response.json();
   }, []);
 
   const fetchForecasts = useCallback(async () => {
-    const response = await fetch(\`\${API_BASE_URL}/forecasts/\`);
+    const response = await fetch(`${API_BASE_URL}/forecasts/`);
     if (!response.ok) throw new Error("Failed to fetch economic forecasts");
     return response.json();
   }, []);
 
   const fetchEvents = useCallback(async () => {
-    const response = await fetch(\`\${API_BASE_URL}/events/\`);
+    const response = await fetch(`${API_BASE_URL}/events/`);
     if (!response.ok) throw new Error("Failed to fetch economic events");
     return response.json();
   }, []);

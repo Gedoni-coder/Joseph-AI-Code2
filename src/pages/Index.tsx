@@ -30,6 +30,39 @@ import { ForecastPanel } from "@/components/economic/forecast-panel";
 import { UpcomingEvents } from "@/components/economic/upcoming-events";
 import { useEconomicData } from "@/hooks/useEconomicData";
 import { EconomicContext } from "@/lib/economic-data";
+
+// Type aliases to match component expectations
+type EconomicNews = {
+  id: number;
+  context: string;
+  title: string;
+  summary: string;
+  source: string;
+  timestamp: string;
+  impact: string;
+  category: string;
+};
+
+type EconomicForecast = {
+  id: number;
+  context: string;
+  indicator: string;
+  period: string;
+  forecast: number;
+  confidence: number;
+  range_low: number;
+  range_high: number;
+};
+
+type EconomicEvent = {
+  id: number;
+  context: string;
+  title: string;
+  date: string;
+  description: string;
+  impact: string;
+  category: string;
+};
 import { cn } from "@/lib/utils";
 import {
   Activity,
@@ -68,10 +101,11 @@ const Index = () => {
     reconnect,
   } = useEconomicData();
 
-  const currentMetrics = metrics[activeContext];
-  const currentNews = news[activeContext];
-  const currentForecasts = forecasts[activeContext];
-  const currentEvents = events[activeContext];
+  // Add null safety checks
+  const currentMetrics = metrics[activeContext] || [];
+  const currentNews = news[activeContext] || [];
+  const currentForecasts = forecasts[activeContext] || [];
+  const currentEvents = events[activeContext] || [];
 
   const handleRefresh = async () => {
     await refreshData(activeContext);

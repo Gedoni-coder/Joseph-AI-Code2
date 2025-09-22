@@ -1,7 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { EconomicEvent } from "@/lib/economic-events";
 import {
   Calendar,
   Clock,
@@ -14,6 +13,17 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+// Type alias to match hook data structure
+interface EconomicEvent {
+  id: number;
+  context: string;
+  title: string;
+  date: string;
+  description: string;
+  impact: string;
+  category: string;
+}
+
 interface UpcomingEventsProps {
   events: EconomicEvent[];
   title?: string;
@@ -23,12 +33,14 @@ export function UpcomingEvents({
   events,
   title = "Upcoming Economic Events",
 }: UpcomingEventsProps) {
-  const getImportanceColor = (importance: EconomicEvent["importance"]) => {
-    switch (importance) {
+  const getImportanceColor = (impact: EconomicEvent["impact"]) => {
+    switch (impact) {
       case "high":
         return "bg-economic-negative text-economic-negative-foreground";
-      case "medium":
-        return "bg-economic-warning text-economic-warning-foreground";
+      case "positive":
+        return "bg-economic-positive text-economic-positive-foreground";
+      case "negative":
+        return "bg-economic-negative text-economic-negative-foreground";
       default:
         return "bg-economic-neutral text-economic-neutral-foreground";
     }
@@ -36,19 +48,20 @@ export function UpcomingEvents({
 
   const getImpactIcon = (impact: EconomicEvent["impact"]) => {
     switch (impact) {
-      case "bullish":
+      case "positive":
         return <TrendingUp className="h-4 w-4 text-economic-positive" />;
-      case "bearish":
+      case "negative":
         return <TrendingDown className="h-4 w-4 text-economic-negative" />;
       default:
         return <Minus className="h-4 w-4 text-economic-neutral" />;
     }
   };
 
-  const getTimeUntilEvent = (eventDate: Date) => {
+  const getTimeUntilEvent = (eventDate: string) => {
+    const date = new Date(eventDate);
     const now = new Date();
     const diffInHours = Math.floor(
-      (eventDate.getTime() - now.getTime()) / (1000 * 60 * 60),
+      (date.getTime() - now.getTime()) / (1000 * 60 * 60),
     );
 
     if (diffInHours < 0) {
@@ -61,30 +74,32 @@ export function UpcomingEvents({
     }
   };
 
-  const formatEventDate = (date: Date) => {
-    return date.toLocaleDateString("en-US", {
+  const formatEventDate = (date: string) => {
+    const dateObj = new Date(date);
+    return dateObj.toLocaleDateString("en-US", {
       weekday: "short",
       month: "short",
       day: "numeric",
     });
   };
 
-  const isUpcoming = (date: Date) => {
-    return date.getTime() > new Date().getTime();
+  const isUpcoming = (date: string) => {
+    return new Date(date).getTime() > new Date().getTime();
   };
 
-  const isToday = (date: Date) => {
+  const isToday = (date: string) => {
+    const eventDate = new Date(date);
     const today = new Date();
     return (
-      date.getDate() === today.getDate() &&
-      date.getMonth() === today.getMonth() &&
-      date.getFullYear() === today.getFullYear()
+      eventDate.getDate() === today.getDate() &&
+      eventDate.getMonth() === today.getMonth() &&
+      eventDate.getFullYear() === today.getFullYear()
     );
   };
 
   const upcomingEvents = events.filter((event) => isUpcoming(event.date));
   const sortedEvents = upcomingEvents.sort(
-    (a, b) => a.date.getTime() - b.date.getTime(),
+    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
   );
 
   return (
@@ -126,27 +141,17 @@ export function UpcomingEvents({
                   </CardTitle>
                   <div className="flex items-center gap-2 text-xs text-muted-foreground">
                     <span>{formatEventDate(event.date)}</span>
-                    {event.time && (
-                      <>
-                        <span>•</span>
-                        <span className="flex items-center gap-1">
-                          <Clock className="h-3 w-3" />
-                          {event.time}
-                        </span>
-                      </>
-                    )}
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   {getImpactIcon(event.impact)}
                   <Badge
-                    size="sm"
                     className={cn(
                       "text-xs",
-                      getImportanceColor(event.importance),
+                      getImportanceColor(event.impact),
                     )}
                   >
-                    {event.importance}
+                    {event.impact}
                   </Badge>
                 </div>
               </div>
@@ -170,33 +175,8 @@ export function UpcomingEvents({
                 </Button>
               </div>
 
-              {(event.previous || event.forecast || event.actual) && (
-                <div className="border-t pt-3">
-                  <div className="grid grid-cols-3 gap-4 text-xs">
-                    {event.previous && (
-                      <div>
-                        <p className="text-muted-foreground">Previous</p>
-                        <p className="font-medium">{event.previous}</p>
-                      </div>
-                    )}
-                    {event.forecast && (
-                      <div>
-                        <p className="text-muted-foreground">Forecast</p>
-                        <p className="font-medium">{event.forecast}</p>
-                      </div>
-                    )}
-                    {event.actual && (
-                      <div>
-                        <p className="text-muted-foreground">Actual</p>
-                        <p className="font-medium">{event.actual}</p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
-
               <div className="flex items-center justify-between text-xs text-muted-foreground border-t pt-2">
-                <span>Source: {event.source}</span>
+                <span>Category: {event.category}</span>
                 {isToday(event.date) && (
                   <div className="flex items-center gap-1 text-primary">
                     <AlertCircle className="h-3 w-3" />
