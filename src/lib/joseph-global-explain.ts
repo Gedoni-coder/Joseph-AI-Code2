@@ -68,8 +68,11 @@ class JosephGlobalExplainer {
 
   // Auto-make elements explainable based on common patterns
   autoDetectExplainableElements() {
+    const shouldSkip = (el: Element) => !!(el as HTMLElement).closest('[data-joseph-no-explain]');
+
     // Charts and visualizations
     document.querySelectorAll('[class*="chart"], [class*="graph"], canvas, svg').forEach((el) => {
+      if (shouldSkip(el)) return;
       if (!el.hasAttribute('data-joseph-explainable')) {
         this.makeExplainable(
           el as HTMLElement,
@@ -81,6 +84,7 @@ class JosephGlobalExplainer {
 
     // Metric cards and key numbers
     document.querySelectorAll('[class*="metric"], [class*="card"], [class*="stat"]').forEach((el) => {
+      if (shouldSkip(el)) return;
       const text = (el as HTMLElement).textContent?.trim();
       if (text && text.match(/\$|%|\d+/) && !el.hasAttribute('data-joseph-explainable')) {
         this.makeExplainable(
@@ -93,6 +97,7 @@ class JosephGlobalExplainer {
 
     // Tables
     document.querySelectorAll('table, [class*="table"]').forEach((el) => {
+      if (shouldSkip(el)) return;
       if (!el.hasAttribute('data-joseph-explainable')) {
         this.makeExplainable(
           el as HTMLElement,
@@ -104,6 +109,7 @@ class JosephGlobalExplainer {
 
     // Badges and status indicators
     document.querySelectorAll('[class*="badge"], [class*="status"], [class*="tag"]').forEach((el) => {
+      if (shouldSkip(el)) return;
       const text = (el as HTMLElement).textContent?.trim();
       if (text && !el.hasAttribute('data-joseph-explainable')) {
         this.makeExplainable(
@@ -119,7 +125,17 @@ class JosephGlobalExplainer {
   private initializeGlobalListener() {
     document.addEventListener('click', (e) => {
       const target = e.target as HTMLElement;
-      
+
+      // Ignore clicks inside chatbot or on input controls
+      if (
+        target.closest('[data-joseph-no-explain]') ||
+        target.closest('[data-chatbot-main]') ||
+        ['INPUT','TEXTAREA','SELECT','BUTTON','LABEL'].includes(target.tagName) ||
+        target.isContentEditable
+      ) {
+        return;
+      }
+
       // Check if clicked element or any parent is explainable
       let currentElement: HTMLElement | null = target;
       while (currentElement) {
