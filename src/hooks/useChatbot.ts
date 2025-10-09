@@ -9,6 +9,8 @@ import {
   generateContextualResponse,
   smartSuggestions,
 } from "../lib/chatbot-data";
+import { generateAIResponse } from "../lib/ai";
+import { extractUrls, fetchWebPageText } from "../lib/web-scraper";
 
 export function useChatbot() {
   const location = useLocation();
@@ -84,7 +86,46 @@ export function useChatbot() {
     const currentMessages = [...(messagesByContext[targetContext] || []), userMessage];
 
     try {
-      // Call backend API
+      // Attempt AI response first if API key is configured
+      const urls = extractUrls(content);
+      let webContext: string | null = null;
+      if (urls.length > 0) {
+        const firstTwo = urls.slice(0, 2);
+        const parts: string[] = [];
+        await Promise.all(firstTwo.map(async (u) => {
+          const txt = await fetchWebPageText(u);
+          if (txt) {
+            parts.push(`URL: ${u}\n${txt}`);
+          }
+        }));
+        if (parts.length) {
+          webContext = parts.join("\n\n---\n\n");
+        }
+      }
+
+      const system = `You are Joseph AI, an in-app economic and business assistant. The current module is "${currentContext.name}" (${currentContext.id}). Use provided web context when present. Provide clear, accurate, concise answers with explanations grounded in the user's question and module.`;
+      const aiText = await generateAIResponse(currentMessages, { system, webContext });
+
+      if (aiText) {
+        const assistantMessage = {
+          type: "assistant" as const,
+          content: aiText,
+          context: targetContext,
+          id: `msg-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+          timestamp: new Date(),
+          tools: content.toLowerCase().includes('calculator') ? ['economic-calculator'] :
+                 content.toLowerCase().includes('forecast') ? ['forecast-wizard'] :
+                 content.toLowerCase().includes('budget') ? ['budget-planner'] : undefined,
+        };
+        setMessagesByContext(prev => ({
+          ...prev,
+          [targetContext]: [...(prev[targetContext] || []), assistantMessage]
+        }));
+        setIsTyping(false);
+        return;
+      }
+
+      // Fallback to backend if available
       const response = await fetch('http://localhost:8000/chatbot/generate-response/', {
         method: 'POST',
         headers: {
@@ -93,7 +134,7 @@ export function useChatbot() {
         body: JSON.stringify({
           messages: currentMessages,
           context: targetContext,
-          currentData: {}, // Can be extended to pass current page data
+          currentData: {},
         }),
       });
 
@@ -114,11 +155,7 @@ export function useChatbot() {
           [targetContext]: [...(prev[targetContext] || []), assistantMessage]
         }));
       } else {
-        // Fallback to local response if API fails
-        const fallbackResponse = generateContextualResponse(
-          content.trim(),
-          targetContext
-        );
+        const fallbackResponse = generateContextualResponse(content.trim(), targetContext);
         const assistantMessage = {
           type: "assistant" as const,
           content: fallbackResponse,
@@ -134,12 +171,8 @@ export function useChatbot() {
           [targetContext]: [...(prev[targetContext] || []), assistantMessage]
         }));
       }
-    } catch (error) {
-      // Fallback to local response if network fails
-      const fallbackResponse = generateContextualResponse(
-        content.trim(),
-        targetContext
-      );
+    } catch {
+      const fallbackResponse = generateContextualResponse(content.trim(), targetContext);
       const assistantMessage = {
         type: "assistant" as const,
         content: fallbackResponse,
@@ -193,8 +226,23 @@ export function useChatbot() {
     sendMessage(suggestion);
   }, [sendMessage]);
 
-  const explainElement = useCallback((elementDescription: string, data?: any) => {
-    const explanation = `You clicked on "${elementDescription}". ${generateContextualResponse(
+  const explainElement = useCallback(async (elementDescription: string, data?: any) => {
+    setIsTyping(true);
+    const history: ChatMessage[] = [
+      ...(messagesByContext[currentContext.id] || []),
+      {
+        id: `msg-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        type: "user",
+        content: `Explain this UI element: ${elementDescription}. If helpful, relate it to ${currentContext.name}.`,
+        timestamp: new Date(),
+        context: currentContext.id,
+      },
+    ];
+
+    const system = `You are Joseph AI embedded in a web app. The user clicked an element described as: "${elementDescription}". Provide a concise explanation relevant to the current module (${currentContext.name}). If numbers or metrics are present in data, interpret them. Avoid hallucinations.`;
+    const aiText = await generateAIResponse(history, { system });
+
+    const content = aiText ?? `You clicked on "${elementDescription}". ${generateContextualResponse(
       `Explain ${elementDescription}`,
       currentContext.id,
       data
@@ -202,7 +250,7 @@ export function useChatbot() {
 
     addMessage({
       type: "assistant",
-      content: explanation,
+      content,
       context: currentContext.id,
     });
 
@@ -210,7 +258,8 @@ export function useChatbot() {
       setIsOpen(true);
       setIsMinimized(false);
     }
-  }, [currentContext.id, addMessage, isOpen]);
+    setIsTyping(false);
+  }, [currentContext.id, currentContext.name, addMessage, isOpen, messagesByContext]);
 
   const clearChat = useCallback(() => {
     setMessagesByContext(prev => ({
