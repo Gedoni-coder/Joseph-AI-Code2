@@ -11,7 +11,7 @@ const OPENAI_API_KEY = import.meta.env.VITE_OPENAI_API_KEY as string | undefined
 const DEFAULT_OPENAI_MODEL = (import.meta.env.VITE_OPENAI_MODEL as string | undefined) || "gpt-4o-mini";
 
 const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY as string | undefined;
-const DEFAULT_GEMINI_MODEL = (import.meta.env.VITE_GEMINI_MODEL as string | undefined) || "gemini-1.5-flash-latest";
+const DEFAULT_GEMINI_MODEL = (import.meta.env.VITE_GEMINI_MODEL as string | undefined) || "gemini-1.5-flash";
 
 function toOpenAIMessages(history: ChatMessage[], system?: string, webContext?: string) {
   const msgs: Array<{ role: "system" | "user" | "assistant"; content: string }> = [];
@@ -82,7 +82,7 @@ export async function generateAIResponse(history: ChatMessage[], opts: AIOptions
   if (GEMINI_API_KEY) {
     try {
       const body = toGeminiBody(history, opts.system || undefined, opts.webContext || undefined, opts.model, opts.temperature);
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(body.model)}:generateContent?key=${encodeURIComponent(GEMINI_API_KEY)}`;
+      const url = `https://generativelanguage.googleapis.com/v1/models/${encodeURIComponent(body.model)}:generateContent?key=${encodeURIComponent(GEMINI_API_KEY)}`;
       const res = await fetch(url, {
         method: "POST",
         headers: {
