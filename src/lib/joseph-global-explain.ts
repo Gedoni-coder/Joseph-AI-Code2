@@ -128,8 +128,30 @@ class JosephGlobalExplainer {
           e.stopPropagation();
           
           const explainableData = this.explainableElements.get(currentElement);
-          if (explainableData && this.explainFunction) {
-            this.explainFunction(explainableData.description, explainableData.data);
+          if (this.explainFunction) {
+            const text = currentElement.innerText?.trim() || "";
+            const title = currentElement.getAttribute('title') || "";
+            const aria = currentElement.getAttribute('aria-label') || "";
+            const dataset = { ...currentElement.dataset };
+            const tag = currentElement.tagName;
+            const classes = currentElement.className;
+            const numbers = (text.match(/[-+]?[0-9]*\.?[0-9]+%?|\$[\d,.]+/g) || []).slice(0, 20);
+            const parentHeading = currentElement.closest('section,div,article')?.querySelector('h1,h2,h3,h4')?.textContent?.trim() || "";
+
+            const enriched = {
+              tag,
+              classes,
+              title,
+              aria,
+              dataset,
+              text: text.slice(0, 1500),
+              parentHeading,
+              numbers,
+            };
+
+            const description = explainableData?.description || `${tag} element`;
+            const data = { ...(explainableData?.data || {}), ...enriched };
+            this.explainFunction(description, data);
           }
           return;
         }
