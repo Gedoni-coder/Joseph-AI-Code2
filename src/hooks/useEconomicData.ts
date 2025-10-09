@@ -74,68 +74,67 @@ export function useEconomicData() {
   const [error, setError] = useState<string | null>(null);
   const [isConnected, setIsConnected] = useState(false);
 
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL + import.meta.env.VITE_ECONOMIC_API_ENDPOINT;
+  const RAW_API_BASE = (import.meta.env.VITE_API_BASE_URL as string | undefined)?.trim() || "";
+  const RAW_ECON_ENDPOINT = (import.meta.env.VITE_ECONOMIC_API_ENDPOINT as string | undefined)?.trim() || "";
+  const API_BASE_URL = RAW_API_BASE && RAW_ECON_ENDPOINT ? `${RAW_API_BASE.replace(/\/$/, "")}${RAW_ECON_ENDPOINT.startsWith("/") ? RAW_ECON_ENDPOINT : `/${RAW_ECON_ENDPOINT}`}` : "";
+  const HAS_VALID_API = /^https?:\/\//i.test(API_BASE_URL);
 
   const fetchMetrics = useCallback(async (context?: string): Promise<Record<string, EconomicMetric[]>> => {
     try {
+      if (!HAS_VALID_API) throw new Error("No economic API configured");
       const url = context
-        ? `${API_BASE_URL}/metrics/?context=${context}`
+        ? `${API_BASE_URL}/metrics/?context=${encodeURIComponent(context)}`
         : `${API_BASE_URL}/metrics/`;
       const response = await fetch(url);
       if (!response.ok) throw new Error("Failed to fetch economic metrics");
       const data = await response.json();
       return groupByContext<EconomicMetric>(data);
-    } catch (err) {
-      // Fallback to mock data if API fails
-      console.warn("API failed, using mock data for metrics");
+    } catch {
       return getMockMetricsData();
     }
   }, []);
 
   const fetchNews = useCallback(async (context?: string): Promise<Record<string, EconomicNews[]>> => {
     try {
+      if (!HAS_VALID_API) throw new Error("No economic API configured");
       const url = context
-        ? `${API_BASE_URL}/news/?context=${context}`
+        ? `${API_BASE_URL}/news/?context=${encodeURIComponent(context)}`
         : `${API_BASE_URL}/news/`;
       const response = await fetch(url);
       if (!response.ok) throw new Error("Failed to fetch economic news");
       const data = await response.json();
       return groupByContext<EconomicNews>(data);
-    } catch (err) {
-      // Fallback to mock data if API fails
-      console.warn("API failed, using mock data for news");
+    } catch {
       return getMockNewsData();
     }
   }, []);
 
   const fetchForecasts = useCallback(async (context?: string): Promise<Record<string, EconomicForecast[]>> => {
     try {
+      if (!HAS_VALID_API) throw new Error("No economic API configured");
       const url = context
-        ? `${API_BASE_URL}/forecasts/?context=${context}`
+        ? `${API_BASE_URL}/forecasts/?context=${encodeURIComponent(context)}`
         : `${API_BASE_URL}/forecasts/`;
       const response = await fetch(url);
       if (!response.ok) throw new Error("Failed to fetch economic forecasts");
       const data = await response.json();
       return groupByContext<EconomicForecast>(data);
-    } catch (err) {
-      // Fallback to mock data if API fails
-      console.warn("API failed, using mock data for forecasts");
+    } catch {
       return getMockForecastsData();
     }
   }, []);
 
   const fetchEvents = useCallback(async (context?: string): Promise<Record<string, EconomicEvent[]>> => {
     try {
+      if (!HAS_VALID_API) throw new Error("No economic API configured");
       const url = context
-        ? `${API_BASE_URL}/events/?context=${context}`
+        ? `${API_BASE_URL}/events/?context=${encodeURIComponent(context)}`
         : `${API_BASE_URL}/events/`;
       const response = await fetch(url);
       if (!response.ok) throw new Error("Failed to fetch economic events");
       const data = await response.json();
       return groupByContext<EconomicEvent>(data);
-    } catch (err) {
-      // Fallback to mock data if API fails
-      console.warn("API failed, using mock data for events");
+    } catch {
       return getMockEventsData();
     }
   }, []);
@@ -155,7 +154,7 @@ export function useEconomicData() {
       setForecasts(forecastsData);
       setEvents(eventsData);
       setLastUpdated(new Date());
-      setIsConnected(true);
+      setIsConnected(HAS_VALID_API);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unknown error");
       setIsConnected(false);
@@ -306,4 +305,3 @@ function getMockEventsData(): Record<string, EconomicEvent[]> {
     ]
   };
 }
-
