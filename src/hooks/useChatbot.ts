@@ -239,8 +239,9 @@ export function useChatbot() {
       },
     ];
 
-    const system = `You are Joseph AI embedded in a web app. The user clicked an element described as: "${elementDescription}". Provide a concise explanation relevant to the current module (${currentContext.name}). If numbers or metrics are present in data, interpret them. Avoid hallucinations.`;
-    const aiText = await generateAIResponse(history, { system });
+    const system = `You are Joseph AI embedded in a web app. The user clicked an element described as: "${elementDescription}". Provide a concise explanation relevant to the current module (${currentContext.name}). If numbers or metrics are present in data, interpret them, cite the values you used. Avoid hallucinations.`;
+    const webContext = data ? `Clicked element details (JSON):\n${JSON.stringify(data).slice(0, 6000)}` : undefined;
+    const aiText = await generateAIResponse(history, { system, webContext: webContext || null });
 
     const content = aiText ?? `You clicked on "${elementDescription}". ${generateContextualResponse(
       `Explain ${elementDescription}`,
