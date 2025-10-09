@@ -82,7 +82,7 @@ export async function generateAIResponse(history: ChatMessage[], opts: AIOptions
   if (GEMINI_API_KEY) {
     try {
       const body = toGeminiBody(history, opts.system || undefined, opts.webContext || undefined, opts.model, opts.temperature);
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(body.model)]:generateContent?key=${encodeURIComponent(GEMINI_API_KEY)}`;
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(body.model)}:generateContent?key=${encodeURIComponent(GEMINI_API_KEY)}`;
       const res = await fetch(url, {
         method: "POST",
         headers: {
