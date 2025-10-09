@@ -41,7 +41,7 @@ function toGeminiBody(history: ChatMessage[], system?: string, webContext?: stri
   return {
     model: model || DEFAULT_GEMINI_MODEL,
     contents,
-    system_instruction: systemInstruction,
+    systemInstruction,
     generationConfig: {
       temperature: typeof temperature === "number" ? temperature : 0.3,
     },
@@ -90,7 +90,7 @@ export async function generateAIResponse(history: ChatMessage[], opts: AIOptions
         },
         body: JSON.stringify({
           contents: body.contents,
-          system_instruction: body.system_instruction,
+          systemInstruction: (body as any).systemInstruction,
           generationConfig: body.generationConfig,
         }),
       });
