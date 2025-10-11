@@ -69,6 +69,34 @@ export default function aiProxy(): Plugin {
           res.end(JSON.stringify({ error: 'Upstream error' }));
         }
       });
+
+      server.middlewares.use('/api/ai/groq', async (req, res) => {
+        if (req.method !== 'POST') { res.statusCode = 405; res.end('Method Not Allowed'); return; }
+        const body = await parseBody(req);
+        const apiKey = process.env.VITE_GROQ_API_KEY || process.env.GROQ_API_KEY;
+        if (!apiKey) { res.statusCode = 500; res.end('Missing GROQ_API_KEY'); return; }
+        try {
+          const r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${apiKey}`,
+            },
+            body: JSON.stringify({
+              model: body?.model || 'llama-3.3-70b-versatile',
+              temperature: typeof body?.temperature === 'number' ? body.temperature : 0.3,
+              messages: body?.messages || [],
+            }),
+          });
+          const text = await r.text();
+          res.statusCode = r.status;
+          res.setHeader('Content-Type', 'application/json');
+          res.end(text);
+        } catch (e) {
+          res.statusCode = 502;
+          res.end(JSON.stringify({ error: 'Upstream error' }));
+        }
+      });
     },
   };
 }
