@@ -18,7 +18,9 @@ export function useAgent() {
     setError(null);
 
     try {
-      const response = await fetch('http://localhost:8000/chatbot/agent/start/', {
+      const base = (import.meta.env.VITE_CHATBOT_BACKEND_URL as string | undefined)?.trim();
+      if (!base || !/^https?:\/\//i.test(base)) throw new Error('Agent backend not configured');
+      const response = await fetch(`${base.replace(/\/$/, '')}/chatbot/agent/start/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -45,7 +47,9 @@ export function useAgent() {
     setError(null);
 
     try {
-      const response = await fetch('http://localhost:8000/chatbot/agent/stop/', {
+      const base = (import.meta.env.VITE_CHATBOT_BACKEND_URL as string | undefined)?.trim();
+      if (!base || !/^https?:\/\//i.test(base)) throw new Error('Agent backend not configured');
+      const response = await fetch(`${base.replace(/\/$/, '')}/chatbot/agent/stop/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -72,7 +76,9 @@ export function useAgent() {
     setError(null);
 
     try {
-      const response = await fetch('http://localhost:8000/chatbot/agent/status/', {
+      const base = (import.meta.env.VITE_CHATBOT_BACKEND_URL as string | undefined)?.trim();
+      if (!base || !/^https?:\/\//i.test(base)) throw new Error('Agent backend not configured');
+      const response = await fetch(`${base.replace(/\/$/, '')}/chatbot/agent/status/`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -100,9 +106,9 @@ export function useAgent() {
     setError(null);
 
     try {
-      // For now, we'll add tasks by calling the agent status endpoint
-      // In a full implementation, you'd have a dedicated endpoint for adding tasks
-      const response = await fetch('http://localhost:8000/chatbot/generate-response/', {
+      const base = (import.meta.env.VITE_CHATBOT_BACKEND_URL as string | undefined)?.trim();
+      if (!base || !/^https?:\/\//i.test(base)) throw new Error('Agent backend not configured');
+      const response = await fetch(`${base.replace(/\/$/, '')}/chatbot/generate-response/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
