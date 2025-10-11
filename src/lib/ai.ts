@@ -59,12 +59,9 @@ export async function generateAIResponse(history: ChatMessage[], opts: AIOptions
         messages: toOpenAIMessages(history, opts.system, opts.webContext),
       } as const;
 
-      const res = await fetch("https://api.openai.com/v1/chat/completions", {
+      const res = await fetch("/api/ai/openai", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${OPENAI_API_KEY}`,
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
 
@@ -82,16 +79,16 @@ export async function generateAIResponse(history: ChatMessage[], opts: AIOptions
   if (GEMINI_API_KEY) {
     try {
       const body = toGeminiBody(history, opts.system || undefined, opts.webContext || undefined, opts.model, opts.temperature);
-      const url = `https://generativelanguage.googleapis.com/v1/models/${encodeURIComponent(body.model)}:generateContent?key=${encodeURIComponent(GEMINI_API_KEY)}`;
-      const res = await fetch(url, {
+      const res = await fetch("/api/ai/gemini", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          contents: body.contents,
-          systemInstruction: (body as any).systemInstruction,
-          generationConfig: body.generationConfig,
+          upstreamModel: body.model,
+          upstreamBody: {
+            contents: body.contents,
+            systemInstruction: (body as any).systemInstruction,
+            generationConfig: body.generationConfig,
+          },
         }),
       });
       if (!res.ok) return null;
