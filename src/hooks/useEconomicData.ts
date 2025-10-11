@@ -82,7 +82,7 @@ export function useEconomicData() {
 
   const fetchMetrics = useCallback(async (context?: string): Promise<Record<string, EconomicMetric[]>> => {
     try {
-      if (!HAS_VALID_API) throw new Error("No economic API configured");
+      if (!ECON_ENABLED || !HAS_VALID_API) throw new Error("Economic API disabled or not configured");
       const url = context
         ? `${API_BASE_URL}/metrics/?context=${encodeURIComponent(context)}`
         : `${API_BASE_URL}/metrics/`;
@@ -97,7 +97,7 @@ export function useEconomicData() {
 
   const fetchNews = useCallback(async (context?: string): Promise<Record<string, EconomicNews[]>> => {
     try {
-      if (!HAS_VALID_API) throw new Error("No economic API configured");
+      if (!ECON_ENABLED || !HAS_VALID_API) throw new Error("Economic API disabled or not configured");
       const url = context
         ? `${API_BASE_URL}/news/?context=${encodeURIComponent(context)}`
         : `${API_BASE_URL}/news/`;
@@ -112,7 +112,7 @@ export function useEconomicData() {
 
   const fetchForecasts = useCallback(async (context?: string): Promise<Record<string, EconomicForecast[]>> => {
     try {
-      if (!HAS_VALID_API) throw new Error("No economic API configured");
+      if (!ECON_ENABLED || !HAS_VALID_API) throw new Error("Economic API disabled or not configured");
       const url = context
         ? `${API_BASE_URL}/forecasts/?context=${encodeURIComponent(context)}`
         : `${API_BASE_URL}/forecasts/`;
@@ -127,7 +127,7 @@ export function useEconomicData() {
 
   const fetchEvents = useCallback(async (context?: string): Promise<Record<string, EconomicEvent[]>> => {
     try {
-      if (!HAS_VALID_API) throw new Error("No economic API configured");
+      if (!ECON_ENABLED || !HAS_VALID_API) throw new Error("Economic API disabled or not configured");
       const url = context
         ? `${API_BASE_URL}/events/?context=${encodeURIComponent(context)}`
         : `${API_BASE_URL}/events/`;
