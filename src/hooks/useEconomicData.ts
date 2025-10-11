@@ -78,6 +78,7 @@ export function useEconomicData() {
   const RAW_ECON_ENDPOINT = (import.meta.env.VITE_ECONOMIC_API_ENDPOINT as string | undefined)?.trim() || "";
   const API_BASE_URL = RAW_API_BASE && RAW_ECON_ENDPOINT ? `${RAW_API_BASE.replace(/\/$/, "")}${RAW_ECON_ENDPOINT.startsWith("/") ? RAW_ECON_ENDPOINT : `/${RAW_ECON_ENDPOINT}`}` : "";
   const HAS_VALID_API = /^https?:\/\//i.test(API_BASE_URL);
+  const ECON_ENABLED = (import.meta.env.VITE_ECONOMIC_API_ENABLED as string | undefined)?.toLowerCase() === 'true';
 
   const fetchMetrics = useCallback(async (context?: string): Promise<Record<string, EconomicMetric[]>> => {
     try {
