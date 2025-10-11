@@ -22,7 +22,7 @@ export default function aiProxy(): Plugin {
         const model = body?.model || body?.upstreamModel || 'gemini-1.5-flash';
         const upstreamBody = body?.upstreamBody || {
           contents: body?.contents || [],
-          systemInstruction: body?.systemInstruction,
+          system_instruction: body?.system_instruction,
           generationConfig: body?.generationConfig,
         };
         try {
