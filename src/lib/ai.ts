@@ -32,7 +32,7 @@ function toGeminiBody(history: ChatMessage[], system?: string, webContext?: stri
   const sysParts: string[] = [];
   if (system && system.trim()) sysParts.push(system.trim());
   if (webContext && webContext.trim()) sysParts.push(`Relevant web context (summarized):\n${webContext.trim()}`);
-  const system_instruction = sysParts.length ? { role: "system", parts: [{ text: sysParts.join("\n\n") }] } : undefined;
+  const systemInstruction = sysParts.length ? { role: "system", parts: [{ text: sysParts.join("\n\n") }] } : undefined;
 
   for (const m of history) {
     contents.push({ role: m.type === "user" ? "user" : "model", parts: [{ text: m.content }] });
@@ -41,7 +41,7 @@ function toGeminiBody(history: ChatMessage[], system?: string, webContext?: stri
   return {
     model: model || DEFAULT_GEMINI_MODEL,
     contents,
-    system_instruction,
+    systemInstruction,
     generationConfig: {
       temperature: typeof temperature === "number" ? temperature : 0.3,
     },
@@ -86,7 +86,7 @@ export async function generateAIResponse(history: ChatMessage[], opts: AIOptions
           upstreamModel: (body as any).model,
           upstreamBody: {
             contents: (body as any).contents,
-            system_instruction: (body as any).system_instruction,
+            systemInstruction: (body as any).systemInstruction,
             generationConfig: (body as any).generationConfig,
           },
         }),
