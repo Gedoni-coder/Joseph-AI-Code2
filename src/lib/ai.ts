@@ -52,7 +52,29 @@ function toGeminiBody(history: ChatMessage[], system?: string, webContext?: stri
 }
 
 export async function generateAIResponse(history: ChatMessage[], opts: AIOptions = {}): Promise<string | null> {
-  // Try OpenAI first if key exists
+  // Prefer GROQ if available
+  if (GROQ_API_KEY) {
+    try {
+      const model = opts.model || DEFAULT_GROQ_MODEL;
+      const body = {
+        model,
+        temperature: typeof opts.temperature === "number" ? opts.temperature : 0.3,
+        messages: toOpenAIMessages(history, opts.system, opts.webContext),
+      } as const;
+      const res = await fetch("/api/ai/groq", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        const content: string | undefined = data?.choices?.[0]?.message?.content;
+        if (content) return content;
+      }
+    } catch {}
+  }
+
+  // Then OpenAI
   if (OPENAI_API_KEY) {
     try {
       const model = opts.model || DEFAULT_OPENAI_MODEL;
@@ -73,12 +95,10 @@ export async function generateAIResponse(history: ChatMessage[], opts: AIOptions
         const content: string | undefined = data?.choices?.[0]?.message?.content;
         if (content) return content;
       }
-    } catch {
-      // Continue to Gemini fallback
-    }
+    } catch {}
   }
 
-  // Fallback to Gemini if configured
+  // Then Gemini
   if (GEMINI_API_KEY) {
     try {
       const body = toGeminiBody(history, opts.system || undefined, opts.webContext || undefined, opts.model, opts.temperature);
