@@ -13,6 +13,9 @@ const DEFAULT_OPENAI_MODEL = (import.meta.env.VITE_OPENAI_MODEL as string | unde
 const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY as string | undefined;
 const DEFAULT_GEMINI_MODEL = (import.meta.env.VITE_GEMINI_MODEL as string | undefined) || "gemini-1.5-flash";
 
+const GROQ_API_KEY = import.meta.env.VITE_GROQ_API_KEY as string | undefined;
+const DEFAULT_GROQ_MODEL = (import.meta.env.VITE_GROQ_MODEL as string | undefined) || "llama-3.3-70b-versatile";
+
 function toOpenAIMessages(history: ChatMessage[], system?: string, webContext?: string) {
   const msgs: Array<{ role: "system" | "user" | "assistant"; content: string }> = [];
   const sysParts: string[] = [];
