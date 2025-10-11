@@ -125,52 +125,59 @@ export function useChatbot() {
         return;
       }
 
-      // Fallback to backend if available
-      const response = await fetch('http://localhost:8000/chatbot/generate-response/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          messages: currentMessages,
-          context: targetContext,
-          currentData: {},
-        }),
-      });
+      // Fallback to backend if configured (avoid localhost in browser)
+      const backendBase = (import.meta.env.VITE_CHATBOT_BACKEND_URL as string | undefined)?.trim();
+      if (backendBase && /^https?:\/\//i.test(backendBase)) {
+        const url = `${backendBase.replace(/\/$/, '')}/chatbot/generate-response/`;
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            messages: currentMessages,
+            context: targetContext,
+            currentData: {},
+          }),
+        });
 
-      if (response.ok) {
-        const data = await response.json();
-        const assistantMessage = {
-          type: "assistant" as const,
-          content: data.response,
-          context: targetContext,
-          id: `msg-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-          timestamp: new Date(),
-          tools: content.toLowerCase().includes('calculator') ? ['economic-calculator'] :
-                 content.toLowerCase().includes('forecast') ? ['forecast-wizard'] :
-                 content.toLowerCase().includes('budget') ? ['budget-planner'] : undefined,
-        };
-        setMessagesByContext(prev => ({
-          ...prev,
-          [targetContext]: [...(prev[targetContext] || []), assistantMessage]
-        }));
-      } else {
-        const fallbackResponse = generateContextualResponse(content.trim(), targetContext);
-        const assistantMessage = {
-          type: "assistant" as const,
-          content: fallbackResponse,
-          context: targetContext,
-          id: `msg-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-          timestamp: new Date(),
-          tools: content.toLowerCase().includes('calculator') ? ['economic-calculator'] :
-                 content.toLowerCase().includes('forecast') ? ['forecast-wizard'] :
-                 content.toLowerCase().includes('budget') ? ['budget-planner'] : undefined,
-        };
-        setMessagesByContext(prev => ({
-          ...prev,
-          [targetContext]: [...(prev[targetContext] || []), assistantMessage]
-        }));
+        if (response.ok) {
+          const data = await response.json();
+          const assistantMessage = {
+            type: "assistant" as const,
+            content: data.response,
+            context: targetContext,
+            id: `msg-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+            timestamp: new Date(),
+            tools: content.toLowerCase().includes('calculator') ? ['economic-calculator'] :
+                   content.toLowerCase().includes('forecast') ? ['forecast-wizard'] :
+                   content.toLowerCase().includes('budget') ? ['budget-planner'] : undefined,
+          };
+          setMessagesByContext(prev => ({
+            ...prev,
+            [targetContext]: [...(prev[targetContext] || []), assistantMessage]
+          }));
+          setIsTyping(false);
+          return;
+        }
       }
+
+      // No backend or failed: fall back to contextual response
+      const fallbackResponse = generateContextualResponse(content.trim(), targetContext);
+      const assistantMessage = {
+        type: "assistant" as const,
+        content: fallbackResponse,
+        context: targetContext,
+        id: `msg-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        timestamp: new Date(),
+        tools: content.toLowerCase().includes('calculator') ? ['economic-calculator'] :
+               content.toLowerCase().includes('forecast') ? ['forecast-wizard'] :
+               content.toLowerCase().includes('budget') ? ['budget-planner'] : undefined,
+      };
+      setMessagesByContext(prev => ({
+        ...prev,
+        [targetContext]: [...(prev[targetContext] || []), assistantMessage]
+      }));
     } catch {
       const fallbackResponse = generateContextualResponse(content.trim(), targetContext);
       const assistantMessage = {
