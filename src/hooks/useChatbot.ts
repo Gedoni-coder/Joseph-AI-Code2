@@ -162,11 +162,10 @@ export function useChatbot() {
         }
       }
 
-      // No backend or failed: fall back to contextual response
-      const fallbackResponse = generateContextualResponse(content.trim(), targetContext);
+      // No backend or failed
       const assistantMessage = {
         type: "assistant" as const,
-        content: fallbackResponse,
+        content: "Sorry, I couldn’t reach the AI right now. Please try again in a moment.",
         context: targetContext,
         id: `msg-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         timestamp: new Date(),
@@ -179,10 +178,9 @@ export function useChatbot() {
         [targetContext]: [...(prev[targetContext] || []), assistantMessage]
       }));
     } catch {
-      const fallbackResponse = generateContextualResponse(content.trim(), targetContext);
       const assistantMessage = {
         type: "assistant" as const,
-        content: fallbackResponse,
+        content: "Sorry, I couldn’t reach the AI right now. Please try again in a moment.",
         context: targetContext,
         id: `msg-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         timestamp: new Date(),
