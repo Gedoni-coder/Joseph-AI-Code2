@@ -348,15 +348,26 @@ const TaxCompliance = () => {
                 <CardContent className="p-6">
                   <div className="space-y-3">
                     <div className="flex justify-between items-center mb-4">
-                      <h4 className="font-semibold text-blue-800">Recent Activity</h4>
+                      <h4 className="font-semibold text-blue-800">
+                        Recent Activity
+                      </h4>
                       <div className="flex gap-2">
                         <Link to="/audit-reports">
-                          <Button variant="outline" size="sm" className="border-blue-200 text-blue-700">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="border-blue-200 text-blue-700"
+                          >
                             <FileText className="h-4 w-4 mr-2" />
                             Generate Report
                           </Button>
                         </Link>
-                        <Button variant="outline" size="sm" className="border-blue-200 text-blue-700" onClick={() => window.print()}>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="border-blue-200 text-blue-700"
+                          onClick={() => window.print()}
+                        >
                           <Activity className="h-4 w-4 mr-2" />
                           Export Log
                         </Button>
@@ -391,7 +402,10 @@ const TaxCompliance = () => {
                     ))}
                     <div className="text-center mt-4">
                       <Link to="/audit-trail">
-                        <Button variant="outline" className="border-blue-200 text-blue-700">
+                        <Button
+                          variant="outline"
+                          className="border-blue-200 text-blue-700"
+                        >
                           View Complete Audit Trail
                         </Button>
                       </Link>
@@ -420,7 +434,11 @@ const TaxCompliance = () => {
                         <div className="flex justify-between items-center mb-3">
                           <span></span>
                           <Link to="/document-upload">
-                            <Button variant="outline" size="sm" className="border-blue-200 text-blue-700">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="border-blue-200 text-blue-700"
+                            >
                               <FileText className="h-4 w-4 mr-2" />
                               Upload Documents
                             </Button>
@@ -440,7 +458,13 @@ const TaxCompliance = () => {
                               </div>
                             </div>
                             <div className="flex items-center gap-2">
-                              <Button variant="ghost" size="sm" onClick={() => window.open(`/documents/${doc.id}`)}>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() =>
+                                  window.open(`/documents/${doc.id}`)
+                                }
+                              >
                                 View
                               </Button>
                               <Badge
@@ -457,7 +481,11 @@ const TaxCompliance = () => {
                         ))}
                         <div className="text-center mt-3">
                           <Link to="/document-manager">
-                            <Button variant="outline" size="sm" className="border-blue-200 text-blue-700">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="border-blue-200 text-blue-700"
+                            >
                               Manage All Documents
                             </Button>
                           </Link>
@@ -473,7 +501,11 @@ const TaxCompliance = () => {
                         <div className="flex justify-between items-center mb-3">
                           <span></span>
                           <Link to="/compliance-reports">
-                            <Button variant="outline" size="sm" className="border-blue-200 text-blue-700">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="border-blue-200 text-blue-700"
+                            >
                               <Shield className="h-4 w-4 mr-2" />
                               Generate Report
                             </Button>
@@ -489,7 +521,13 @@ const TaxCompliance = () => {
                                 {report.title}
                               </div>
                               <div className="flex items-center gap-2">
-                                <Button variant="ghost" size="sm" onClick={() => window.open(`/reports/${report.id}`)}>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() =>
+                                    window.open(`/reports/${report.id}`)
+                                  }
+                                >
                                   View
                                 </Button>
                                 <Badge
@@ -513,7 +551,11 @@ const TaxCompliance = () => {
                         ))}
                         <div className="text-center mt-3">
                           <Link to="/all-reports">
-                            <Button variant="outline" size="sm" className="border-blue-200 text-blue-700">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="border-blue-200 text-blue-700"
+                            >
                               View All Reports
                             </Button>
                           </Link>
