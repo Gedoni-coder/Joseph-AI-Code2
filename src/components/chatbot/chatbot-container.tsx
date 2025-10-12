@@ -200,7 +200,7 @@ export function ChatbotContainer({ className }: ChatbotContainerProps) {
 
   if (!isOpen) {
     return (
-      <div data-joseph-no-explain className={cn("fixed bottom-4 right-4 z-[99999] border-4 border-red-500", className)}>
+      <div data-joseph-no-explain className={cn("fixed bottom-4 right-4 z-[99999]", className)}>
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
