@@ -57,20 +57,22 @@ export function ChatbotContainer({ className }: ChatbotContainerProps) {
   console.log("ChatbotContainer: isOpen =", isOpen);
 
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [activePanel, setActivePanel] = useState<"chat" | "tools" | "agent">("chat");
+  const [activePanel, setActivePanel] = useState<"chat" | "tools" | "agent">(
+    "chat",
+  );
   const [sizeMode, setSizeMode] = useState<ChatbotSize>("half");
 
   // Initialize global explain function
   useEffect(() => {
     setJosephExplainFunction(explainElement);
   }, [explainElement]);
-  
+
   // Log when floating button is clicked
   const handleOpenClick = () => {
     console.log("Floating chatbot button clicked");
     setIsOpen(true);
   };
-  
+
   // Replace floating button onClick with handleOpenClick
 
   // Auto-collapse sidebar on mobile
@@ -82,8 +84,8 @@ export function ChatbotContainer({ className }: ChatbotContainerProps) {
     };
 
     checkScreenSize();
-    window.addEventListener('resize', checkScreenSize);
-    return () => window.removeEventListener('resize', checkScreenSize);
+    window.addEventListener("resize", checkScreenSize);
+    return () => window.removeEventListener("resize", checkScreenSize);
   }, []);
 
   // Keyboard shortcuts
@@ -105,8 +107,8 @@ export function ChatbotContainer({ className }: ChatbotContainerProps) {
     };
 
     if (isOpen) {
-      window.addEventListener('keydown', handleKeyDown);
-      return () => window.removeEventListener('keydown', handleKeyDown);
+      window.addEventListener("keydown", handleKeyDown);
+      return () => window.removeEventListener("keydown", handleKeyDown);
     }
   }, [isOpen, sizeMode]);
 
@@ -114,51 +116,56 @@ export function ChatbotContainer({ className }: ChatbotContainerProps) {
   useEffect(() => {
     if (!isOpen || sizeMode === "minimized") return;
 
-    const chatMain = document.querySelector('[data-chatbot-main]');
+    const chatMain = document.querySelector("[data-chatbot-main]");
     if (!chatMain) return;
 
     const handleDragOver = (e: DragEvent) => {
       e.preventDefault();
-      (chatMain as HTMLElement).style.backgroundColor = 'rgba(59, 130, 246, 0.05)';
-      (chatMain as HTMLElement).style.borderColor = 'rgba(59, 130, 246, 0.3)';
+      (chatMain as HTMLElement).style.backgroundColor =
+        "rgba(59, 130, 246, 0.05)";
+      (chatMain as HTMLElement).style.borderColor = "rgba(59, 130, 246, 0.3)";
     };
 
     const handleDragLeave = (e: DragEvent) => {
       e.preventDefault();
-      (chatMain as HTMLElement).style.backgroundColor = '';
-      (chatMain as HTMLElement).style.borderColor = '';
+      (chatMain as HTMLElement).style.backgroundColor = "";
+      (chatMain as HTMLElement).style.borderColor = "";
     };
 
     const handleDrop = (e: DragEvent) => {
       e.preventDefault();
-      (chatMain as HTMLElement).style.backgroundColor = '';
-      (chatMain as HTMLElement).style.borderColor = '';
+      (chatMain as HTMLElement).style.backgroundColor = "";
+      (chatMain as HTMLElement).style.borderColor = "";
 
       const files = e.dataTransfer?.files;
       if (files && files.length > 0) {
         // Handle file upload
-        console.log('Files dropped:', files);
+        console.log("Files dropped:", files);
         // TODO: Implement file handling
       }
     };
 
-    chatMain.addEventListener('dragover', handleDragOver);
-    chatMain.addEventListener('dragleave', handleDragLeave);
-    chatMain.addEventListener('drop', handleDrop);
+    chatMain.addEventListener("dragover", handleDragOver);
+    chatMain.addEventListener("dragleave", handleDragLeave);
+    chatMain.addEventListener("drop", handleDrop);
 
     return () => {
-      chatMain.removeEventListener('dragover', handleDragOver);
-      chatMain.removeEventListener('dragleave', handleDragLeave);
-      chatMain.removeEventListener('drop', handleDrop);
+      chatMain.removeEventListener("dragover", handleDragOver);
+      chatMain.removeEventListener("dragleave", handleDragLeave);
+      chatMain.removeEventListener("drop", handleDrop);
     };
   }, [isOpen, sizeMode]);
 
   // Function to cycle through size modes
   const cycleSizeMode = () => {
-    console.log('Current size mode:', sizeMode, 'Cycling to next...');
-    const nextMode = sizeMode === "half" ? "fullscreen" :
-                    sizeMode === "fullscreen" ? "minimized" : "half";
-    console.log('Setting new size mode:', nextMode);
+    console.log("Current size mode:", sizeMode, "Cycling to next...");
+    const nextMode =
+      sizeMode === "half"
+        ? "fullscreen"
+        : sizeMode === "fullscreen"
+          ? "minimized"
+          : "half";
+    console.log("Setting new size mode:", nextMode);
     setSizeMode(nextMode);
   };
 
@@ -200,7 +207,10 @@ export function ChatbotContainer({ className }: ChatbotContainerProps) {
 
   if (!isOpen) {
     return (
-      <div className={cn("fixed bottom-4 right-4 z-[99999] border-4 border-red-500", className)}>
+      <div
+        data-joseph-no-explain
+        className={cn("fixed bottom-4 right-4 z-[99999]", className)}
+      >
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
@@ -221,7 +231,9 @@ export function ChatbotContainer({ className }: ChatbotContainerProps) {
           <TooltipContent side="left">
             <div className="text-center">
               <p className="font-medium">Joseph AI Assistant</p>
-              <p className="text-xs opacity-90">Your Economic Analysis Companion</p>
+              <p className="text-xs opacity-90">
+                Your Economic Analysis Companion
+              </p>
             </div>
           </TooltipContent>
         </Tooltip>
@@ -231,17 +243,20 @@ export function ChatbotContainer({ className }: ChatbotContainerProps) {
 
   return (
     <div
+      data-joseph-no-explain
       className={cn(
         "fixed transition-all duration-300",
         getSizeClasses(),
-        className
+        className,
       )}
       style={{ zIndex: 9999 }}
     >
-      <Card className={cn(
-        "h-full shadow-2xl border border-border/50 bg-background/95 backdrop-blur-sm",
-        sizeMode === "fullscreen" ? "overflow-auto" : "overflow-hidden"
-      )}>
+      <Card
+        className={cn(
+          "h-full shadow-2xl border border-border/50 bg-background/95 backdrop-blur-sm",
+          sizeMode === "fullscreen" ? "overflow-auto" : "overflow-hidden",
+        )}
+      >
         {/* Header Bar - Made Sticky */}
         <div className="sticky top-0 z-20 flex items-center justify-between p-3 bg-gradient-to-r from-primary/10 via-primary/5 to-background border-b border-border/50 backdrop-blur-md shadow-sm">
           <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
@@ -261,7 +276,9 @@ export function ChatbotContainer({ className }: ChatbotContainerProps) {
                 <TooltipContent>
                   <div className="text-center">
                     <p className="font-medium">Joseph AI Platform</p>
-                    <p className="text-xs opacity-90">Economic Analysis Suite</p>
+                    <p className="text-xs opacity-90">
+                      Economic Analysis Suite
+                    </p>
                   </div>
                 </TooltipContent>
               </Tooltip>
@@ -284,8 +301,13 @@ export function ChatbotContainer({ className }: ChatbotContainerProps) {
               {/* Branding & Status */}
               <div className="min-w-0">
                 <div className="flex items-center gap-2">
-                  <div className="font-semibold text-sm sm:text-base truncate">Joseph AI</div>
-                  <Badge variant="secondary" className="text-xs bg-green-100 text-green-700 border-green-200">
+                  <div className="font-semibold text-sm sm:text-base truncate">
+                    Joseph AI
+                  </div>
+                  <Badge
+                    variant="secondary"
+                    className="text-xs bg-green-100 text-green-700 border-green-200"
+                  >
                     Live
                   </Badge>
                 </div>
@@ -294,7 +316,10 @@ export function ChatbotContainer({ className }: ChatbotContainerProps) {
                 </div>
               </div>
             </div>
-            <Badge variant="secondary" className="text-xs truncate max-w-[120px]">
+            <Badge
+              variant="secondary"
+              className="text-xs truncate max-w-[120px]"
+            >
               {currentContext.name}
             </Badge>
             <Button
@@ -302,11 +327,12 @@ export function ChatbotContainer({ className }: ChatbotContainerProps) {
               size="sm"
               className="text-xs h-6 px-2"
               onClick={() => {
-                console.log('Badge clicked, current mode:', sizeMode);
+                console.log("Badge clicked, current mode:", sizeMode);
                 cycleSizeMode();
               }}
             >
-              {sizeMode.charAt(0).toUpperCase() + sizeMode.slice(1)} - Click to Change
+              {sizeMode.charAt(0).toUpperCase() + sizeMode.slice(1)} - Click to
+              Change
             </Button>
           </div>
 
@@ -402,7 +428,7 @@ export function ChatbotContainer({ className }: ChatbotContainerProps) {
                   ? "w-12"
                   : sizeMode === "fullscreen"
                     ? "w-80"
-                    : "w-48 sm:w-52"
+                    : "w-48 sm:w-52",
               )}
             >
               <div className="flex items-center justify-between p-3 border-b border-border/50">
@@ -480,7 +506,10 @@ export function ChatbotContainer({ className }: ChatbotContainerProps) {
             </div>
 
             {/* Main Chat Area */}
-            <div className="flex-1 flex flex-col justify-between overflow-hidden" data-chatbot-main>
+            <div
+              className="flex-1 flex flex-col justify-between overflow-hidden"
+              data-chatbot-main
+            >
               <ChatInterface
                 messages={messages}
                 currentInput={currentInput}

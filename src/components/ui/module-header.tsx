@@ -66,9 +66,13 @@ const ModuleHeader: React.FC<ModuleHeaderProps> = ({
               <ModuleNavigation />
               {showConnectionStatus && (
                 <div className="flex items-center gap-2">
-                  <Badge 
+                  <Badge
                     variant={isConnected ? "default" : "destructive"}
-                    className={isConnected ? "bg-green-100 text-green-800 hover:bg-green-200" : ""}
+                    className={
+                      isConnected
+                        ? "bg-green-100 text-green-800 hover:bg-green-200"
+                        : ""
+                    }
                   >
                     {isConnected ? connectionLabel : "Offline"}
                   </Badge>
@@ -83,7 +87,10 @@ const ModuleHeader: React.FC<ModuleHeaderProps> = ({
 
             <div className="flex items-center gap-3">
               {/* Notifications */}
-              <Popover open={notificationsOpen} onOpenChange={setNotificationsOpen}>
+              <Popover
+                open={notificationsOpen}
+                onOpenChange={setNotificationsOpen}
+              >
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <PopoverTrigger asChild>
@@ -125,7 +132,9 @@ const ModuleHeader: React.FC<ModuleHeaderProps> = ({
                     </div>
                     <div className="p-2 bg-yellow-50 rounded text-sm">
                       <p className="font-medium text-yellow-800">Alert</p>
-                      <p className="text-yellow-600">Review required for forecast variance</p>
+                      <p className="text-yellow-600">
+                        Review required for forecast variance
+                      </p>
                     </div>
                   </div>
                 </PopoverContent>
@@ -163,12 +172,21 @@ const ModuleHeader: React.FC<ModuleHeaderProps> = ({
                   </div>
                   <div className="space-y-2">
                     <div className="p-2 bg-purple-50 rounded text-sm">
-                      <p className="font-medium text-purple-800">Optimization Opportunity</p>
-                      <p className="text-purple-600">Consider adjusting pricing strategy based on market trends</p>
+                      <p className="font-medium text-purple-800">
+                        Optimization Opportunity
+                      </p>
+                      <p className="text-purple-600">
+                        Consider adjusting pricing strategy based on market
+                        trends
+                      </p>
                     </div>
                     <div className="p-2 bg-green-50 rounded text-sm">
-                      <p className="font-medium text-green-800">Performance Insight</p>
-                      <p className="text-green-600">Revenue forecast accuracy has improved by 15%</p>
+                      <p className="font-medium text-green-800">
+                        Performance Insight
+                      </p>
+                      <p className="text-green-600">
+                        Revenue forecast accuracy has improved by 15%
+                      </p>
                     </div>
                   </div>
                 </PopoverContent>
