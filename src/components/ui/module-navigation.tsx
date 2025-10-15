@@ -23,6 +23,7 @@ import {
   AlertTriangle,
   Shield,
   Navigation,
+  CheckCircle,
 } from "lucide-react";
 
 const ModuleNavigation = () => {
