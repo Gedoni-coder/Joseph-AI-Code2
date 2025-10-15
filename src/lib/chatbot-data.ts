@@ -206,6 +206,24 @@ export const moduleContexts: ModuleContext[] = [
       "What do these economic indicators mean?",
       "How should I respond to these changes?"
     ]
+  },
+  {
+    id: "business-feasibility",
+    name: "Business Feasibility",
+    icon: "CheckCircle",
+    route: "/business-feasibility",
+    description: "Helps decide if a business idea is viable",
+    capabilities: [
+      "Assess risk and viability",
+      "Incorporate time value and interest",
+      "Estimate ROI timing and feasibility",
+      "Compare conservative, safe, and wild modes"
+    ],
+    sampleQuestions: [
+      "Is this idea feasible under conservative assumptions?",
+      "How does interest rate change affect feasibility?",
+      "When do we break even under wild mode?"
+    ]
   }
 ];
 
@@ -297,6 +315,8 @@ export const generateContextualResponse = (question: string, context: string, cu
     "inventory-supply": (data) => `As Joseph AI, I can help with supply chain optimization. ${question.includes('inventory') ? 'Inventory metrics show turnover rates, stock levels, and optimization opportunities.' : question.includes('supplier') ? 'Supplier performance data tracks delivery, quality, and cost metrics.' : 'The supply chain data identifies bottlenecks and improvement opportunities.'}`,
     
     "financial-advisory": (data) => `I'm Joseph, your financial planning assistant. ${question.includes('budget') ? 'Budget analysis shows planned vs actual performance and variance explanations.' : question.includes('cash flow') ? 'Cash flow projections help ensure adequate liquidity for operations.' : 'The financial planning data supports strategic budgeting and risk management.'}`
+  ,
+    "business-feasibility": (data) => `I'm Joseph, your feasibility assistant. ${question.includes('risk') ? 'Risk levels reduce feasibility; consider mitigation steps.' : question.includes('interest') ? 'Higher interest and discount rates lower present value and feasibility.' : question.includes('roi') ? 'Shorter ROI time improves feasibility; longer timelines require stronger returns.' : 'Use modes (Conservative/Safe/Wild) to test assumptions and see feasibility.'}`
   };
 
   return responses[context]?.(currentData) || `As Joseph AI, I'm here to help explain the data and insights on your screen. Could you be more specific about what you'd like to understand?`;
