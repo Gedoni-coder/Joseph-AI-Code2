@@ -254,161 +254,43 @@ export default function BusinessFeasibility() {
           </CardContent>
         </Card>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left: Past Ideas */}
-          <div className="lg:col-span-1 space-y-4">
-            <div className="flex items-center justify-between">
-              <h3 className="text-sm font-semibold">Past Ideas</h3>
-              <Badge variant="secondary">{reports.length}</Badge>
-            </div>
-            <div className="grid grid-cols-1 gap-3">
-              {reports.map((r) => (
-                <Card
-                  key={r.id}
-                  className={cn("cursor-pointer transition-all", selectedId === r.id ? "ring-2 ring-primary bg-primary/5" : "hover:shadow-md")}
-                  onClick={() => { try { (navigate as any)(`/business-feasibility/${r.id}`); } catch {} }}
-                >
-                  <CardContent className="p-4">
-                    <div className="flex items-start gap-3">
-                      <div className="p-2 rounded bg-blue-100 text-blue-700">
-                        <CheckCircle className="h-4 w-4" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="text-sm font-medium line-clamp-2">{r.idea}</div>
-                        <div className="text-xs text-muted-foreground mt-1 flex items-center gap-2">
-                          <CalendarClock className="h-3 w-3" />
-                          {new Date(r.createdAt).toLocaleString()}
-                        </div>
-                        <div className="flex flex-wrap gap-1 mt-2">
-                          {r.tags.map((t) => (
-                            <Badge key={t} variant="outline" className="text-2xs flex items-center gap-1">
-                              <Tag className="h-3 w-3" /> {t}
-                            </Badge>
-                          ))}
-                        </div>
-                      </div>
-                      <Button variant="ghost" size="sm" className="h-7 w-7 p-0" onClick={(e) => { e.stopPropagation(); deleteReport(r.id); }}>
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-              {reports.length === 0 && (
-                <div className="text-xs text-muted-foreground">No ideas analyzed yet. Enter an idea above to get started.</div>
-              )}
-            </div>
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h3 className="text-sm font-semibold">Past Ideas</h3>
+            <Badge variant="secondary">{reports.length}</Badge>
           </div>
-
-          {/* Right: Report Detail */}
-          <div className="lg:col-span-2">
-            {selectedReport ? (
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <CheckCircle className="h-5 w-5" />
-                    Feasibility Report
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-6">
-                    <div>
-                      <div className="text-sm font-semibold mb-1">Idea</div>
-                      <div className="text-sm bg-muted/30 border border-border/50 rounded p-3">{selectedReport.idea}</div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+            {reports.map((r) => (
+              <Card
+                key={r.id}
+                className={cn("cursor-pointer transition-all hover:shadow-md hover:-translate-y-0.5 bg-gradient-to-br from-white to-muted/20")}
+                onClick={() => { try { (navigate as any)(`/business-feasibility/${r.id}`); } catch {} }}
+              >
+                <CardContent className="p-4">
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 rounded bg-green-100 text-green-700">
+                      <CheckCircle className="h-4 w-4" />
                     </div>
-
-                    <Tabs defaultValue="Conservative">
-                      <TabsList className="flex flex-wrap">
-                        <TabsTrigger value="Conservative">Conservative</TabsTrigger>
-                        <TabsTrigger value="Safe">Safe</TabsTrigger>
-                        <TabsTrigger value="Wild">Wild</TabsTrigger>
-                      </TabsList>
-
-                      {(["Conservative", "Safe", "Wild"] as Mode[]).map((m) => {
-                        const res = selectedReport.resultsByMode[m];
-                        return (
-                          <TabsContent key={m} value={m}>
-                            <div className="space-y-4">
-                              <div className={cn("p-4 border rounded-lg", res.colorClass)}>
-                                <div className="flex items-center justify-between">
-                                  <div className="text-lg font-semibold">{res.verdict}</div>
-                                  <div className="text-sm">Score: <span className="font-semibold">{res.score}/100</span></div>
-                                </div>
-                                <div className="text-xs mt-1 text-muted-foreground">PV factor: {res.pvFactor.toFixed(3)} | Combined rate: {res.combinedRate}%</div>
-                              </div>
-
-                              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                                <Card className="bg-muted/30">
-                                  <CardContent className="p-4">
-                                    <div className="text-xs text-muted-foreground mb-1">Risk</div>
-                                    <div className="text-sm font-medium">-{res.details.riskPenalty} pts</div>
-                                  </CardContent>
-                                </Card>
-                                <Card className="bg-muted/30">
-                                  <CardContent className="p-4">
-                                    <div className="text-xs text-muted-foreground mb-1">Time Value</div>
-                                    <div className="text-sm font-medium">PV {res.pvFactor.toFixed(3)}</div>
-                                  </CardContent>
-                                </Card>
-                                <Card className="bg-muted/30">
-                                  <CardContent className="p-4">
-                                    <div className="text-xs text-muted-foreground mb-1">ROI Time</div>
-                                    <div className="text-sm font-medium">{selectedReport.derivedInputs.roiTime} months</div>
-                                  </CardContent>
-                                </Card>
-                                <Card className="bg-muted/30">
-                                  <CardContent className="p-4">
-                                    <div className="text-xs text-muted-foreground mb-1">Length Time Factor</div>
-                                    <div className="text-sm font-medium">{selectedReport.derivedInputs.lengthTimeFactor} months</div>
-                                  </CardContent>
-                                </Card>
-                                <Card className="bg-muted/30">
-                                  <CardContent className="p-4">
-                                    <div className="text-xs text-muted-foreground mb-1">Interest Rate</div>
-                                    <div className="text-sm font-medium">{selectedReport.derivedInputs.interestRate}%</div>
-                                  </CardContent>
-                                </Card>
-                                <Card className="bg-muted/30">
-                                  <CardContent className="p-4">
-                                    <div className="text-xs text-muted-foreground mb-1">Final Result</div>
-                                    <div className="text-sm font-medium">{res.verdict} ({res.score}/100)</div>
-                                  </CardContent>
-                                </Card>
-                              </div>
-
-                              {res.narrative && (
-                                <div className="text-sm bg-white border border-border/50 rounded p-3 whitespace-pre-wrap">
-                                  {res.narrative}
-                                </div>
-                              )}
-
-                              <div className="text-xs text-muted-foreground">
-                                Thresholds ({m}): Feasible ≥ {res.details.thresholds.feasible}, Borderline ≥ {res.details.thresholds.borderline}
-                              </div>
-                            </div>
-                          </TabsContent>
-                        );
-                      })}
-                    </Tabs>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm font-medium line-clamp-2">{r.idea}</div>
+                      <div className="text-xs text-muted-foreground mt-1">{new Date(r.createdAt).toLocaleString()}</div>
+                      <div className="flex flex-wrap gap-1 mt-2">
+                        {r.tags.map((t) => (
+                          <Badge key={t} variant="outline" className="text-2xs">#{t}</Badge>
+                        ))}
+                      </div>
+                    </div>
+                    <Button variant="ghost" size="sm" className="h-7 w-7 p-0" onClick={(e) => { e.stopPropagation(); deleteReport(r.id); }}>
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
-            ) : (
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Gauge className="h-5 w-5" />
-                    No Idea Selected
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-sm text-muted-foreground">
-                    Analyze an idea above or select a past idea to view its feasibility report.
-                  </div>
-                </CardContent>
-              </Card>
-            )}
+            ))}
           </div>
+          {reports.length === 0 && (
+            <div className="text-xs text-muted-foreground">No ideas analyzed yet. Enter an idea above to get started.</div>
+          )}
         </div>
       </main>
     </div>
