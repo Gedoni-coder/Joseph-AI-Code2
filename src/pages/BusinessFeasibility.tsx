@@ -154,6 +154,7 @@ Include: Risk, Time Value (NPV intuition), ROI Time, Length Time Factor, Interes
 }
 
 export default function BusinessFeasibility() {
+  const navigate = useNavigate();
   const [ideaInput, setIdeaInput] = useState("");
   const [reports, setReports] = useState<FeasibilityReport[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
