@@ -212,6 +212,7 @@ export default function BusinessFeasibility() {
     setReports((prev) => [report, ...prev]);
     setSelectedId(id);
     setIdeaInput("");
+    try { (navigate as any)(`/business-feasibility/${id}`); } catch {}
   };
 
   const deleteReport = (id: string) => {
