@@ -84,6 +84,12 @@ const ModuleNavigation = () => {
       description: "Policy impact assessment"
     },
     {
+      name: "Business Feasibility",
+      link: "/business-feasibility",
+      icon: <CheckCircle className="h-4 w-4" />,
+      description: "Decide if a business idea is viable"
+    },
+    {
       name: "Tax and Compliance",
       link: "/tax-compliance",
       icon: <Shield className="h-4 w-4" />,
