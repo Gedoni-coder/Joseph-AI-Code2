@@ -266,7 +266,7 @@ export default function BusinessFeasibility() {
                 <Card
                   key={r.id}
                   className={cn("cursor-pointer transition-all", selectedId === r.id ? "ring-2 ring-primary bg-primary/5" : "hover:shadow-md")}
-                  onClick={() => setSelectedId(r.id)}
+                  onClick={() => { try { (navigate as any)(`/business-feasibility/${r.id}`); } catch {} }}
                 >
                   <CardContent className="p-4">
                     <div className="flex items-start gap-3">
