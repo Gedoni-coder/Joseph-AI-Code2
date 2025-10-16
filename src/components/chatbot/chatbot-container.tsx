@@ -61,6 +61,7 @@ export function ChatbotContainer({ className }: ChatbotContainerProps) {
     "chat",
   );
   const [sizeMode, setSizeMode] = useState<ChatbotSize>("half");
+  const [conversationalMode, setConversationalMode] = useState(true);
 
   // Initialize global explain function
   useEffect(() => {
