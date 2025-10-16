@@ -13,7 +13,9 @@ import {
   HelpCircle,
   ChevronLeft,
   ChevronRight,
+  Radio,
 } from "lucide-react";
+import { Switch } from "../ui/switch";
 import { ModuleContextSwitcher } from "./module-context-switcher";
 import { ChatInterface } from "./chat-interface";
 import { ToolsDock } from "./tools-dock";
