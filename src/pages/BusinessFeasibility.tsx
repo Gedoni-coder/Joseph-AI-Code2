@@ -210,10 +210,19 @@ export default function BusinessFeasibility() {
       resultsByMode,
     };
 
+    // Save to localStorage immediately
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      const existing: FeasibilityReport[] = raw ? JSON.parse(raw) : [];
+      localStorage.setItem(STORAGE_KEY, JSON.stringify([report, ...existing]));
+    } catch {}
+
     setReports((prev) => [report, ...prev]);
-    setSelectedId(id);
     setIdeaInput("");
-    try { (navigate as any)(`/business-feasibility/${id}`); } catch {}
+    // Navigate after small delay to ensure localStorage is persisted
+    setTimeout(() => {
+      navigate(`/business-feasibility/${id}`);
+    }, 100);
   };
 
   const deleteReport = (id: string) => {
