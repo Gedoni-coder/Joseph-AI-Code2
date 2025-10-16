@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/tooltip";
 import ModuleNavigation from "@/components/ui/module-navigation";
 import { ConnectionStatus } from "@/components/ui/connection-status";
-import React, { useState } from "react";
 import { Bell, Lightbulb, X, Radio } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 
