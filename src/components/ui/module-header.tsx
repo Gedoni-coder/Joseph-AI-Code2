@@ -13,7 +13,9 @@ import {
 } from "@/components/ui/tooltip";
 import ModuleNavigation from "@/components/ui/module-navigation";
 import { ConnectionStatus } from "@/components/ui/connection-status";
-import { Bell, Lightbulb, X } from "lucide-react";
+import { Bell, Lightbulb, X, Radio } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { useState } from "react";
 
 interface ModuleHeaderProps {
   icon: React.ReactNode;
@@ -40,6 +42,7 @@ const ModuleHeader: React.FC<ModuleHeaderProps> = ({
 }) => {
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [ideasOpen, setIdeasOpen] = useState(false);
+  const [conversationalMode, setConversationalMode] = useState(true);
 
   return (
     <header className="bg-white/60 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50">
@@ -64,6 +67,24 @@ const ModuleHeader: React.FC<ModuleHeaderProps> = ({
           <div className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <ModuleNavigation />
+
+              {/* Conversational Mode Toggle */}
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="flex items-center gap-2 px-2 py-1 hover:bg-primary/10 rounded transition-all cursor-pointer">
+                    <Radio className="h-4 w-4 text-primary" />
+                    <Switch
+                      checked={conversationalMode}
+                      onCheckedChange={setConversationalMode}
+                      className="scale-75"
+                    />
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{conversationalMode ? "Conversational Mode ON" : "Conversational Mode OFF"}</p>
+                </TooltipContent>
+              </Tooltip>
+
               {showConnectionStatus && (
                 <div className="flex items-center gap-2">
                   <Badge
