@@ -184,6 +184,7 @@ Provide bold, practical analysis. Use metrics. Reference Risk/ROI/Time factors. 
         title="Business Feasibility Analysis"
         description="Helps decide if a business idea is viable"
         showConnectionStatus={false}
+        onConversationalModeChange={setConversationalMode}
       />
 
       <main className="container mx-auto px-4 py-8 space-y-8">
