@@ -285,6 +285,51 @@ Provide bold, practical analysis. Use metrics. Reference Risk/ROI/Time factors. 
 
           {/* Report Tab */}
           <TabsContent value="report" className="space-y-6">
+            {/* Summary Note Section */}
+            <Card className="bg-gradient-to-br from-indigo-50 via-white to-purple-50 border-2 border-purple-200">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <FileText className="h-5 w-5 text-purple-600" />
+                  Executive Summary
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-3">
+                  <div>
+                    <p className="text-sm font-semibold text-gray-900 mb-1">Idea Overview</p>
+                    <p className="text-sm text-gray-700">{report.idea}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-gray-900 mb-1">Key Details</p>
+                    <div className="grid grid-cols-2 gap-3 text-sm">
+                      <div>
+                        <span className="text-gray-600">Risk Level:</span>
+                        <span className="font-medium ml-2">{report.derivedInputs.risk}/100</span>
+                      </div>
+                      <div>
+                        <span className="text-gray-600">Timeline:</span>
+                        <span className="font-medium ml-2">{report.derivedInputs.lengthTimeFactor} months</span>
+                      </div>
+                      <div>
+                        <span className="text-gray-600">ROI Timeline:</span>
+                        <span className="font-medium ml-2">{report.derivedInputs.roiTime} months</span>
+                      </div>
+                      <div>
+                        <span className="text-gray-600">Discount Rate:</span>
+                        <span className="font-medium ml-2">{report.derivedInputs.timeValue}%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-gray-900 mb-2">Analysis Recommendation</p>
+                    <p className="text-sm text-gray-700">
+                      This idea has been analyzed across three scenarios: Conservative, Safe, and Wild. Each scenario applies different risk and time value assumptions to provide a comprehensive feasibility assessment. Review the detailed analysis below to understand how this idea performs under varying market conditions.
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
             {/* Mode Selection */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {(["Conservative", "Safe", "Wild"] as Mode[]).map((m) => (
