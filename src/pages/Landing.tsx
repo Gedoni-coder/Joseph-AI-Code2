@@ -22,6 +22,7 @@ import {
   DollarSign,
   Package,
   CreditCard,
+  Lightbulb as LightbulbIcon,
 } from "lucide-react";
 
 const Landing = () => {
