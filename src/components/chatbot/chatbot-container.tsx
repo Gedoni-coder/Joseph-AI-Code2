@@ -32,7 +32,7 @@ interface ChatbotContainerProps {
 
 type ChatbotSize = "minimized" | "half" | "fullscreen";
 
-export function ChatbotContainer({ className }: ChatbotContainerProps) {
+export function ChatbotContainer({ className, conversationalMode: externalConversationalMode }: ChatbotContainerProps) {
   const {
     isOpen,
     isMinimized,
@@ -64,7 +64,7 @@ export function ChatbotContainer({ className }: ChatbotContainerProps) {
     "chat",
   );
   const [sizeMode, setSizeMode] = useState<ChatbotSize>("half");
-  const [conversationalMode, setConversationalMode] = useState(true);
+  const conversationalMode = externalConversationalMode !== undefined ? externalConversationalMode : true;
 
   // Initialize global explain function
   useEffect(() => {
