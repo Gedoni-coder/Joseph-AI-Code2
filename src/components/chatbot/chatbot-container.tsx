@@ -27,6 +27,7 @@ import { cn } from "../../lib/utils";
 
 interface ChatbotContainerProps {
   className?: string;
+  conversationalMode?: boolean;
 }
 
 type ChatbotSize = "minimized" | "half" | "fullscreen";
