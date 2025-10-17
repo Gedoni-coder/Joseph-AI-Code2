@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,7 +14,7 @@ import {
 } from "@/components/ui/tooltip";
 import ModuleNavigation from "@/components/ui/module-navigation";
 import { ConnectionStatus } from "@/components/ui/connection-status";
-import { Bell, Lightbulb, X, Radio } from "lucide-react";
+import { Bell, Lightbulb, X, Radio, AlertCircle, Zap, Target } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 
 interface ModuleHeaderProps {
@@ -26,6 +27,7 @@ interface ModuleHeaderProps {
   error?: string | null;
   connectionLabel?: string;
   showConnectionStatus?: boolean;
+  onConversationalModeChange?: (enabled: boolean) => void;
 }
 
 const ModuleHeader: React.FC<ModuleHeaderProps> = ({
