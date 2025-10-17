@@ -205,34 +205,42 @@ const ModuleHeader: React.FC<ModuleHeaderProps> = ({
                   </TooltipContent>
                 </Tooltip>
                 <PopoverContent className="w-80" align="end">
-                  <div className="flex items-center justify-between mb-3">
-                    <h4 className="font-semibold">AI Insights</h4>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => setIdeasOpen(false)}
-                    >
-                      <X className="h-4 w-4" />
-                    </Button>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="p-2 bg-purple-50 rounded text-sm">
-                      <p className="font-medium text-purple-800">
-                        Optimization Opportunity
-                      </p>
-                      <p className="text-purple-600">
-                        Consider adjusting pricing strategy based on market
-                        trends
-                      </p>
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <h4 className="font-semibold">AI Insights</h4>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setIdeasOpen(false)}
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
                     </div>
-                    <div className="p-2 bg-green-50 rounded text-sm">
-                      <p className="font-medium text-green-800">
-                        Performance Insight
-                      </p>
-                      <p className="text-green-600">
-                        Revenue forecast accuracy has improved by 15%
-                      </p>
+                    <div className="space-y-3">
+                      <div className="p-3 rounded-lg border bg-card">
+                        <div className="flex items-start gap-3">
+                          <Lightbulb className="h-4 w-4 text-yellow-500 mt-0.5 flex-shrink-0" />
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium">Optimization Opportunity</p>
+                            <p className="text-xs text-muted-foreground">Consider refining your analysis parameters</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="p-3 rounded-lg border bg-card">
+                        <div className="flex items-start gap-3">
+                          <Target className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium">Performance Insight</p>
+                            <p className="text-xs text-muted-foreground">Analysis accuracy has improved significantly</p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
+                    <Link to="/ai-insights">
+                      <Button variant="outline" className="w-full" size="sm">
+                        Generate More Ideas
+                      </Button>
+                    </Link>
                   </div>
                 </PopoverContent>
               </Popover>
