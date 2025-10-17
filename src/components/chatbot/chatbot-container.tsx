@@ -92,6 +92,25 @@ export function ChatbotContainer({ className, conversationalMode: externalConver
     return () => window.removeEventListener("resize", checkScreenSize);
   }, []);
 
+  // Conversational mode - handle click to open chatbot
+  useEffect(() => {
+    if (!conversationalMode) return;
+
+    const handlePageClick = (e: MouseEvent) => {
+      // Don't open chatbot if clicking inside it
+      const chatbot = document.querySelector('[data-joseph-no-explain]');
+      if (chatbot && chatbot.contains(e.target as Node)) return;
+
+      // Don't open if already open
+      if (isOpen) return;
+
+      setIsOpen(true);
+    };
+
+    document.addEventListener("click", handlePageClick);
+    return () => document.removeEventListener("click", handlePageClick);
+  }, [conversationalMode, isOpen, setIsOpen]);
+
   // Keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
