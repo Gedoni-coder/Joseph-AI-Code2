@@ -143,27 +143,44 @@ const ModuleHeader: React.FC<ModuleHeaderProps> = ({
                   </TooltipContent>
                 </Tooltip>
                 <PopoverContent className="w-80" align="end">
-                  <div className="flex items-center justify-between mb-3">
-                    <h4 className="font-semibold">Notifications</h4>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => setNotificationsOpen(false)}
-                    >
-                      <X className="h-4 w-4" />
-                    </Button>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="p-2 bg-blue-50 rounded text-sm">
-                      <p className="font-medium text-blue-800">Data Updated</p>
-                      <p className="text-blue-600">New market data available</p>
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <h4 className="font-semibold">Notifications</h4>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setNotificationsOpen(false)}
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
                     </div>
-                    <div className="p-2 bg-yellow-50 rounded text-sm">
-                      <p className="font-medium text-yellow-800">Alert</p>
-                      <p className="text-yellow-600">
-                        Review required for forecast variance
-                      </p>
+                    <div className="space-y-3">
+                      <div className="p-3 rounded-lg border bg-card">
+                        <div className="flex items-start gap-3">
+                          <AlertCircle className="h-4 w-4 text-blue-500 mt-0.5 flex-shrink-0" />
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium">Data Updated</p>
+                            <p className="text-xs text-muted-foreground">New analysis data available</p>
+                            <p className="text-xs text-muted-foreground mt-1">15 minutes ago</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="p-3 rounded-lg border bg-card">
+                        <div className="flex items-start gap-3">
+                          <Zap className="h-4 w-4 text-yellow-500 mt-0.5 flex-shrink-0" />
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium">Alert</p>
+                            <p className="text-xs text-muted-foreground">Review required for analysis variance</p>
+                            <p className="text-xs text-muted-foreground mt-1">1 hour ago</p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
+                    <Link to="/notifications">
+                      <Button variant="outline" className="w-full" size="sm">
+                        View All Notifications
+                      </Button>
+                    </Link>
                   </div>
                 </PopoverContent>
               </Popover>
