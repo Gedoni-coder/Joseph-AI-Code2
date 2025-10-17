@@ -90,6 +90,7 @@ export default function BusinessFeasibilityIdea() {
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [conversationalMode, setConversationalMode] = useState(true);
   const endRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
