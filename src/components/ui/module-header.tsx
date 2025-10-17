@@ -40,10 +40,16 @@ const ModuleHeader: React.FC<ModuleHeaderProps> = ({
   error,
   connectionLabel = "Live",
   showConnectionStatus = true,
+  onConversationalModeChange,
 }) => {
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [ideasOpen, setIdeasOpen] = useState(false);
   const [conversationalMode, setConversationalMode] = useState(true);
+
+  const handleConversationalModeChange = (enabled: boolean) => {
+    setConversationalMode(enabled);
+    onConversationalModeChange?.(enabled);
+  };
 
   return (
     <header className="bg-white/60 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50">
