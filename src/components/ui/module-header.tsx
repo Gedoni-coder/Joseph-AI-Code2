@@ -82,7 +82,7 @@ const ModuleHeader: React.FC<ModuleHeaderProps> = ({
                     <Radio className="h-4 w-4 text-primary" />
                     <Switch
                       checked={conversationalMode}
-                      onCheckedChange={setConversationalMode}
+                      onCheckedChange={handleConversationalModeChange}
                       className="scale-75"
                     />
                   </div>
