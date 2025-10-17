@@ -360,23 +360,6 @@ export function ChatbotContainer({ className, conversationalMode: externalConver
           </div>
 
           <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
-            {/* Conversational Mode Toggle */}
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <div className="flex items-center gap-2 px-2 py-1 hover:bg-primary/10 rounded transition-all">
-                  <Radio className="h-4 w-4" />
-                  <Switch
-                    checked={conversationalMode}
-                    onCheckedChange={setConversationalMode}
-                    className="scale-75"
-                  />
-                </div>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{conversationalMode ? "Conversational Mode ON" : "Conversational Mode OFF"}</p>
-              </TooltipContent>
-            </Tooltip>
-
             {/* Show/Hide Sidebar Button (mobile) */}
             <Tooltip>
               <TooltipTrigger asChild>
