@@ -16,6 +16,7 @@ import { PricingStrategies } from "@/components/pricing/pricing-strategies";
 import { CompetitiveAnalysis } from "@/components/pricing/competitive-analysis";
 import { PriceTesting } from "@/components/pricing/price-testing";
 import { DynamicPricingComponent } from "@/components/pricing/dynamic-pricing";
+import { ModuleConversation } from "@/components/conversation/module-conversation";
 import {
   DollarSign,
   Target,
