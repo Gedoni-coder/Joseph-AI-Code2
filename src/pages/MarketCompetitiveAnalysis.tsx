@@ -116,7 +116,7 @@ export default function MarketCompetitiveAnalysis() {
           onValueChange={setActiveTab}
           className="space-y-6"
         >
-          <TabsList className="grid w-full grid-cols-5 bg-white border">
+          <TabsList className="grid w-full grid-cols-6 bg-white border">
             <TabsTrigger
               value="overview"
               className="data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700"
@@ -146,6 +146,12 @@ export default function MarketCompetitiveAnalysis() {
               className="data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700"
             >
               Report Notes
+            </TabsTrigger>
+            <TabsTrigger
+              value="conversation"
+              className="data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700"
+            >
+              JOSEPH
             </TabsTrigger>
           </TabsList>
 
