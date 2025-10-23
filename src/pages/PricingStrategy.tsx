@@ -252,6 +252,10 @@ export default function PricingStrategy() {
           <TabsContent value="dynamic">
             <DynamicPricingComponent dynamicPrices={dynamicPrices} />
           </TabsContent>
+
+          <TabsContent value="conversation" className="h-[600px]">
+            <ModuleConversation module="pricing_strategy" moduleTitle="Pricing Strategy" />
+          </TabsContent>
         </Tabs>
       </div>
     </div>
