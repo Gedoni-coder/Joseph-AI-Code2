@@ -16,6 +16,7 @@ import { KPIDashboard } from "@/components/business/kpi-dashboard";
 import { ScenarioPlanningComponent } from "@/components/business/scenario-planning";
 import { BusinessMetricsTable } from "@/components/business/business-metrics-table";
 import { FinancialLayout } from "@/components/business/financial-layout";
+import { DocumentsSection } from "@/components/business/documents-section";
 import {
   costStructure as mockCosts,
   cashFlowForecast as mockCashFlow,
