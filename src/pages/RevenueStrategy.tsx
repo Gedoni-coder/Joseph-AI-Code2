@@ -328,6 +328,10 @@ export default function RevenueStrategy() {
           <TabsContent value="upsell">
             <UpsellOpportunities upsells={upsells} />
           </TabsContent>
+
+          <TabsContent value="conversation" className="h-[600px]">
+            <ModuleConversation module="revenue_strategy" moduleTitle="Revenue Strategy" />
+          </TabsContent>
         </Tabs>
       </div>
     </div>
