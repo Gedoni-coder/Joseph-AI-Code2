@@ -23,6 +23,7 @@ import {
   AlertTriangle,
   Shield,
   Navigation,
+  CheckCircle,
 } from "lucide-react";
 
 const ModuleNavigation = () => {
@@ -82,6 +83,12 @@ const ModuleNavigation = () => {
       link: "/impact-calculator",
       icon: <AlertTriangle className="h-4 w-4" />,
       description: "Policy impact assessment"
+    },
+    {
+      name: "Business Feasibility",
+      link: "/business-feasibility",
+      icon: <CheckCircle className="h-4 w-4" />,
+      description: "Decide if a business idea is viable"
     },
     {
       name: "Tax and Compliance",

@@ -15,6 +15,8 @@ model = genai.GenerativeModel('gemini-pro')
 
 logger = logging.getLogger(__name__)
 
+SYSTEM_PROMPT = ("You are a Business, Macro and Micro Economist, serving this business, and ensuring they are always understanding and making right decisions")
+
 class AutonomousAgent:
     """
     Autonomous AI Agent that operates behind the scenes to handle information retrieval,
@@ -218,6 +220,8 @@ class AutonomousAgent:
         try:
             # Use Gemini AI to process the request
             prompt = f"""
+            {SYSTEM_PROMPT}
+
             You are Joseph AI, an autonomous agent. Process this user request: "{request}"
 
             Context: {json.dumps(context)}
@@ -249,6 +253,8 @@ class AutonomousAgent:
         """Analyze data using AI."""
         try:
             prompt = f"""
+            {SYSTEM_PROMPT}
+
             Analyze this data: {json.dumps(data)}
 
             Analysis type: {analysis_type}
@@ -277,6 +283,8 @@ class AutonomousAgent:
         """Process general tasks using AI reasoning."""
         try:
             prompt = f"""
+            {SYSTEM_PROMPT}
+
             Process this task: {json.dumps(task)}
 
             As an autonomous agent, determine what actions to take and provide a response.

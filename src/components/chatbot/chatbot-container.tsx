@@ -25,11 +25,12 @@ import { cn } from "../../lib/utils";
 
 interface ChatbotContainerProps {
   className?: string;
+  conversationalMode?: boolean;
 }
 
 type ChatbotSize = "minimized" | "half" | "fullscreen";
 
-export function ChatbotContainer({ className }: ChatbotContainerProps) {
+export function ChatbotContainer({ className, conversationalMode: externalConversationalMode }: ChatbotContainerProps) {
   const {
     isOpen,
     isMinimized,
@@ -61,6 +62,7 @@ export function ChatbotContainer({ className }: ChatbotContainerProps) {
     "chat",
   );
   const [sizeMode, setSizeMode] = useState<ChatbotSize>("half");
+  const conversationalMode = externalConversationalMode !== undefined ? externalConversationalMode : true;
 
   // Initialize global explain function
   useEffect(() => {
@@ -87,6 +89,25 @@ export function ChatbotContainer({ className }: ChatbotContainerProps) {
     window.addEventListener("resize", checkScreenSize);
     return () => window.removeEventListener("resize", checkScreenSize);
   }, []);
+
+  // Conversational mode - handle click to open chatbot
+  useEffect(() => {
+    if (!conversationalMode) return;
+
+    const handlePageClick = (e: MouseEvent) => {
+      // Don't open chatbot if clicking inside it
+      const chatbot = document.querySelector('[data-joseph-no-explain]');
+      if (chatbot && chatbot.contains(e.target as Node)) return;
+
+      // Don't open if already open
+      if (isOpen) return;
+
+      setIsOpen(true);
+    };
+
+    document.addEventListener("click", handlePageClick);
+    return () => document.removeEventListener("click", handlePageClick);
+  }, [conversationalMode, isOpen, setIsOpen]);
 
   // Keyboard shortcuts
   useEffect(() => {

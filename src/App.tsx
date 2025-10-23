@@ -16,6 +16,8 @@ import LoanFunding from "./pages/LoanFunding";
 import InventorySupplyChain from "./pages/InventorySupplyChain";
 import FinancialAdvisory from "./pages/FinancialAdvisory";
 import PolicyEconomicAnalysis from "./pages/PolicyEconomicAnalysis";
+import BusinessFeasibility from "./pages/BusinessFeasibility";
+import BusinessFeasibilityIdea from "./pages/BusinessFeasibilityIdea";
 import ImpactCalculator from "./pages/ImpactCalculator";
 import AiInsights from "./pages/AiInsights";
 import DocumentManager from "./pages/DocumentManager";
@@ -54,6 +56,8 @@ const App = () => (
           <Route path="/financial-advisory" element={<FinancialAdvisory />} />
           <Route path="/impact-calculator" element={<ImpactCalculator />} />
           <Route path="/tax-compliance" element={<TaxCompliance />} />
+          <Route path="/business-feasibility" element={<BusinessFeasibility />} />
+          <Route path="/business-feasibility/:id" element={<BusinessFeasibilityIdea />} />
           
           {/* Additional Feature Routes */}
           <Route path="/ai-insights" element={<AiInsights />} />

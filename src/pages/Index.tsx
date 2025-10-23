@@ -23,6 +23,7 @@ import {
   DataFreshness,
 } from "@/components/ui/connection-status";
 import ModuleHeader from "@/components/ui/module-header";
+import { NotificationsIdeasPopovers } from "@/components/ui/notifications-ideas-popovers";
 import { ContextSwitcher } from "@/components/economic/context-switcher";
 import { MetricsDashboard } from "@/components/economic/metrics-dashboard";
 import { EconomicTable } from "@/components/economic/economic-table";

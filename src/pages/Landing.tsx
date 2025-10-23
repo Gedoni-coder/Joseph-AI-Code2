@@ -86,6 +86,12 @@ const Landing = () => {
       description: "Tax optimization, compliance monitoring, and regulatory reporting for seamless operations",
       link: "/tax-compliance"
     },
+    {
+      icon: <CheckCircle className="h-6 w-6" />,
+      title: "Business Feasibility",
+      description: "Evaluate and analyze business ideas across multiple scenarios to determine viability and success potential",
+      link: "/business-feasibility"
+    },
   ];
 
   return (
