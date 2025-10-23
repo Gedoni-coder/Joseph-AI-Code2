@@ -337,6 +337,10 @@ export default function MarketCompetitiveAnalysis() {
           <TabsContent value="reports">
             <ReportNotes reportNotes={reportNotes} />
           </TabsContent>
+
+          <TabsContent value="conversation" className="h-[600px]">
+            <ModuleConversation module="market_analysis" moduleTitle="Market Analysis" />
+          </TabsContent>
         </Tabs>
       </div>
     </div>
