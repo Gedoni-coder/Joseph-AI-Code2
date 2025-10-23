@@ -1,5 +1,44 @@
 from django.db import models
 from django.contrib.auth.models import User
+import uuid
+
+class ModuleConversation(models.Model):
+    MODULE_CHOICES = [
+        ('market_analysis', 'Market Analysis'),
+        ('pricing_strategy', 'Pricing Strategy'),
+        ('revenue_strategy', 'Revenue Strategy'),
+    ]
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    module = models.CharField(max_length=50, choices=MODULE_CHOICES)
+    title = models.CharField(max_length=255, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+
+    class Meta:
+        ordering = ['-updated_at']
+
+    def __str__(self):
+        return f"{self.module} Conversation: {self.title or str(self.id)}"
+
+class ModuleConversationMessage(models.Model):
+    MESSAGE_TYPES = [
+        ('user', 'User'),
+        ('assistant', 'Assistant'),
+    ]
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    conversation = models.ForeignKey(ModuleConversation, on_delete=models.CASCADE, related_name='messages')
+    type = models.CharField(max_length=10, choices=MESSAGE_TYPES)
+    content = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['timestamp']
+
+    def __str__(self):
+        return f"{self.type}: {self.content[:50]}..."
 
 class ChatMessage(models.Model):
     USER = "user"
