@@ -1,4 +1,28 @@
 from django.db import models
+import uuid
+import os
+from django.core.files.storage import default_storage
+
+class Document(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=255)
+    file = models.FileField(upload_to='business_forecast/documents/%Y/%m/%d/')
+    file_type = models.CharField(max_length=50)
+    file_size = models.IntegerField()  # in bytes
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+    description = models.TextField(null=True, blank=True)
+
+    class Meta:
+        ordering = ['-uploaded_at']
+
+    def __str__(self):
+        return f"Document: {self.name}"
+
+    def delete(self, *args, **kwargs):
+        if self.file:
+            if default_storage.exists(self.file.name):
+                default_storage.delete(self.file.name)
+        super().delete(*args, **kwargs)
 
 class CustomerProfile(models.Model):
     segment = models.CharField(max_length=100)
