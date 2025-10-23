@@ -17,6 +17,7 @@ import { RevenueStreams } from "@/components/revenue/revenue-streams";
 import { RevenueForecasting } from "@/components/revenue/revenue-forecasting";
 import { ChurnAnalysisComponent } from "@/components/revenue/churn-analysis";
 import { UpsellOpportunities } from "@/components/revenue/upsell-opportunities";
+import { ModuleConversation } from "@/components/conversation/module-conversation";
 import {
   DollarSign,
   TrendingUp,
