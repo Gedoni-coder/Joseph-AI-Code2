@@ -17,6 +17,7 @@ import { MarketAnalysis } from "@/components/market/market-analysis";
 import { ReportNotes } from "@/components/market/report-notes";
 import { CompetitiveAnalysis } from "@/components/competitive/competitive-analysis";
 import { CompetitiveStrategy } from "@/components/competitive/competitive-strategy";
+import { ModuleConversation } from "@/components/conversation/module-conversation";
 import {
   BarChart3,
   TrendingUp,
