@@ -1,5 +1,7 @@
-from rest_framework import viewsets
-from .models import CustomerProfile, RevenueProjection, CostStructure, CashFlowForecast, KPI, ScenarioPlanning
+from rest_framework import viewsets, status
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from .models import CustomerProfile, RevenueProjection, CostStructure, CashFlowForecast, KPI, ScenarioPlanning, Document
 from .serializers import (
     CustomerProfileSerializer,
     RevenueProjectionSerializer,
@@ -7,7 +9,39 @@ from .serializers import (
     CashFlowForecastSerializer,
     KPISerializer,
     ScenarioPlanningSerializer,
+    DocumentSerializer,
 )
+
+class DocumentViewSet(viewsets.ModelViewSet):
+    queryset = Document.objects.all()
+    serializer_class = DocumentSerializer
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context['request'] = self.request
+        return context
+
+    def create(self, request, *args, **kwargs):
+        file = request.FILES.get('file')
+        if not file:
+            return Response({'error': 'No file provided'}, status=status.HTTP_400_BAD_REQUEST)
+
+        document = Document.objects.create(
+            name=file.name,
+            file=file,
+            file_type=file.content_type,
+            file_size=file.size,
+            description=request.data.get('description', '')
+        )
+
+        serializer = self.get_serializer(document)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    @action(detail=False, methods=['get'])
+    def list_documents(self, request):
+        documents = Document.objects.all()
+        serializer = self.get_serializer(documents, many=True)
+        return Response(serializer.data)
 
 class CustomerProfileViewSet(viewsets.ModelViewSet):
     queryset = CustomerProfile.objects.all()
