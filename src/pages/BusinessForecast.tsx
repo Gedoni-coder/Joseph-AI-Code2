@@ -565,6 +565,12 @@ const BusinessForecast = () => {
               </Card>
             </section>
           </TabsContent>
+
+          <TabsContent value="documents" className="space-y-8">
+            <section>
+              <DocumentsSection />
+            </section>
+          </TabsContent>
         </Tabs>
       </main>
 
