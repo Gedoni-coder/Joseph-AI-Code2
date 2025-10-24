@@ -404,7 +404,7 @@ export function InventoryAnalytics({
                   <div>
                     <span className="font-medium">{audit.location}</span>
                     <div className="text-sm text-gray-600">
-                      {new Date(audit.auditDate).toLocaleDateString()}
+                      {audit.auditDate ? new Date(audit.auditDate).toLocaleDateString() : 'N/A'}
                     </div>
                   </div>
                   <div className="text-right">
