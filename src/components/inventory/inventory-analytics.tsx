@@ -275,7 +275,7 @@ export function InventoryAnalytics({
                     (tm) => tm.itemId === item.id,
                   );
                   const daysInStock = getDaysInStock(item);
-                  const itemValue = item.quantity * item.unitCost;
+                  const itemValue = (item.quantity || 0) * (item.unitCost || 0);
 
                   return (
                     <tr key={item.id} className="border-b hover:bg-gray-50">
