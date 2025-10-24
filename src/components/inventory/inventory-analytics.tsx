@@ -360,10 +360,10 @@ export function InventoryAnalytics({
                   </div>
                   <div className="text-right">
                     <div className="font-medium text-red-600">
-                      {formatCurrency(item.quantity * item.unitCost)}
+                      {formatCurrency((item.quantity || 0) * (item.unitCost || 0))}
                     </div>
                     <div className="text-sm text-gray-600">
-                      {item.quantity} {item.unit}
+                      {item.quantity || 0} {item.unit}
                     </div>
                   </div>
                 </div>
