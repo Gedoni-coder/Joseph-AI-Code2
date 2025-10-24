@@ -289,7 +289,7 @@ export function InventoryAnalytics({
                         <Badge variant="secondary">{item.category}</Badge>
                       </td>
                       <td className="text-right py-3 px-4 font-medium">
-                        {item.quantity.toLocaleString()} {item.unit}
+                        {(item.quantity || 0).toLocaleString()} {item.unit}
                       </td>
                       <td className="text-right py-3 px-4">
                         <span
