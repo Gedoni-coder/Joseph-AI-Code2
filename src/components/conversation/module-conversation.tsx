@@ -1,16 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Send, Loader2, Trash2, Plus, Clock } from 'lucide-react';
-import { toast } from 'sonner';
-import { cn } from '@/lib/utils';
+import React, { useState, useEffect, useRef } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Send, Loader2, Trash2, Plus, Clock } from "lucide-react";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 interface ConversationMessage {
   id: string;
-  type: 'user' | 'assistant';
+  type: "user" | "assistant";
   content: string;
   timestamp: string;
 }
@@ -25,7 +25,7 @@ interface Conversation {
 }
 
 interface ModuleConversationProps {
-  module: 'market_analysis' | 'pricing_strategy' | 'revenue_strategy';
+  module: "market_analysis" | "pricing_strategy" | "revenue_strategy";
   moduleTitle: string;
 }
 
@@ -34,7 +34,7 @@ export function ModuleConversation({
   moduleTitle,
 }: ModuleConversationProps) {
   const [conversation, setConversation] = useState<Conversation | null>(null);
-  const [currentInput, setCurrentInput] = useState('');
+  const [currentInput, setCurrentInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -49,7 +49,7 @@ export function ModuleConversation({
   }, [conversation?.messages]);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   const createOrLoadConversation = async () => {
@@ -58,25 +58,25 @@ export function ModuleConversation({
       const response = await fetch(`/chatbot/conversations/?module=${module}`);
       if (response.ok) {
         const data = await response.json();
-        const conversations = Array.isArray(data) ? data : (data.results || []);
+        const conversations = Array.isArray(data) ? data : data.results || [];
         if (conversations.length > 0) {
           setConversation(conversations[0]);
           return;
         }
       }
     } catch (error) {
-      console.error('Error loading conversation:', error);
+      console.error("Error loading conversation:", error);
     }
 
     try {
       await createNewConversation();
     } catch (error) {
-      console.error('Error creating conversation:', error);
+      console.error("Error creating conversation:", error);
       // Fallback: Create a local conversation if API fails
       const localConversation: Conversation = {
         id: Date.now().toString(),
         module,
-        title: `${module.replace(/_/g, ' ')} Discussion`,
+        title: `${module.replace(/_/g, " ")} Discussion`,
         messages: [],
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
@@ -89,9 +89,9 @@ export function ModuleConversation({
 
   const createNewConversation = async () => {
     try {
-      const response = await fetch('/chatbot/conversations/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/chatbot/conversations/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           module,
           title: `${moduleTitle} Discussion`,
@@ -103,7 +103,7 @@ export function ModuleConversation({
         return;
       }
     } catch (error) {
-      console.error('Error creating conversation:', error);
+      console.error("Error creating conversation:", error);
     }
 
     // Fallback: Create a local conversation if API fails
@@ -124,24 +124,28 @@ export function ModuleConversation({
 
     const userMessage: ConversationMessage = {
       id: Date.now().toString(),
-      type: 'user',
+      type: "user",
       content: currentInput,
       timestamp: new Date().toISOString(),
     };
 
     const userInput = currentInput;
-    setCurrentInput('');
-    setConversation(prev => prev ? {
-      ...prev,
-      messages: [...prev.messages, userMessage],
-    } : null);
+    setCurrentInput("");
+    setConversation((prev) =>
+      prev
+        ? {
+            ...prev,
+            messages: [...prev.messages, userMessage],
+          }
+        : null,
+    );
 
     setIsTyping(true);
 
     try {
-      const response = await fetch('/chatbot/module-chat/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/chatbot/module-chat/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           conversation: conversation.id,
           content: userInput,
@@ -151,62 +155,71 @@ export function ModuleConversation({
 
       if (response.ok) {
         const data = await response.json();
-        setConversation(prev => prev ? {
-          ...prev,
-          messages: [
-            ...prev.messages,
-            data.assistant_message,
-          ],
-        } : null);
+        setConversation((prev) =>
+          prev
+            ? {
+                ...prev,
+                messages: [...prev.messages, data.assistant_message],
+              }
+            : null,
+        );
       } else {
         // Provide fallback response if API fails
         const fallbackMessage: ConversationMessage = {
           id: (Date.now() + 1).toString(),
-          type: 'assistant',
+          type: "assistant",
           content: `I'm currently unable to process your request about ${moduleTitle}. Please try again in a moment.`,
           timestamp: new Date().toISOString(),
         };
-        setConversation(prev => prev ? {
-          ...prev,
-          messages: [...prev.messages, fallbackMessage],
-        } : null);
+        setConversation((prev) =>
+          prev
+            ? {
+                ...prev,
+                messages: [...prev.messages, fallbackMessage],
+              }
+            : null,
+        );
       }
     } catch (error) {
-      console.error('Error sending message:', error);
+      console.error("Error sending message:", error);
       // Provide fallback response on error
       const fallbackMessage: ConversationMessage = {
         id: (Date.now() + 1).toString(),
-        type: 'assistant',
+        type: "assistant",
         content: `I encountered an error while processing your request. Please check your connection and try again.`,
         timestamp: new Date().toISOString(),
       };
-      setConversation(prev => prev ? {
-        ...prev,
-        messages: [...prev.messages, fallbackMessage],
-      } : null);
+      setConversation((prev) =>
+        prev
+          ? {
+              ...prev,
+              messages: [...prev.messages, fallbackMessage],
+            }
+          : null,
+      );
     } finally {
       setIsTyping(false);
     }
   };
 
   const handleClearChat = async () => {
-    if (confirm('Are you sure you want to clear this conversation?')) {
+    if (confirm("Are you sure you want to clear this conversation?")) {
       await createNewConversation();
     }
   };
 
   const formatTime = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   };
 
   const autoResize = (textarea: HTMLTextAreaElement) => {
-    textarea.style.height = 'auto';
-    textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
+    textarea.style.height = "auto";
+    textarea.style.height = Math.min(textarea.scrollHeight, 120) + "px";
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage(e as any);
     }
@@ -229,7 +242,9 @@ export function ModuleConversation({
             </div>
             <div>
               <div className="font-semibold text-sm">JOSEPH</div>
-              <div className="text-xs text-muted-foreground">{moduleTitle} Assistant</div>
+              <div className="text-xs text-muted-foreground">
+                {moduleTitle} Assistant
+              </div>
             </div>
           </div>
           <Badge variant="outline" className="text-xs">
@@ -264,11 +279,11 @@ export function ModuleConversation({
               <div
                 key={message.id}
                 className={cn(
-                  'flex gap-3',
-                  message.type === 'user' ? 'justify-end' : 'justify-start',
+                  "flex gap-3",
+                  message.type === "user" ? "justify-end" : "justify-start",
                 )}
               >
-                {message.type === 'assistant' && (
+                {message.type === "assistant" && (
                   <div className="flex-shrink-0">
                     <div className="w-8 h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center p-1">
                       <img
@@ -282,20 +297,22 @@ export function ModuleConversation({
 
                 <div
                   className={cn(
-                    'max-w-[80%] rounded-2xl px-4 py-3 shadow-sm border',
-                    message.type === 'user'
-                      ? 'bg-gradient-to-br from-primary to-primary/80 text-primary-foreground rounded-br-none border-primary/20'
-                      : 'bg-white border-border/50 rounded-bl-none',
+                    "max-w-[80%] rounded-2xl px-4 py-3 shadow-sm border",
+                    message.type === "user"
+                      ? "bg-gradient-to-br from-primary to-primary/80 text-primary-foreground rounded-br-none border-primary/20"
+                      : "bg-white border-border/50 rounded-bl-none",
                   )}
                 >
-                  <div className="text-sm leading-relaxed">{message.content}</div>
+                  <div className="text-sm leading-relaxed">
+                    {message.content}
+                  </div>
                   <div className="flex items-center gap-2 mt-2">
                     <div
                       className={cn(
-                        'text-xs flex items-center gap-1',
-                        message.type === 'user'
-                          ? 'text-primary-foreground/70'
-                          : 'text-muted-foreground',
+                        "text-xs flex items-center gap-1",
+                        message.type === "user"
+                          ? "text-primary-foreground/70"
+                          : "text-muted-foreground",
                       )}
                     >
                       <Clock className="h-3 w-3" />
@@ -304,7 +321,7 @@ export function ModuleConversation({
                   </div>
                 </div>
 
-                {message.type === 'user' && (
+                {message.type === "user" && (
                   <div className="flex-shrink-0">
                     <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-xs font-medium text-primary-foreground">
                       You

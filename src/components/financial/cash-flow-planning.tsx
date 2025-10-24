@@ -352,7 +352,7 @@ export function CashFlowPlanning({
                   <h4 className="font-medium text-gray-900">
                     {projection.date
                       ? new Date(projection.date).toLocaleDateString()
-                      : 'N/A'}
+                      : "N/A"}
                   </h4>
                   <div className="space-y-2">
                     <div className="flex justify-between items-center">
@@ -398,7 +398,7 @@ export function CashFlowPlanning({
                   <h4 className="font-medium text-gray-900">
                     {projection.date
                       ? new Date(projection.date).toLocaleDateString()
-                      : 'N/A'}
+                      : "N/A"}
                   </h4>
                   <div className="space-y-2">
                     <div className="flex justify-between items-center">

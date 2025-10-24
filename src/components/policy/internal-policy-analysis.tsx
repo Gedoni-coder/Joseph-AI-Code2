@@ -39,71 +39,103 @@ interface InternalPolicyAnalysisProps {
   onUpdatePolicy: (id: string, updates: Partial<InternalPolicy>) => void;
 }
 
-export function InternalPolicyAnalysis({ 
-  internalPolicies, 
-  onAddPolicy, 
-  onUpdatePolicy 
+export function InternalPolicyAnalysis({
+  internalPolicies,
+  onAddPolicy,
+  onUpdatePolicy,
 }: InternalPolicyAnalysisProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [typeFilter, setTypeFilter] = useState<string>("all");
   const [statusFilter, setStatusFilter] = useState<string>("all");
 
-  const filteredPolicies = internalPolicies.filter(policy => {
-    const matchesSearch = policy.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         policy.department.toLowerCase().includes(searchTerm.toLowerCase());
+  const filteredPolicies = internalPolicies.filter((policy) => {
+    const matchesSearch =
+      policy.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      policy.department.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesType = typeFilter === "all" || policy.type === typeFilter;
-    const matchesStatus = statusFilter === "all" || policy.status === statusFilter;
-    
+    const matchesStatus =
+      statusFilter === "all" || policy.status === statusFilter;
+
     return matchesSearch && matchesType && matchesStatus;
   });
 
   const getStatusColor = (status: InternalPolicy["status"]) => {
     switch (status) {
-      case "active": return "bg-green-100 text-green-800 border-green-200";
-      case "under_review": return "bg-yellow-100 text-yellow-800 border-yellow-200";
-      case "draft": return "bg-blue-100 text-blue-800 border-blue-200";
-      case "archived": return "bg-gray-100 text-gray-800 border-gray-200";
-      default: return "bg-gray-100 text-gray-800 border-gray-200";
+      case "active":
+        return "bg-green-100 text-green-800 border-green-200";
+      case "under_review":
+        return "bg-yellow-100 text-yellow-800 border-yellow-200";
+      case "draft":
+        return "bg-blue-100 text-blue-800 border-blue-200";
+      case "archived":
+        return "bg-gray-100 text-gray-800 border-gray-200";
+      default:
+        return "bg-gray-100 text-gray-800 border-gray-200";
     }
   };
 
-  const getImplementationColor = (status: InternalPolicy["implementationStatus"]) => {
+  const getImplementationColor = (
+    status: InternalPolicy["implementationStatus"],
+  ) => {
     switch (status) {
-      case "fully_implemented": return "bg-green-100 text-green-800 border-green-200";
-      case "partial": return "bg-orange-100 text-orange-800 border-orange-200";
-      case "planning": return "bg-blue-100 text-blue-800 border-blue-200";
-      case "not_started": return "bg-red-100 text-red-800 border-red-200";
-      default: return "bg-gray-100 text-gray-800 border-gray-200";
+      case "fully_implemented":
+        return "bg-green-100 text-green-800 border-green-200";
+      case "partial":
+        return "bg-orange-100 text-orange-800 border-orange-200";
+      case "planning":
+        return "bg-blue-100 text-blue-800 border-blue-200";
+      case "not_started":
+        return "bg-red-100 text-red-800 border-red-200";
+      default:
+        return "bg-gray-100 text-gray-800 border-gray-200";
     }
   };
 
   const getTypeIcon = (type: InternalPolicy["type"]) => {
     switch (type) {
-      case "compliance": return <Shield className="h-4 w-4" />;
-      case "operational": return <Building className="h-4 w-4" />;
-      case "hr": return <Users className="h-4 w-4" />;
-      case "financial": return <DollarSign className="h-4 w-4" />;
-      case "environmental": return <Leaf className="h-4 w-4" />;
-      default: return <Building className="h-4 w-4" />;
+      case "compliance":
+        return <Shield className="h-4 w-4" />;
+      case "operational":
+        return <Building className="h-4 w-4" />;
+      case "hr":
+        return <Users className="h-4 w-4" />;
+      case "financial":
+        return <DollarSign className="h-4 w-4" />;
+      case "environmental":
+        return <Leaf className="h-4 w-4" />;
+      default:
+        return <Building className="h-4 w-4" />;
     }
   };
 
-  const getImplementationIcon = (status: InternalPolicy["implementationStatus"]) => {
+  const getImplementationIcon = (
+    status: InternalPolicy["implementationStatus"],
+  ) => {
     switch (status) {
-      case "fully_implemented": return <CheckCircle className="h-4 w-4" />;
-      case "partial": return <Clock className="h-4 w-4" />;
-      case "planning": return <AlertTriangle className="h-4 w-4" />;
-      case "not_started": return <AlertTriangle className="h-4 w-4" />;
-      default: return <Clock className="h-4 w-4" />;
+      case "fully_implemented":
+        return <CheckCircle className="h-4 w-4" />;
+      case "partial":
+        return <Clock className="h-4 w-4" />;
+      case "planning":
+        return <AlertTriangle className="h-4 w-4" />;
+      case "not_started":
+        return <AlertTriangle className="h-4 w-4" />;
+      default:
+        return <Clock className="h-4 w-4" />;
     }
   };
 
   const handleViewDetails = (policy: InternalPolicy) => {
-    alert(`Policy Details: ${policy.title}\n\nDepartment: ${policy.department}\nType: ${policy.type}\nVersion: ${policy.version}\nApproved by: ${policy.approvedBy}\n\nLast Reviewed: ${policy.lastReviewed ? new Date(policy.lastReviewed).toLocaleDateString() : 'N/A'}\nNext Review: ${policy.nextReview ? new Date(policy.nextReview).toLocaleDateString() : 'N/A'}\n\nAlignment Score: ${policy.alignmentScore}%\nImplementation: ${policy.implementationStatus.replace('_', ' ')}`);
+    alert(
+      `Policy Details: ${policy.title}\n\nDepartment: ${policy.department}\nType: ${policy.type}\nVersion: ${policy.version}\nApproved by: ${policy.approvedBy}\n\nLast Reviewed: ${policy.lastReviewed ? new Date(policy.lastReviewed).toLocaleDateString() : "N/A"}\nNext Review: ${policy.nextReview ? new Date(policy.nextReview).toLocaleDateString() : "N/A"}\n\nAlignment Score: ${policy.alignmentScore}%\nImplementation: ${policy.implementationStatus.replace("_", " ")}`,
+    );
   };
 
   const handleEditPolicy = (policy: InternalPolicy) => {
-    const updatedScore = Math.min(100, policy.alignmentScore + Math.floor(Math.random() * 10));
+    const updatedScore = Math.min(
+      100,
+      policy.alignmentScore + Math.floor(Math.random() * 10),
+    );
     onUpdatePolicy(policy.id, { alignmentScore: updatedScore });
     alert(`Updated alignment score for "${policy.title}" to ${updatedScore}%`);
   };
@@ -116,7 +148,9 @@ export function InternalPolicyAnalysis({
       status: "draft" as const,
       version: "1.0",
       approvedBy: "Department Head",
-      nextReview: new Date(Date.now() + 180 * 24 * 60 * 60 * 1000).toISOString(),
+      nextReview: new Date(
+        Date.now() + 180 * 24 * 60 * 60 * 1000,
+      ).toISOString(),
       alignmentScore: 85,
       relatedExternalPolicies: [],
       implementationStatus: "planning" as const,
@@ -125,10 +159,16 @@ export function InternalPolicyAnalysis({
   };
 
   const averageAlignment = Math.round(
-    internalPolicies.reduce((sum, policy) => sum + policy.alignmentScore, 0) / internalPolicies.length
+    internalPolicies.reduce((sum, policy) => sum + policy.alignmentScore, 0) /
+      internalPolicies.length,
   );
-  const fullyImplemented = internalPolicies.filter(p => p.implementationStatus === "fully_implemented").length;
-  const needsReview = internalPolicies.filter(p => new Date(p.nextReview) <= new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)).length;
+  const fullyImplemented = internalPolicies.filter(
+    (p) => p.implementationStatus === "fully_implemented",
+  ).length;
+  const needsReview = internalPolicies.filter(
+    (p) =>
+      new Date(p.nextReview) <= new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+  ).length;
 
   return (
     <div className="space-y-6">
@@ -136,7 +176,9 @@ export function InternalPolicyAnalysis({
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Policies</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Total Policies
+            </CardTitle>
             <Building className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -146,7 +188,7 @@ export function InternalPolicyAnalysis({
             </p>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Avg Alignment</CardTitle>
@@ -159,10 +201,12 @@ export function InternalPolicyAnalysis({
             </p>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Fully Implemented</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Fully Implemented
+            </CardTitle>
             <CheckCircle className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -172,7 +216,7 @@ export function InternalPolicyAnalysis({
             </p>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Review Needed</CardTitle>
@@ -194,12 +238,17 @@ export function InternalPolicyAnalysis({
             <div>
               <CardTitle>Internal Policy Management</CardTitle>
               <CardDescription>
-                Track company policies, compliance status, and alignment with external regulations
+                Track company policies, compliance status, and alignment with
+                external regulations
               </CardDescription>
             </div>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button onClick={handleAddNewPolicy} size="sm" className="flex items-center gap-2">
+                <Button
+                  onClick={handleAddNewPolicy}
+                  size="sm"
+                  className="flex items-center gap-2"
+                >
                   <Plus className="h-4 w-4" />
                   Add Policy
                 </Button>
@@ -258,54 +307,89 @@ export function InternalPolicyAnalysis({
                         {getTypeIcon(policy.type)}
                         <h3 className="font-semibold">{policy.title}</h3>
                         <Badge className={getStatusColor(policy.status)}>
-                          {policy.status.replace('_', ' ')}
+                          {policy.status.replace("_", " ")}
                         </Badge>
-                        <Badge className={getImplementationColor(policy.implementationStatus)}>
+                        <Badge
+                          className={getImplementationColor(
+                            policy.implementationStatus,
+                          )}
+                        >
                           {getImplementationIcon(policy.implementationStatus)}
-                          <span className="ml-1">{policy.implementationStatus.replace('_', ' ')}</span>
+                          <span className="ml-1">
+                            {policy.implementationStatus.replace("_", " ")}
+                          </span>
                         </Badge>
                       </div>
-                      
+
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3">
                         <div>
-                          <p className="text-sm text-muted-foreground">Department</p>
+                          <p className="text-sm text-muted-foreground">
+                            Department
+                          </p>
                           <p className="font-medium">{policy.department}</p>
                         </div>
                         <div>
-                          <p className="text-sm text-muted-foreground">Version</p>
+                          <p className="text-sm text-muted-foreground">
+                            Version
+                          </p>
                           <p className="font-medium">{policy.version}</p>
                         </div>
                         <div>
-                          <p className="text-sm text-muted-foreground">Approved By</p>
+                          <p className="text-sm text-muted-foreground">
+                            Approved By
+                          </p>
                           <p className="font-medium">{policy.approvedBy}</p>
                         </div>
                       </div>
-                      
+
                       <div className="mb-3">
                         <div className="flex items-center justify-between mb-2">
-                          <p className="text-sm text-muted-foreground">Alignment Score</p>
-                          <span className="text-sm font-medium">{policy.alignmentScore}%</span>
+                          <p className="text-sm text-muted-foreground">
+                            Alignment Score
+                          </p>
+                          <span className="text-sm font-medium">
+                            {policy.alignmentScore}%
+                          </span>
                         </div>
-                        <Progress value={policy.alignmentScore} className="h-2" />
+                        <Progress
+                          value={policy.alignmentScore}
+                          className="h-2"
+                        />
                       </div>
-                      
+
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                         <div>
                           <p className="text-muted-foreground">Last Reviewed</p>
-                          <p className="font-medium">{policy.lastReviewed ? new Date(policy.lastReviewed).toLocaleDateString() : 'N/A'}</p>
+                          <p className="font-medium">
+                            {policy.lastReviewed
+                              ? new Date(
+                                  policy.lastReviewed,
+                                ).toLocaleDateString()
+                              : "N/A"}
+                          </p>
                         </div>
                         <div>
                           <p className="text-muted-foreground">Next Review</p>
-                          <p className="font-medium">{policy.nextReview ? new Date(policy.nextReview).toLocaleDateString() : 'N/A'}</p>
+                          <p className="font-medium">
+                            {policy.nextReview
+                              ? new Date(policy.nextReview).toLocaleDateString()
+                              : "N/A"}
+                          </p>
                         </div>
                       </div>
-                      
+
                       {policy.relatedExternalPolicies.length > 0 && (
                         <div className="mt-3">
-                          <p className="text-sm text-muted-foreground mb-1">Related External Policies</p>
+                          <p className="text-sm text-muted-foreground mb-1">
+                            Related External Policies
+                          </p>
                           <div className="flex flex-wrap gap-1">
                             {policy.relatedExternalPolicies.map((extId) => (
-                              <Badge key={extId} variant="outline" className="text-xs">
+                              <Badge
+                                key={extId}
+                                variant="outline"
+                                className="text-xs"
+                              >
                                 {extId}
                               </Badge>
                             ))}
@@ -313,7 +397,7 @@ export function InternalPolicyAnalysis({
                         </div>
                       )}
                     </div>
-                    
+
                     <div className="flex flex-col gap-2 ml-4">
                       <Tooltip>
                         <TooltipTrigger asChild>
@@ -348,7 +432,7 @@ export function InternalPolicyAnalysis({
                 </CardContent>
               </Card>
             ))}
-            
+
             {filteredPolicies.length === 0 && (
               <div className="text-center py-8 text-muted-foreground">
                 No policies found matching your criteria.

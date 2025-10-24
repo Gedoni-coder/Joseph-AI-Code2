@@ -142,7 +142,7 @@ export function ProcurementTracking({
     const order = filteredOrders.find((o) => o.id === orderId);
     if (order) {
       alert(
-        `Order Details - ${orderId}:\n\nSupplier: ${getSupplierName(order.supplierId)}\nStatus: ${order.status}\nTotal Value: ${formatCurrency(order.totalValue || 0)}\nExpected Delivery: ${order.expectedDelivery ? new Date(order.expectedDelivery).toLocaleDateString() : 'N/A'}\nItems: ${order.items?.length || 0} items`,
+        `Order Details - ${orderId}:\n\nSupplier: ${getSupplierName(order.supplierId)}\nStatus: ${order.status}\nTotal Value: ${formatCurrency(order.totalValue || 0)}\nExpected Delivery: ${order.expectedDelivery ? new Date(order.expectedDelivery).toLocaleDateString() : "N/A"}\nItems: ${order.items?.length || 0} items`,
       );
     }
   };
@@ -369,8 +369,10 @@ export function ProcurementTracking({
                           >
                             <div className="font-medium">
                               {order.expectedDelivery
-                                ? new Date(order.expectedDelivery).toLocaleDateString()
-                                : 'N/A'}
+                                ? new Date(
+                                    order.expectedDelivery,
+                                  ).toLocaleDateString()
+                                : "N/A"}
                             </div>
                             <div className="text-xs">
                               {isOverdue ? (

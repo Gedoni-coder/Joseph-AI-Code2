@@ -37,80 +37,116 @@ interface PolicyReportsProps {
   isLoading?: boolean;
 }
 
-export function PolicyReports({ 
-  policyReports, 
+export function PolicyReports({
+  policyReports,
   onGenerateReport,
-  isLoading = false
+  isLoading = false,
 }: PolicyReportsProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [typeFilter, setTypeFilter] = useState<string>("all");
 
-  const filteredReports = policyReports.filter(report => {
-    const matchesSearch = report.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         report.summary.toLowerCase().includes(searchTerm.toLowerCase());
+  const filteredReports = policyReports.filter((report) => {
+    const matchesSearch =
+      report.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      report.summary.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesType = typeFilter === "all" || report.type === typeFilter;
-    
+
     return matchesSearch && matchesType;
   });
 
   const getTypeColor = (type: PolicyReport["type"]) => {
     switch (type) {
-      case "compliance": return "bg-blue-100 text-blue-800 border-blue-200";
-      case "alignment": return "bg-green-100 text-green-800 border-green-200";
-      case "gap_analysis": return "bg-orange-100 text-orange-800 border-orange-200";
-      case "impact_assessment": return "bg-purple-100 text-purple-800 border-purple-200";
-      default: return "bg-gray-100 text-gray-800 border-gray-200";
+      case "compliance":
+        return "bg-blue-100 text-blue-800 border-blue-200";
+      case "alignment":
+        return "bg-green-100 text-green-800 border-green-200";
+      case "gap_analysis":
+        return "bg-orange-100 text-orange-800 border-orange-200";
+      case "impact_assessment":
+        return "bg-purple-100 text-purple-800 border-purple-200";
+      default:
+        return "bg-gray-100 text-gray-800 border-gray-200";
     }
   };
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
-      case "critical": return "bg-red-100 text-red-800 border-red-200";
-      case "high": return "bg-orange-100 text-orange-800 border-orange-200";
-      case "medium": return "bg-yellow-100 text-yellow-800 border-yellow-200";
-      case "low": return "bg-green-100 text-green-800 border-green-200";
-      default: return "bg-gray-100 text-gray-800 border-gray-200";
+      case "critical":
+        return "bg-red-100 text-red-800 border-red-200";
+      case "high":
+        return "bg-orange-100 text-orange-800 border-orange-200";
+      case "medium":
+        return "bg-yellow-100 text-yellow-800 border-yellow-200";
+      case "low":
+        return "bg-green-100 text-green-800 border-green-200";
+      default:
+        return "bg-gray-100 text-gray-800 border-gray-200";
     }
   };
 
   const getFindingStatusIcon = (status: string) => {
     switch (status) {
-      case "resolved": return <CheckCircle className="h-4 w-4 text-green-600" />;
-      case "in_progress": return <Clock className="h-4 w-4 text-yellow-600" />;
-      case "open": return <AlertTriangle className="h-4 w-4 text-red-600" />;
-      default: return <Clock className="h-4 w-4 text-gray-600" />;
+      case "resolved":
+        return <CheckCircle className="h-4 w-4 text-green-600" />;
+      case "in_progress":
+        return <Clock className="h-4 w-4 text-yellow-600" />;
+      case "open":
+        return <AlertTriangle className="h-4 w-4 text-red-600" />;
+      default:
+        return <Clock className="h-4 w-4 text-gray-600" />;
     }
   };
 
   const handleViewReport = (report: PolicyReport) => {
-    const findings = report.findings.map(f => 
-      `• ${f.category}: ${f.description} (${f.severity}) - ${f.recommendation}`
-    ).join('\n');
-    
-    alert(`Policy Report: ${report.title}\n\nGenerated: ${report.generatedDate ? new Date(report.generatedDate).toLocaleDateString() : 'N/A'}\nPeriod: ${report.period}\nCompliance Score: ${report.complianceScore}%\n\nSummary: ${report.summary}\n\nKey Findings:\n${findings}\n\nRecommendations:\n${report.recommendations.map(r => `• ${r}`).join('\n')}`);
+    const findings = report.findings
+      .map(
+        (f) =>
+          `• ${f.category}: ${f.description} (${f.severity}) - ${f.recommendation}`,
+      )
+      .join("\n");
+
+    alert(
+      `Policy Report: ${report.title}\n\nGenerated: ${report.generatedDate ? new Date(report.generatedDate).toLocaleDateString() : "N/A"}\nPeriod: ${report.period}\nCompliance Score: ${report.complianceScore}%\n\nSummary: ${report.summary}\n\nKey Findings:\n${findings}\n\nRecommendations:\n${report.recommendations.map((r) => `• ${r}`).join("\n")}`,
+    );
   };
 
   const handleDownloadReport = (report: PolicyReport) => {
-    alert(`Downloading report: ${report.title}\n\nReport would be exported as PDF with all findings and recommendations.`);
+    alert(
+      `Downloading report: ${report.title}\n\nReport would be exported as PDF with all findings and recommendations.`,
+    );
   };
 
   const handleGenerateNewReport = () => {
-    const reportTypes: PolicyReport["type"][] = ["compliance", "alignment", "gap_analysis", "impact_assessment"];
-    const randomType = reportTypes[Math.floor(Math.random() * reportTypes.length)];
-    const currentPeriod = `Q${Math.floor((new Date().getMonth() / 3) + 1)} ${new Date().getFullYear()}`;
-    
+    const reportTypes: PolicyReport["type"][] = [
+      "compliance",
+      "alignment",
+      "gap_analysis",
+      "impact_assessment",
+    ];
+    const randomType =
+      reportTypes[Math.floor(Math.random() * reportTypes.length)];
+    const currentPeriod = `Q${Math.floor(new Date().getMonth() / 3 + 1)} ${new Date().getFullYear()}`;
+
     onGenerateReport(randomType, currentPeriod);
   };
 
   const averageCompliance = Math.round(
-    policyReports.reduce((sum, report) => sum + report.complianceScore, 0) / (policyReports.length || 1)
+    policyReports.reduce((sum, report) => sum + report.complianceScore, 0) /
+      (policyReports.length || 1),
   );
-  const totalFindings = policyReports.reduce((sum, report) => sum + report.findings.length, 0);
-  const criticalFindings = policyReports.reduce((sum, report) => 
-    sum + report.findings.filter(f => f.severity === "critical").length, 0
+  const totalFindings = policyReports.reduce(
+    (sum, report) => sum + report.findings.length,
+    0,
   );
-  const resolvedFindings = policyReports.reduce((sum, report) => 
-    sum + report.findings.filter(f => f.status === "resolved").length, 0
+  const criticalFindings = policyReports.reduce(
+    (sum, report) =>
+      sum + report.findings.filter((f) => f.severity === "critical").length,
+    0,
+  );
+  const resolvedFindings = policyReports.reduce(
+    (sum, report) =>
+      sum + report.findings.filter((f) => f.status === "resolved").length,
+    0,
   );
 
   return (
@@ -124,15 +160,15 @@ export function PolicyReports({
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{policyReports.length}</div>
-            <p className="text-xs text-muted-foreground">
-              Reports generated
-            </p>
+            <p className="text-xs text-muted-foreground">Reports generated</p>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Avg Compliance</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Avg Compliance
+            </CardTitle>
             <BarChart3 className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -142,10 +178,12 @@ export function PolicyReports({
             </p>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Critical Issues</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Critical Issues
+            </CardTitle>
             <AlertTriangle className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -155,19 +193,22 @@ export function PolicyReports({
             </p>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Resolution Rate</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Resolution Rate
+            </CardTitle>
             <CheckCircle className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {totalFindings > 0 ? Math.round((resolvedFindings / totalFindings) * 100) : 0}%
+              {totalFindings > 0
+                ? Math.round((resolvedFindings / totalFindings) * 100)
+                : 0}
+              %
             </div>
-            <p className="text-xs text-muted-foreground">
-              Issues resolved
-            </p>
+            <p className="text-xs text-muted-foreground">Issues resolved</p>
           </CardContent>
         </Card>
       </div>
@@ -184,9 +225,9 @@ export function PolicyReports({
             </div>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button 
-                  onClick={handleGenerateNewReport} 
-                  size="sm" 
+                <Button
+                  onClick={handleGenerateNewReport}
+                  size="sm"
                   className="flex items-center gap-2"
                   disabled={isLoading}
                 >
@@ -219,7 +260,9 @@ export function PolicyReports({
                 <SelectItem value="compliance">Compliance</SelectItem>
                 <SelectItem value="alignment">Alignment</SelectItem>
                 <SelectItem value="gap_analysis">Gap Analysis</SelectItem>
-                <SelectItem value="impact_assessment">Impact Assessment</SelectItem>
+                <SelectItem value="impact_assessment">
+                  Impact Assessment
+                </SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -235,48 +278,83 @@ export function PolicyReports({
                         <FileText className="h-4 w-4" />
                         <h3 className="font-semibold">{report.title}</h3>
                         <Badge className={getTypeColor(report.type)}>
-                          {report.type.replace('_', ' ')}
+                          {report.type.replace("_", " ")}
                         </Badge>
                       </div>
-                      
+
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3">
                         <div>
-                          <p className="text-sm text-muted-foreground">Generated</p>
-                          <p className="font-medium">{report.generatedDate ? new Date(report.generatedDate).toLocaleDateString() : 'N/A'}</p>
+                          <p className="text-sm text-muted-foreground">
+                            Generated
+                          </p>
+                          <p className="font-medium">
+                            {report.generatedDate
+                              ? new Date(
+                                  report.generatedDate,
+                                ).toLocaleDateString()
+                              : "N/A"}
+                          </p>
                         </div>
                         <div>
-                          <p className="text-sm text-muted-foreground">Period</p>
+                          <p className="text-sm text-muted-foreground">
+                            Period
+                          </p>
                           <p className="font-medium">{report.period}</p>
                         </div>
                         <div>
-                          <p className="text-sm text-muted-foreground">Findings</p>
-                          <p className="font-medium">{report.findings.length} issues</p>
+                          <p className="text-sm text-muted-foreground">
+                            Findings
+                          </p>
+                          <p className="font-medium">
+                            {report.findings.length} issues
+                          </p>
                         </div>
                       </div>
-                      
+
                       <div className="mb-3">
                         <div className="flex items-center justify-between mb-2">
-                          <p className="text-sm text-muted-foreground">Compliance Score</p>
-                          <span className="text-sm font-medium">{report.complianceScore}%</span>
+                          <p className="text-sm text-muted-foreground">
+                            Compliance Score
+                          </p>
+                          <span className="text-sm font-medium">
+                            {report.complianceScore}%
+                          </span>
                         </div>
-                        <Progress value={report.complianceScore} className="h-2" />
+                        <Progress
+                          value={report.complianceScore}
+                          className="h-2"
+                        />
                       </div>
-                      
-                      <p className="text-sm text-muted-foreground mb-3">{report.summary}</p>
-                      
+
+                      <p className="text-sm text-muted-foreground mb-3">
+                        {report.summary}
+                      </p>
+
                       {/* Key Findings */}
                       {report.findings.length > 0 && (
                         <div className="mb-3">
-                          <p className="text-sm font-medium mb-2">Key Findings</p>
+                          <p className="text-sm font-medium mb-2">
+                            Key Findings
+                          </p>
                           <div className="space-y-2">
                             {report.findings.slice(0, 3).map((finding) => (
-                              <div key={finding.id} className="flex items-center gap-2 text-sm">
+                              <div
+                                key={finding.id}
+                                className="flex items-center gap-2 text-sm"
+                              >
                                 {getFindingStatusIcon(finding.status)}
-                                <Badge className={getSeverityColor(finding.severity)} variant="outline">
+                                <Badge
+                                  className={getSeverityColor(finding.severity)}
+                                  variant="outline"
+                                >
                                   {finding.severity}
                                 </Badge>
-                                <span className="text-muted-foreground">{finding.category}:</span>
-                                <span className="flex-1 truncate">{finding.description}</span>
+                                <span className="text-muted-foreground">
+                                  {finding.category}:
+                                </span>
+                                <span className="flex-1 truncate">
+                                  {finding.description}
+                                </span>
                               </div>
                             ))}
                             {report.findings.length > 3 && (
@@ -287,23 +365,30 @@ export function PolicyReports({
                           </div>
                         </div>
                       )}
-                      
+
                       {/* Top Recommendations */}
                       {report.recommendations.length > 0 && (
                         <div>
-                          <p className="text-sm font-medium mb-1">Key Recommendations</p>
+                          <p className="text-sm font-medium mb-1">
+                            Key Recommendations
+                          </p>
                           <ul className="text-xs text-muted-foreground space-y-1">
-                            {report.recommendations.slice(0, 2).map((rec, index) => (
-                              <li key={index} className="flex items-start gap-1">
-                                <span>•</span>
-                                <span>{rec}</span>
-                              </li>
-                            ))}
+                            {report.recommendations
+                              .slice(0, 2)
+                              .map((rec, index) => (
+                                <li
+                                  key={index}
+                                  className="flex items-start gap-1"
+                                >
+                                  <span>•</span>
+                                  <span>{rec}</span>
+                                </li>
+                              ))}
                           </ul>
                         </div>
                       )}
                     </div>
-                    
+
                     <div className="flex flex-col gap-2 ml-4">
                       <Tooltip>
                         <TooltipTrigger asChild>
@@ -338,7 +423,7 @@ export function PolicyReports({
                 </CardContent>
               </Card>
             ))}
-            
+
             {filteredReports.length === 0 && (
               <div className="text-center py-8 text-muted-foreground">
                 No reports found matching your criteria.

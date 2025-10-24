@@ -438,7 +438,7 @@ export function RiskAssessmentComponent({
                       Last reviewed:{" "}
                       {risk.lastReviewed
                         ? new Date(risk.lastReviewed).toLocaleDateString()
-                        : 'N/A'}
+                        : "N/A"}
                     </div>
                   </div>
                 ))}

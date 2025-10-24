@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Upload, FileText, Trash2, Download, Eye, Plus } from 'lucide-react';
-import { toast } from 'sonner';
+import React, { useState, useEffect, useRef } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Upload, FileText, Trash2, Download, Eye, Plus } from "lucide-react";
+import { toast } from "sonner";
 
 interface Document {
   id: string;
@@ -28,27 +28,27 @@ export function DocumentsSection() {
   const fetchDocuments = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch('/api/business/documents/', {
-        method: 'GET',
+      const response = await fetch("/api/business/documents/", {
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       });
       if (response.ok) {
         try {
           const data = await response.json();
-          setDocuments(Array.isArray(data) ? data : (data.results || []));
+          setDocuments(Array.isArray(data) ? data : data.results || []);
         } catch (parseError) {
-          console.error('Error parsing response:', parseError);
+          console.error("Error parsing response:", parseError);
           setDocuments([]);
         }
       } else {
         // For any error (404, 500, etc.), set empty array
-        console.error('Failed to fetch documents:', response.statusText);
+        console.error("Failed to fetch documents:", response.statusText);
         setDocuments([]);
       }
     } catch (error) {
-      console.error('Error fetching documents:', error);
+      console.error("Error fetching documents:", error);
       setDocuments([]);
     } finally {
       setIsLoading(false);
@@ -61,22 +61,22 @@ export function DocumentsSection() {
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       const formData = new FormData();
-      formData.append('file', file);
-      formData.append('description', '');
+      formData.append("file", file);
+      formData.append("description", "");
 
       try {
-        const response = await fetch('/api/business/documents/', {
-          method: 'POST',
+        const response = await fetch("/api/business/documents/", {
+          method: "POST",
           body: formData,
         });
 
         if (response.ok) {
           try {
             const newDocument = await response.json();
-            setDocuments(prev => [newDocument, ...prev]);
+            setDocuments((prev) => [newDocument, ...prev]);
             toast.success(`${file.name} uploaded successfully`);
           } catch (parseError) {
-            console.error('Error parsing response:', parseError);
+            console.error("Error parsing response:", parseError);
             // Add document locally if response parsing fails
             const mockDocument: Document = {
               id: Date.now().toString(),
@@ -84,9 +84,9 @@ export function DocumentsSection() {
               file_type: file.type,
               file_size: file.size,
               uploaded_at: new Date().toISOString(),
-              description: '',
+              description: "",
             };
-            setDocuments(prev => [mockDocument, ...prev]);
+            setDocuments((prev) => [mockDocument, ...prev]);
             toast.success(`${file.name} added`);
           }
         } else {
@@ -97,13 +97,13 @@ export function DocumentsSection() {
             file_type: file.type,
             file_size: file.size,
             uploaded_at: new Date().toISOString(),
-            description: '',
+            description: "",
           };
-          setDocuments(prev => [mockDocument, ...prev]);
+          setDocuments((prev) => [mockDocument, ...prev]);
           toast.success(`${file.name} added locally (backend unavailable)`);
         }
       } catch (error) {
-        console.error('Error uploading file:', error);
+        console.error("Error uploading file:", error);
         // Add document locally even if API fails
         const mockDocument: Document = {
           id: Date.now().toString(),
@@ -111,9 +111,9 @@ export function DocumentsSection() {
           file_type: file.type,
           file_size: file.size,
           uploaded_at: new Date().toISOString(),
-          description: '',
+          description: "",
         };
-        setDocuments(prev => [mockDocument, ...prev]);
+        setDocuments((prev) => [mockDocument, ...prev]);
         toast.success(`${file.name} added locally`);
       }
     }
@@ -122,46 +122,51 @@ export function DocumentsSection() {
   const handleDelete = async (id: string) => {
     try {
       const response = await fetch(`/api/business/documents/${id}/`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
 
       if (response.ok) {
-        setDocuments(prev => prev.filter(doc => doc.id !== id));
-        toast.success('Document deleted successfully');
+        setDocuments((prev) => prev.filter((doc) => doc.id !== id));
+        toast.success("Document deleted successfully");
       } else {
-        toast.error('Failed to delete document');
+        toast.error("Failed to delete document");
       }
     } catch (error) {
-      console.error('Error deleting document:', error);
-      toast.error('Error deleting document');
+      console.error("Error deleting document:", error);
+      toast.error("Error deleting document");
     }
   };
 
   const formatFileSize = (bytes: number) => {
-    if (bytes === 0) return '0 Bytes';
+    if (bytes === 0) return "0 Bytes";
     const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const sizes = ["Bytes", "KB", "MB", "GB"];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
   };
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
   const getFileIcon = (fileType: string) => {
-    if (fileType.includes('image')) return '🖼️';
-    if (fileType.includes('pdf')) return '📄';
-    if (fileType.includes('spreadsheet') || fileType.includes('excel') || fileType.includes('csv')) return '📊';
-    if (fileType.includes('word') || fileType.includes('document')) return '📝';
-    return '📎';
+    if (fileType.includes("image")) return "🖼️";
+    if (fileType.includes("pdf")) return "📄";
+    if (
+      fileType.includes("spreadsheet") ||
+      fileType.includes("excel") ||
+      fileType.includes("csv")
+    )
+      return "📊";
+    if (fileType.includes("word") || fileType.includes("document")) return "📝";
+    return "📎";
   };
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -186,8 +191,8 @@ export function DocumentsSection() {
       <Card
         className={`border-2 border-dashed transition-all ${
           isDragging
-            ? 'border-primary bg-primary/5'
-            : 'border-border/50 hover:border-border'
+            ? "border-primary bg-primary/5"
+            : "border-border/50 hover:border-border"
         }`}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
@@ -272,7 +277,7 @@ export function DocumentsSection() {
                         variant="ghost"
                         size="sm"
                         className="h-8 w-8 p-0"
-                        onClick={() => window.open(doc.file_url, '_blank')}
+                        onClick={() => window.open(doc.file_url, "_blank")}
                         title="Download"
                       >
                         <Download className="h-4 w-4" />

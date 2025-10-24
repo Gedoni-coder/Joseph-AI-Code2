@@ -360,7 +360,9 @@ export function InventoryAnalytics({
                   </div>
                   <div className="text-right">
                     <div className="font-medium text-red-600">
-                      {formatCurrency((item.quantity || 0) * (item.unitCost || 0))}
+                      {formatCurrency(
+                        (item.quantity || 0) * (item.unitCost || 0),
+                      )}
                     </div>
                     <div className="text-sm text-gray-600">
                       {item.quantity || 0} {item.unit}
@@ -404,7 +406,9 @@ export function InventoryAnalytics({
                   <div>
                     <span className="font-medium">{audit.location}</span>
                     <div className="text-sm text-gray-600">
-                      {audit.auditDate ? new Date(audit.auditDate).toLocaleDateString() : 'N/A'}
+                      {audit.auditDate
+                        ? new Date(audit.auditDate).toLocaleDateString()
+                        : "N/A"}
                     </div>
                   </div>
                   <div className="text-right">

@@ -39,77 +39,110 @@ interface InternalImpactAnalysisProps {
   onUpdateStatus: (id: string, status: InternalImpact["status"]) => void;
 }
 
-export function InternalImpactAnalysis({ 
-  internalImpacts, 
-  onAddImpact, 
-  onUpdateStatus 
+export function InternalImpactAnalysis({
+  internalImpacts,
+  onAddImpact,
+  onUpdateStatus,
 }: InternalImpactAnalysisProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [areaFilter, setAreaFilter] = useState<string>("all");
   const [severityFilter, setSeverityFilter] = useState<string>("all");
   const [statusFilter, setStatusFilter] = useState<string>("all");
 
-  const filteredImpacts = internalImpacts.filter(impact => {
-    const matchesSearch = impact.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         impact.businessArea.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesArea = areaFilter === "all" || impact.businessArea === areaFilter;
-    const matchesSeverity = severityFilter === "all" || impact.severity === severityFilter;
-    const matchesStatus = statusFilter === "all" || impact.status === statusFilter;
-    
+  const filteredImpacts = internalImpacts.filter((impact) => {
+    const matchesSearch =
+      impact.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      impact.businessArea.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesArea =
+      areaFilter === "all" || impact.businessArea === areaFilter;
+    const matchesSeverity =
+      severityFilter === "all" || impact.severity === severityFilter;
+    const matchesStatus =
+      statusFilter === "all" || impact.status === statusFilter;
+
     return matchesSearch && matchesArea && matchesSeverity && matchesStatus;
   });
 
   const getSeverityColor = (severity: InternalImpact["severity"]) => {
     switch (severity) {
-      case "critical": return "bg-red-100 text-red-800 border-red-200";
-      case "high": return "bg-orange-100 text-orange-800 border-orange-200";
-      case "medium": return "bg-yellow-100 text-yellow-800 border-yellow-200";
-      case "low": return "bg-green-100 text-green-800 border-green-200";
-      default: return "bg-gray-100 text-gray-800 border-gray-200";
+      case "critical":
+        return "bg-red-100 text-red-800 border-red-200";
+      case "high":
+        return "bg-orange-100 text-orange-800 border-orange-200";
+      case "medium":
+        return "bg-yellow-100 text-yellow-800 border-yellow-200";
+      case "low":
+        return "bg-green-100 text-green-800 border-green-200";
+      default:
+        return "bg-gray-100 text-gray-800 border-gray-200";
     }
   };
 
   const getStatusColor = (status: InternalImpact["status"]) => {
     switch (status) {
-      case "identified": return "bg-blue-100 text-blue-800 border-blue-200";
-      case "analyzing": return "bg-yellow-100 text-yellow-800 border-yellow-200";
-      case "mitigating": return "bg-orange-100 text-orange-800 border-orange-200";
-      case "monitored": return "bg-green-100 text-green-800 border-green-200";
-      default: return "bg-gray-100 text-gray-800 border-gray-200";
+      case "identified":
+        return "bg-blue-100 text-blue-800 border-blue-200";
+      case "analyzing":
+        return "bg-yellow-100 text-yellow-800 border-yellow-200";
+      case "mitigating":
+        return "bg-orange-100 text-orange-800 border-orange-200";
+      case "monitored":
+        return "bg-green-100 text-green-800 border-green-200";
+      default:
+        return "bg-gray-100 text-gray-800 border-gray-200";
     }
   };
 
   const getImpactTypeIcon = (type: InternalImpact["impactType"]) => {
     switch (type) {
-      case "revenue": return <TrendingUp className="h-4 w-4" />;
-      case "costs": return <DollarSign className="h-4 w-4" />;
-      case "operations": return <Cog className="h-4 w-4" />;
-      case "strategy": return <Target className="h-4 w-4" />;
-      default: return <Building className="h-4 w-4" />;
+      case "revenue":
+        return <TrendingUp className="h-4 w-4" />;
+      case "costs":
+        return <DollarSign className="h-4 w-4" />;
+      case "operations":
+        return <Cog className="h-4 w-4" />;
+      case "strategy":
+        return <Target className="h-4 w-4" />;
+      default:
+        return <Building className="h-4 w-4" />;
     }
   };
 
   const getStatusIcon = (status: InternalImpact["status"]) => {
     switch (status) {
-      case "identified": return <AlertTriangle className="h-4 w-4" />;
-      case "analyzing": return <Clock className="h-4 w-4" />;
-      case "mitigating": return <Cog className="h-4 w-4" />;
-      case "monitored": return <CheckCircle className="h-4 w-4" />;
-      default: return <Clock className="h-4 w-4" />;
+      case "identified":
+        return <AlertTriangle className="h-4 w-4" />;
+      case "analyzing":
+        return <Clock className="h-4 w-4" />;
+      case "mitigating":
+        return <Cog className="h-4 w-4" />;
+      case "monitored":
+        return <CheckCircle className="h-4 w-4" />;
+      default:
+        return <Clock className="h-4 w-4" />;
     }
   };
 
   const handleViewDetails = (impact: InternalImpact) => {
-    const mitigations = impact.mitigationActions.map(action => `• ${action}`).join('\n');
-    
-    alert(`Internal Impact Analysis: ${impact.businessArea}\n\nEconomic Indicator: ${impact.economicIndicator}\nImpact Type: ${impact.impactType}\nSeverity: ${impact.severity}\n\nDescription: ${impact.description}\n\nQuantified Impact:\n${impact.quantifiedImpact.metric}: ${impact.quantifiedImpact.value} ${impact.quantifiedImpact.unit} (${impact.quantifiedImpact.timeframe})\n\nMitigation Actions:\n${mitigations}\n\nStatus: ${impact.status}\nLast Assessed: ${new Date(impact.lastAssessed).toLocaleDateString()}`);
+    const mitigations = impact.mitigationActions
+      .map((action) => `• ${action}`)
+      .join("\n");
+
+    alert(
+      `Internal Impact Analysis: ${impact.businessArea}\n\nEconomic Indicator: ${impact.economicIndicator}\nImpact Type: ${impact.impactType}\nSeverity: ${impact.severity}\n\nDescription: ${impact.description}\n\nQuantified Impact:\n${impact.quantifiedImpact.metric}: ${impact.quantifiedImpact.value} ${impact.quantifiedImpact.unit} (${impact.quantifiedImpact.timeframe})\n\nMitigation Actions:\n${mitigations}\n\nStatus: ${impact.status}\nLast Assessed: ${new Date(impact.lastAssessed).toLocaleDateString()}`,
+    );
   };
 
   const handleStatusUpdate = (impact: InternalImpact) => {
-    const statuses: InternalImpact["status"][] = ["identified", "analyzing", "mitigating", "monitored"];
+    const statuses: InternalImpact["status"][] = [
+      "identified",
+      "analyzing",
+      "mitigating",
+      "monitored",
+    ];
     const currentIndex = statuses.indexOf(impact.status);
     const nextStatus = statuses[(currentIndex + 1) % statuses.length];
-    
+
     onUpdateStatus(impact.id, nextStatus);
   };
 
@@ -124,24 +157,31 @@ export function InternalImpactAnalysis({
         metric: "Cost Impact",
         value: 50000,
         unit: "USD",
-        timeframe: "Annual"
+        timeframe: "Annual",
       },
       mitigationActions: [
         "Assess current exposure",
         "Develop mitigation strategy",
-        "Implement monitoring system"
+        "Implement monitoring system",
       ],
       status: "identified" as const,
     };
     onAddImpact(newImpact);
   };
 
-  const totalImpactValue = internalImpacts.reduce((sum, impact) => 
-    sum + Math.abs(impact.quantifiedImpact.value), 0
+  const totalImpactValue = internalImpacts.reduce(
+    (sum, impact) => sum + Math.abs(impact.quantifiedImpact.value),
+    0,
   );
-  const criticalImpacts = internalImpacts.filter(i => i.severity === "critical").length;
-  const mitigatingImpacts = internalImpacts.filter(i => i.status === "mitigating").length;
-  const monitoredImpacts = internalImpacts.filter(i => i.status === "monitored").length;
+  const criticalImpacts = internalImpacts.filter(
+    (i) => i.severity === "critical",
+  ).length;
+  const mitigatingImpacts = internalImpacts.filter(
+    (i) => i.status === "mitigating",
+  ).length;
+  const monitoredImpacts = internalImpacts.filter(
+    (i) => i.status === "monitored",
+  ).length;
 
   return (
     <div className="space-y-6">
@@ -159,10 +199,12 @@ export function InternalImpactAnalysis({
             </p>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Critical Issues</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Critical Issues
+            </CardTitle>
             <AlertTriangle className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -172,10 +214,12 @@ export function InternalImpactAnalysis({
             </p>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Being Mitigated</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Being Mitigated
+            </CardTitle>
             <Cog className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -185,7 +229,7 @@ export function InternalImpactAnalysis({
             </p>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Under Control</CardTitle>
@@ -207,12 +251,17 @@ export function InternalImpactAnalysis({
             <div>
               <CardTitle>Internal Business Impact Analysis</CardTitle>
               <CardDescription>
-                Track how external economic factors affect specific business areas
+                Track how external economic factors affect specific business
+                areas
               </CardDescription>
             </div>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button onClick={handleAddNewImpact} size="sm" className="flex items-center gap-2">
+                <Button
+                  onClick={handleAddNewImpact}
+                  size="sm"
+                  className="flex items-center gap-2"
+                >
                   <Plus className="h-4 w-4" />
                   Add Impact
                 </Button>
@@ -241,7 +290,9 @@ export function InternalImpactAnalysis({
                 <SelectItem value="all">All Areas</SelectItem>
                 <SelectItem value="Finance">Finance</SelectItem>
                 <SelectItem value="Operations">Operations</SelectItem>
-                <SelectItem value="International Sales">International Sales</SelectItem>
+                <SelectItem value="International Sales">
+                  International Sales
+                </SelectItem>
                 <SelectItem value="Supply Chain">Supply Chain</SelectItem>
               </SelectContent>
             </Select>
@@ -289,37 +340,52 @@ export function InternalImpactAnalysis({
                           <span className="ml-1">{impact.status}</span>
                         </Badge>
                       </div>
-                      
+
                       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-3">
                         <div>
-                          <p className="text-sm text-muted-foreground">Economic Indicator</p>
-                          <p className="font-medium">{impact.economicIndicator}</p>
+                          <p className="text-sm text-muted-foreground">
+                            Economic Indicator
+                          </p>
+                          <p className="font-medium">
+                            {impact.economicIndicator}
+                          </p>
                         </div>
                         <div>
-                          <p className="text-sm text-muted-foreground">Impact Type</p>
+                          <p className="text-sm text-muted-foreground">
+                            Impact Type
+                          </p>
                           <div className="flex items-center gap-1">
                             {getImpactTypeIcon(impact.impactType)}
-                            <span className="font-medium capitalize">{impact.impactType}</span>
+                            <span className="font-medium capitalize">
+                              {impact.impactType}
+                            </span>
                           </div>
                         </div>
                       </div>
-                      
-                      <p className="text-sm text-muted-foreground mb-3">{impact.description}</p>
-                      
+
+                      <p className="text-sm text-muted-foreground mb-3">
+                        {impact.description}
+                      </p>
+
                       {/* Quantified Impact */}
                       <div className="bg-gray-50 rounded-lg p-3 mb-3">
-                        <p className="text-sm font-medium mb-1">Quantified Impact</p>
+                        <p className="text-sm font-medium mb-1">
+                          Quantified Impact
+                        </p>
                         <div className="flex items-center gap-2">
                           <span className="text-lg font-bold">
-                            {impact.quantifiedImpact.value >= 0 ? '+' : ''}
-                            {impact.quantifiedImpact.value.toLocaleString()} {impact.quantifiedImpact.unit}
+                            {impact.quantifiedImpact.value >= 0 ? "+" : ""}
+                            {impact.quantifiedImpact.value.toLocaleString()}{" "}
+                            {impact.quantifiedImpact.unit}
                           </span>
-                          {impact.impactType === "revenue" && impact.quantifiedImpact.value > 0 && 
-                            <ArrowUpRight className="h-4 w-4 text-green-600" />
-                          }
-                          {impact.impactType === "costs" && impact.quantifiedImpact.value > 0 && 
-                            <ArrowUpRight className="h-4 w-4 text-red-600" />
-                          }
+                          {impact.impactType === "revenue" &&
+                            impact.quantifiedImpact.value > 0 && (
+                              <ArrowUpRight className="h-4 w-4 text-green-600" />
+                            )}
+                          {impact.impactType === "costs" &&
+                            impact.quantifiedImpact.value > 0 && (
+                              <ArrowUpRight className="h-4 w-4 text-red-600" />
+                            )}
                           <span className="text-sm text-muted-foreground">
                             ({impact.quantifiedImpact.timeframe})
                           </span>
@@ -328,30 +394,41 @@ export function InternalImpactAnalysis({
                           {impact.quantifiedImpact.metric}
                         </p>
                       </div>
-                      
+
                       {/* Mitigation Actions */}
                       <div className="mb-3">
-                        <p className="text-sm font-medium mb-2">Mitigation Actions</p>
+                        <p className="text-sm font-medium mb-2">
+                          Mitigation Actions
+                        </p>
                         <ul className="text-sm text-muted-foreground space-y-1">
-                          {impact.mitigationActions.slice(0, 3).map((action, index) => (
-                            <li key={index} className="flex items-start gap-1">
-                              <span>•</span>
-                              <span>{action}</span>
-                            </li>
-                          ))}
+                          {impact.mitigationActions
+                            .slice(0, 3)
+                            .map((action, index) => (
+                              <li
+                                key={index}
+                                className="flex items-start gap-1"
+                              >
+                                <span>•</span>
+                                <span>{action}</span>
+                              </li>
+                            ))}
                           {impact.mitigationActions.length > 3 && (
                             <li className="text-xs">
-                              +{impact.mitigationActions.length - 3} more actions...
+                              +{impact.mitigationActions.length - 3} more
+                              actions...
                             </li>
                           )}
                         </ul>
                       </div>
-                      
+
                       <div className="text-xs text-muted-foreground">
-                        Last assessed: {impact.lastAssessed ? new Date(impact.lastAssessed).toLocaleDateString() : 'N/A'}
+                        Last assessed:{" "}
+                        {impact.lastAssessed
+                          ? new Date(impact.lastAssessed).toLocaleDateString()
+                          : "N/A"}
                       </div>
                     </div>
-                    
+
                     <div className="flex flex-col gap-2 ml-4">
                       <Tooltip>
                         <TooltipTrigger asChild>
@@ -386,7 +463,7 @@ export function InternalImpactAnalysis({
                 </CardContent>
               </Card>
             ))}
-            
+
             {filteredImpacts.length === 0 && (
               <div className="text-center py-8 text-muted-foreground">
                 No internal impacts found matching your criteria.
