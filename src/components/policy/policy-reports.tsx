@@ -242,7 +242,7 @@ export function PolicyReports({
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3">
                         <div>
                           <p className="text-sm text-muted-foreground">Generated</p>
-                          <p className="font-medium">{new Date(report.generatedDate).toLocaleDateString()}</p>
+                          <p className="font-medium">{report.generatedDate ? new Date(report.generatedDate).toLocaleDateString() : 'N/A'}</p>
                         </div>
                         <div>
                           <p className="text-sm text-muted-foreground">Period</p>
