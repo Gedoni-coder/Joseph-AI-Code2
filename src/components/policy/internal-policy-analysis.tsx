@@ -99,7 +99,7 @@ export function InternalPolicyAnalysis({
   };
 
   const handleViewDetails = (policy: InternalPolicy) => {
-    alert(`Policy Details: ${policy.title}\n\nDepartment: ${policy.department}\nType: ${policy.type}\nVersion: ${policy.version}\nApproved by: ${policy.approvedBy}\n\nLast Reviewed: ${new Date(policy.lastReviewed).toLocaleDateString()}\nNext Review: ${new Date(policy.nextReview).toLocaleDateString()}\n\nAlignment Score: ${policy.alignmentScore}%\nImplementation: ${policy.implementationStatus.replace('_', ' ')}`);
+    alert(`Policy Details: ${policy.title}\n\nDepartment: ${policy.department}\nType: ${policy.type}\nVersion: ${policy.version}\nApproved by: ${policy.approvedBy}\n\nLast Reviewed: ${policy.lastReviewed ? new Date(policy.lastReviewed).toLocaleDateString() : 'N/A'}\nNext Review: ${policy.nextReview ? new Date(policy.nextReview).toLocaleDateString() : 'N/A'}\n\nAlignment Score: ${policy.alignmentScore}%\nImplementation: ${policy.implementationStatus.replace('_', ' ')}`);
   };
 
   const handleEditPolicy = (policy: InternalPolicy) => {
