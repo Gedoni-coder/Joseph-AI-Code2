@@ -112,8 +112,10 @@ export function ProcurementTracking({
     return supplier?.name || `Supplier ${supplierId}`;
   };
 
-  const getDaysUntilDelivery = (deliveryDate: string | Date) => {
+  const getDaysUntilDelivery = (deliveryDate: string | Date | undefined) => {
+    if (!deliveryDate) return 0;
     const delivery = new Date(deliveryDate);
+    if (isNaN(delivery.getTime())) return 0;
     const today = new Date();
     const diffTime = delivery.getTime() - today.getTime();
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
