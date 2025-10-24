@@ -70,6 +70,8 @@ export interface ProductionPlan {
   bottlenecks: Bottleneck[];
   efficiency: number;
   costVariance: number;
+  productionLine: string;
+  priority: "low" | "medium" | "high";
 }
 
 export interface MaterialRequirement {
@@ -387,6 +389,8 @@ export const productionPlans: ProductionPlan[] = [
     ],
     efficiency: 85.0,
     costVariance: 8.5,
+    productionLine: "Line A",
+    priority: "high",
   },
 ];
 

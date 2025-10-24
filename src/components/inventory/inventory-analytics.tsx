@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {
   InventoryItem,
   InventoryAudit,
-  TurnoverMetric,
+  TurnoverMetrics,
   DeadStock,
   Location,
 } from "../../lib/inventory-data";
@@ -42,7 +42,7 @@ import {
 interface InventoryAnalyticsProps {
   inventoryItems: InventoryItem[];
   inventoryAudits: InventoryAudit[];
-  turnoverMetrics: TurnoverMetric[];
+  turnoverMetrics: TurnoverMetrics[];
   deadStock: DeadStock[];
   locations: Location[];
 }
@@ -109,14 +109,14 @@ export function InventoryAnalytics({
   });
 
   const totalInventoryValue = filteredItems.reduce(
-    (sum, item) => sum + item.quantity * item.unitCost,
+    (sum, item) => sum + item.currentStock * item.unitCost,
     0,
   );
   const avgTurnoverRatio =
     turnoverMetrics.reduce((sum, tm) => sum + tm.turnoverRatio, 0) /
       turnoverMetrics.length || 0;
   const deadStockValue = deadStock.reduce(
-    (sum, ds) => sum + ds.quantity * ds.unitCost,
+    (sum, ds) => sum + ds.currentValue,
     0,
   );
   const completedAudits = inventoryAudits.filter(
@@ -275,7 +275,7 @@ export function InventoryAnalytics({
                     (tm) => tm.itemId === item.id,
                   );
                   const daysInStock = getDaysInStock(item);
-                  const itemValue = (item.quantity || 0) * (item.unitCost || 0);
+                  const itemValue = (item.currentStock || 0) * (item.unitCost || 0);
 
                   return (
                     <tr key={item.id} className="border-b hover:bg-gray-50">
@@ -289,7 +289,7 @@ export function InventoryAnalytics({
                         <Badge variant="secondary">{item.category}</Badge>
                       </td>
                       <td className="text-right py-3 px-4 font-medium">
-                        {(item.quantity || 0).toLocaleString()} {item.unit}
+                        {(item.currentStock || 0).toLocaleString()} units
                       </td>
                       <td className="text-right py-3 px-4">
                         <span
@@ -355,17 +355,15 @@ export function InventoryAnalytics({
                   <div>
                     <span className="font-medium">{item.itemName}</span>
                     <div className="text-sm text-gray-600">
-                      Last movement: {item.daysSinceLastMovement} days ago
+                      Last movement: {item.daysStagnant} days ago
                     </div>
                   </div>
                   <div className="text-right">
                     <div className="font-medium text-red-600">
-                      {formatCurrency(
-                        (item.quantity || 0) * (item.unitCost || 0),
-                      )}
+                      {formatCurrency(item.currentValue)}
                     </div>
                     <div className="text-sm text-gray-600">
-                      {item.quantity || 0} {item.unit}
+                      {item.quantity} units
                     </div>
                   </div>
                 </div>
@@ -413,9 +411,9 @@ export function InventoryAnalytics({
                   </div>
                   <div className="text-right">
                     <Badge
-                      className={getAccuracyColor(audit.accuracyPercentage)}
+                      className={getAccuracyColor(audit.accuracy)}
                     >
-                      {audit.accuracyPercentage.toFixed(1)}%
+                      {audit.accuracy.toFixed(1)}%
                     </Badge>
                     <div className="text-sm text-gray-600 mt-1">
                       <Badge className={getAuditStatusColor(audit.status)}>
@@ -433,7 +431,7 @@ export function InventoryAnalytics({
                     {(
                       inventoryAudits
                         .filter((a) => a.status === "completed")
-                        .reduce((sum, a) => sum + a.accuracyPercentage, 0) /
+                        .reduce((sum, a) => sum + a.accuracy, 0) /
                       inventoryAudits.filter((a) => a.status === "completed")
                         .length
                     ).toFixed(1)}
@@ -461,7 +459,7 @@ export function InventoryAnalytics({
                 (item) => item.location === location.id,
               );
               const locationValue = locationItems.reduce(
-                (sum, item) => sum + item.quantity * item.unitCost,
+                (sum, item) => sum + item.currentStock * item.unitCost,
                 0,
               );
               const locationTurnover = turnoverMetrics.filter((tm) =>
@@ -524,7 +522,7 @@ export function InventoryAnalytics({
                       <span className="text-gray-600">Capacity:</span>
                       <span className="font-medium">
                         {(
-                          (location.currentCapacity / location.maxCapacity) *
+                          (location.currentUtilization / location.capacity) *
                           100
                         ).toFixed(0)}
                         %
@@ -533,7 +531,7 @@ export function InventoryAnalytics({
 
                     <Progress
                       value={
-                        (location.currentCapacity / location.maxCapacity) * 100
+                        (location.currentUtilization / location.capacity) * 100
                       }
                       className="h-2"
                     />

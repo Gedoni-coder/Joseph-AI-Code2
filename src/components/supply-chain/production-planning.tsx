@@ -477,43 +477,43 @@ export function ProductionPlanning({
                 <div className="flex justify-between items-start mb-3">
                   <div>
                     <h4 className="font-medium text-gray-900">
-                      {operation.location}
+                      {operation.warehouseName}
                     </h4>
                     <p className="text-sm text-gray-600">
-                      {operation.operationType}
+                      Warehouse Operations
                     </p>
                   </div>
-                  <Badge className={getStatusColor(operation.status)}>
-                    {operation.status}
+                  <Badge className="bg-green-100 text-green-800">
+                    Active
                   </Badge>
                 </div>
 
                 <div className="space-y-3">
                   <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">Efficiency:</span>
+                    <span className="text-gray-600">Storage Utilization:</span>
                     <span
-                      className={`font-medium ${getEfficiencyColor(operation.efficiency)}`}
+                      className={`font-medium ${getEfficiencyColor(operation.efficiency.storageUtilization)}`}
                     >
-                      {operation.efficiency}%
+                      {operation.efficiency.storageUtilization}%
                     </span>
                   </div>
 
                   <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">Quantity:</span>
+                    <span className="text-gray-600">Total Area:</span>
                     <span className="font-medium">
-                      {operation.quantity.toLocaleString()}
+                      {operation.layout.totalArea.toLocaleString()} sq ft
                     </span>
                   </div>
 
                   <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">Duration:</span>
+                    <span className="text-gray-600">Staff:</span>
                     <span className="font-medium">
-                      {operation.duration} min
+                      {operation.staffing.totalStaff} employees
                     </span>
                   </div>
 
                   <div>
-                    <Progress value={operation.efficiency} className="h-2" />
+                    <Progress value={operation.efficiency.storageUtilization} className="h-2" />
                   </div>
                 </div>
               </div>

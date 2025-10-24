@@ -1,56 +1,23 @@
-# Debug Economic Forecasting Page TODO
+# Fix Production Planning and Inventory Analytics Display Issues
 
-## Overview
-Debug and fix issues with the economic forecasting page (Index.tsx) where the MetricsDashboard component is not displaying data properly.
+## Information Gathered
+- Production Planning component references non-existent properties: `plan.productionLine`, `plan.priority`, `operation.location`, `operation.operationType`, `operation.quantity`, `operation.duration`
+- Inventory Analytics component uses incorrect property names: `item.quantity` instead of `item.currentStock`, `item.unit` instead of proper cost references, `ds.unitCost` instead of `ds.currentValue`, `audit.accuracyPercentage` instead of `audit.accuracy`
+- WarehouseOperation interface lacks properties expected by Production Planning component
 
-## Current Status
-- MetricsDashboard component exists and is used in Index.tsx
-- Backend API endpoints are configured but database lacks sample data for metrics, forecasts, and events
-- Frontend hook has parameter mismatch issues
-- No error handling for empty data scenarios
+## Plan
+1. Update ProductionPlan interface in src/lib/supply-chain-data.ts to add missing properties
+2. Update productionPlans mock data to include new properties
+3. Fix Production Planning component to use correct WarehouseOperation properties
+4. Fix Inventory Analytics component property references
+5. Test the fixes by checking the tabs display properly
 
-## TODO Items
+## Dependent Files to Edit
+- src/lib/supply-chain-data.ts (interface and mock data updates)
+- src/components/supply-chain/production-planning.tsx (property fixes)
+- src/components/inventory/inventory-analytics.tsx (property fixes)
 
-### 1. Create Sample Data Population Command
-- [ ] Create Django management command `populate_sample_data.py`
-- [ ] Add sample EconomicMetric data for all contexts (local, national, state, international)
-- [ ] Add sample EconomicForecast data
-- [ ] Add sample EconomicEvent data
-- [ ] Test command execution
-
-### 2. Fix useEconomicData Hook
-- [ ] Update refreshData function to accept optional context parameter
-- [ ] Add better error handling for API failures
-- [ ] Improve loading states and data validation
-
-### 3. Fix Index.tsx Refresh Call
-- [ ] Remove context parameter from refreshData call in Index.tsx
-- [ ] Add proper error handling for data refresh
-
-### 4. Test API Endpoints
-- [ ] Start Django backend server
-- [ ] Test /api/economic/metrics/ endpoint returns data
-- [ ] Test /api/economic/forecasts/ endpoint
-- [ ] Test /api/economic/events/ endpoint
-- [ ] Verify data grouping by context works
-
-### 5. Frontend Testing
-- [ ] Test MetricsDashboard renders with sample data
-- [ ] Verify context switching functionality
-- [ ] Test auto-scroll and manual navigation
-- [ ] Check error states and loading indicators
-
-### 6. Integration Testing
-- [ ] End-to-end test of data flow from backend to frontend
-- [ ] Test real-time updates and streaming simulation
-- [ ] Verify responsive design and mobile compatibility
-
-## Dependencies
-- Django backend with economic_forecast app
-- React frontend with economic components
-- Database with proper migrations applied
-
-## Notes
-- Backend news scraping is already working
-- Frontend UI components are implemented
-- Focus on data population and API integration fixes
+## Followup Steps
+- Verify Production Planning tab displays without errors
+- Verify Inventory Analytics tab displays without errors
+- Test navigation between tabs
