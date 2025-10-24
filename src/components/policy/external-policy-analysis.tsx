@@ -35,55 +35,73 @@ interface ExternalPolicyAnalysisProps {
   onUpdatePolicy: (id: string, updates: Partial<ExternalPolicy>) => void;
 }
 
-export function ExternalPolicyAnalysis({ 
-  externalPolicies, 
-  onAddPolicy, 
-  onUpdatePolicy 
+export function ExternalPolicyAnalysis({
+  externalPolicies,
+  onAddPolicy,
+  onUpdatePolicy,
 }: ExternalPolicyAnalysisProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [typeFilter, setTypeFilter] = useState<string>("all");
   const [statusFilter, setStatusFilter] = useState<string>("all");
 
-  const filteredPolicies = externalPolicies.filter(policy => {
-    const matchesSearch = policy.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         policy.summary.toLowerCase().includes(searchTerm.toLowerCase());
+  const filteredPolicies = externalPolicies.filter((policy) => {
+    const matchesSearch =
+      policy.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      policy.summary.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesType = typeFilter === "all" || policy.type === typeFilter;
-    const matchesStatus = statusFilter === "all" || policy.status === statusFilter;
-    
+    const matchesStatus =
+      statusFilter === "all" || policy.status === statusFilter;
+
     return matchesSearch && matchesType && matchesStatus;
   });
 
   const getStatusColor = (status: ExternalPolicy["status"]) => {
     switch (status) {
-      case "active": return "bg-green-100 text-green-800 border-green-200";
-      case "pending": return "bg-yellow-100 text-yellow-800 border-yellow-200";
-      case "draft": return "bg-blue-100 text-blue-800 border-blue-200";
-      case "expired": return "bg-gray-100 text-gray-800 border-gray-200";
-      default: return "bg-gray-100 text-gray-800 border-gray-200";
+      case "active":
+        return "bg-green-100 text-green-800 border-green-200";
+      case "pending":
+        return "bg-yellow-100 text-yellow-800 border-yellow-200";
+      case "draft":
+        return "bg-blue-100 text-blue-800 border-blue-200";
+      case "expired":
+        return "bg-gray-100 text-gray-800 border-gray-200";
+      default:
+        return "bg-gray-100 text-gray-800 border-gray-200";
     }
   };
 
   const getImpactColor = (impact: ExternalPolicy["impact"]) => {
     switch (impact) {
-      case "high": return "bg-red-100 text-red-800 border-red-200";
-      case "medium": return "bg-orange-100 text-orange-800 border-orange-200";
-      case "low": return "bg-green-100 text-green-800 border-green-200";
-      default: return "bg-gray-100 text-gray-800 border-gray-200";
+      case "high":
+        return "bg-red-100 text-red-800 border-red-200";
+      case "medium":
+        return "bg-orange-100 text-orange-800 border-orange-200";
+      case "low":
+        return "bg-green-100 text-green-800 border-green-200";
+      default:
+        return "bg-gray-100 text-gray-800 border-gray-200";
     }
   };
 
   const getTypeIcon = (type: ExternalPolicy["type"]) => {
     switch (type) {
-      case "government": return <Building2 className="h-4 w-4" />;
-      case "international": return <Globe className="h-4 w-4" />;
-      case "trade": return <FileText className="h-4 w-4" />;
-      case "regulatory": return <AlertTriangle className="h-4 w-4" />;
-      default: return <FileText className="h-4 w-4" />;
+      case "government":
+        return <Building2 className="h-4 w-4" />;
+      case "international":
+        return <Globe className="h-4 w-4" />;
+      case "trade":
+        return <FileText className="h-4 w-4" />;
+      case "regulatory":
+        return <AlertTriangle className="h-4 w-4" />;
+      default:
+        return <FileText className="h-4 w-4" />;
     }
   };
 
   const handleViewDetails = (policy: ExternalPolicy) => {
-    alert(`Viewing details for: ${policy.title}\n\nJurisdiction: ${policy.jurisdiction}\nEffective Date: ${policy.effectiveDate}\nImpact: ${policy.impact}\n\nSummary: ${policy.summary}\n\nBusiness Areas Affected:\n${policy.businessAreas.join(', ')}`);
+    alert(
+      `Viewing details for: ${policy.title}\n\nJurisdiction: ${policy.jurisdiction}\nEffective Date: ${policy.effectiveDate}\nImpact: ${policy.impact}\n\nSummary: ${policy.summary}\n\nBusiness Areas Affected:\n${policy.businessAreas.join(", ")}`,
+    );
   };
 
   const handleAddNewPolicy = () => {
@@ -91,7 +109,7 @@ export function ExternalPolicyAnalysis({
       title: "New External Policy",
       type: "government" as const,
       status: "draft" as const,
-      effectiveDate: new Date().toISOString().split('T')[0],
+      effectiveDate: new Date().toISOString().split("T")[0],
       jurisdiction: "Federal",
       summary: "New policy requiring analysis and implementation planning.",
       impact: "medium" as const,
@@ -100,9 +118,13 @@ export function ExternalPolicyAnalysis({
     onAddPolicy(newPolicy);
   };
 
-  const activePolicies = externalPolicies.filter(p => p.status === "active");
-  const pendingPolicies = externalPolicies.filter(p => p.status === "pending");
-  const highImpactPolicies = externalPolicies.filter(p => p.impact === "high");
+  const activePolicies = externalPolicies.filter((p) => p.status === "active");
+  const pendingPolicies = externalPolicies.filter(
+    (p) => p.status === "pending",
+  );
+  const highImpactPolicies = externalPolicies.filter(
+    (p) => p.impact === "high",
+  );
 
   return (
     <div className="space-y-6">
@@ -110,7 +132,9 @@ export function ExternalPolicyAnalysis({
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Policies</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Total Policies
+            </CardTitle>
             <FileText className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -120,23 +144,25 @@ export function ExternalPolicyAnalysis({
             </p>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Policies</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Active Policies
+            </CardTitle>
             <Building2 className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{activePolicies.length}</div>
-            <p className="text-xs text-muted-foreground">
-              Currently in effect
-            </p>
+            <p className="text-xs text-muted-foreground">Currently in effect</p>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Pending Review</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Pending Review
+            </CardTitle>
             <Calendar className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -146,14 +172,16 @@ export function ExternalPolicyAnalysis({
             </p>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">High Impact</CardTitle>
             <AlertTriangle className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{highImpactPolicies.length}</div>
+            <div className="text-2xl font-bold">
+              {highImpactPolicies.length}
+            </div>
             <p className="text-xs text-muted-foreground">
               Requiring immediate attention
             </p>
@@ -168,12 +196,17 @@ export function ExternalPolicyAnalysis({
             <div>
               <CardTitle>External Policy Tracker</CardTitle>
               <CardDescription>
-                Monitor government regulations, international policies, and trade agreements
+                Monitor government regulations, international policies, and
+                trade agreements
               </CardDescription>
             </div>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button onClick={handleAddNewPolicy} size="sm" className="flex items-center gap-2">
+                <Button
+                  onClick={handleAddNewPolicy}
+                  size="sm"
+                  className="flex items-center gap-2"
+                >
                   <Plus className="h-4 w-4" />
                   Add Policy
                 </Button>
@@ -232,42 +265,63 @@ export function ExternalPolicyAnalysis({
                         {getTypeIcon(policy.type)}
                         <h3 className="font-semibold">{policy.title}</h3>
                         <Badge className={getStatusColor(policy.status)}>
-                          {policy.status.replace('_', ' ')}
+                          {policy.status.replace("_", " ")}
                         </Badge>
                         <Badge className={getImpactColor(policy.impact)}>
                           {policy.impact} impact
                         </Badge>
                       </div>
-                      
+
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
                         <div>
-                          <p className="text-sm text-muted-foreground">Jurisdiction</p>
+                          <p className="text-sm text-muted-foreground">
+                            Jurisdiction
+                          </p>
                           <p className="font-medium">{policy.jurisdiction}</p>
                         </div>
                         <div>
-                          <p className="text-sm text-muted-foreground">Effective Date</p>
-                          <p className="font-medium">{new Date(policy.effectiveDate).toLocaleDateString()}</p>
+                          <p className="text-sm text-muted-foreground">
+                            Effective Date
+                          </p>
+                          <p className="font-medium">
+                            {policy.effectiveDate
+                              ? new Date(
+                                  policy.effectiveDate,
+                                ).toLocaleDateString()
+                              : "N/A"}
+                          </p>
                         </div>
                       </div>
-                      
-                      <p className="text-sm text-muted-foreground mb-3">{policy.summary}</p>
-                      
+
+                      <p className="text-sm text-muted-foreground mb-3">
+                        {policy.summary}
+                      </p>
+
                       <div className="flex flex-wrap gap-1 mb-3">
                         {policy.businessAreas.map((area) => (
-                          <Badge key={area} variant="outline" className="text-xs">
+                          <Badge
+                            key={area}
+                            variant="outline"
+                            className="text-xs"
+                          >
                             {area}
                           </Badge>
                         ))}
                       </div>
-                      
+
                       {policy.complianceDeadline && (
                         <div className="flex items-center gap-2 text-sm text-orange-600">
                           <Calendar className="h-4 w-4" />
-                          <span>Compliance deadline: {new Date(policy.complianceDeadline).toLocaleDateString()}</span>
+                          <span>
+                            Compliance deadline:{" "}
+                            {new Date(
+                              policy.complianceDeadline,
+                            ).toLocaleDateString()}
+                          </span>
                         </div>
                       )}
                     </div>
-                    
+
                     <div className="flex flex-col gap-2 ml-4">
                       <Tooltip>
                         <TooltipTrigger asChild>
@@ -288,7 +342,7 @@ export function ExternalPolicyAnalysis({
                 </CardContent>
               </Card>
             ))}
-            
+
             {filteredPolicies.length === 0 && (
               <div className="text-center py-8 text-muted-foreground">
                 No policies found matching your criteria.

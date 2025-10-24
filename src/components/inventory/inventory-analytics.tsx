@@ -275,7 +275,7 @@ export function InventoryAnalytics({
                     (tm) => tm.itemId === item.id,
                   );
                   const daysInStock = getDaysInStock(item);
-                  const itemValue = item.quantity * item.unitCost;
+                  const itemValue = (item.quantity || 0) * (item.unitCost || 0);
 
                   return (
                     <tr key={item.id} className="border-b hover:bg-gray-50">
@@ -289,7 +289,7 @@ export function InventoryAnalytics({
                         <Badge variant="secondary">{item.category}</Badge>
                       </td>
                       <td className="text-right py-3 px-4 font-medium">
-                        {item.quantity.toLocaleString()} {item.unit}
+                        {(item.quantity || 0).toLocaleString()} {item.unit}
                       </td>
                       <td className="text-right py-3 px-4">
                         <span
@@ -360,10 +360,12 @@ export function InventoryAnalytics({
                   </div>
                   <div className="text-right">
                     <div className="font-medium text-red-600">
-                      {formatCurrency(item.quantity * item.unitCost)}
+                      {formatCurrency(
+                        (item.quantity || 0) * (item.unitCost || 0),
+                      )}
                     </div>
                     <div className="text-sm text-gray-600">
-                      {item.quantity} {item.unit}
+                      {item.quantity || 0} {item.unit}
                     </div>
                   </div>
                 </div>
@@ -404,7 +406,9 @@ export function InventoryAnalytics({
                   <div>
                     <span className="font-medium">{audit.location}</span>
                     <div className="text-sm text-gray-600">
-                      {new Date(audit.auditDate).toLocaleDateString()}
+                      {audit.auditDate
+                        ? new Date(audit.auditDate).toLocaleDateString()
+                        : "N/A"}
                     </div>
                   </div>
                   <div className="text-right">

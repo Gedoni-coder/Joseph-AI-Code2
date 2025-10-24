@@ -6,6 +6,7 @@ from .views import (
     CashFlowForecastViewSet,
     KPIViewSet,
     ScenarioPlanningViewSet,
+    DocumentViewSet,
 )
 
 router = DefaultRouter()
@@ -15,5 +16,6 @@ router.register(r'cost-structures', CostStructureViewSet)
 router.register(r'cash-flow-forecasts', CashFlowForecastViewSet)
 router.register(r'kpis', KPIViewSet)
 router.register(r'scenario-plannings', ScenarioPlanningViewSet)
+router.register(r'documents', DocumentViewSet)
 
 urlpatterns = router.urls

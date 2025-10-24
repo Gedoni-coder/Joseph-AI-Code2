@@ -487,14 +487,22 @@ export function SupplyChainAnalytics({
                   <div className="text-sm">
                     <span className="text-gray-600">Last Audit:</span>
                     <span className="ml-2 font-medium">
-                      {new Date(compliance.lastAuditDate).toLocaleDateString()}
+                      {compliance.lastAuditDate
+                        ? new Date(
+                            compliance.lastAuditDate,
+                          ).toLocaleDateString()
+                        : "N/A"}
                     </span>
                   </div>
 
                   <div className="text-sm">
                     <span className="text-gray-600">Next Review:</span>
                     <span className="ml-2 font-medium">
-                      {new Date(compliance.nextReviewDate).toLocaleDateString()}
+                      {compliance.nextReviewDate
+                        ? new Date(
+                            compliance.nextReviewDate,
+                          ).toLocaleDateString()
+                        : "N/A"}
                     </span>
                   </div>
 

@@ -1,19 +1,141 @@
 import google.generativeai as genai
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.conf import settings
-from .models import ChatMessage, ModuleContext, EconomicTool
+from .models import ChatMessage, ModuleContext, EconomicTool, ModuleConversation, ModuleConversationMessage
 from .serializers import (
     ChatMessageSerializer,
     ModuleContextSerializer,
     EconomicToolSerializer,
+    ModuleConversationSerializer,
+    ModuleConversationMessageSerializer,
 )
 from .agent import agent
 
 # Configure Gemini API
 genai.configure(api_key=settings.GEMINI_API_KEY)
 model = genai.GenerativeModel('gemini-pro')
+
+class ModuleConversationViewSet(viewsets.ModelViewSet):
+    queryset = ModuleConversation.objects.all()
+    serializer_class = ModuleConversationSerializer
+
+    def get_queryset(self):
+        module = self.request.query_params.get('module')
+        queryset = ModuleConversation.objects.all()
+        if module:
+            queryset = queryset.filter(module=module)
+        return queryset
+
+    def create(self, request, *args, **kwargs):
+        module = request.data.get('module')
+        title = request.data.get('title')
+
+        conversation = ModuleConversation.objects.create(
+            module=module,
+            title=title,
+            user=request.user if request.user.is_authenticated else None
+        )
+
+        serializer = self.get_serializer(conversation)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+class ModuleConversationMessageViewSet(viewsets.ModelViewSet):
+    queryset = ModuleConversationMessage.objects.all()
+    serializer_class = ModuleConversationMessageSerializer
+
+    def get_queryset(self):
+        conversation_id = self.request.query_params.get('conversation')
+        queryset = ModuleConversationMessage.objects.all()
+        if conversation_id:
+            queryset = queryset.filter(conversation_id=conversation_id)
+        return queryset
+
+    def create(self, request, *args, **kwargs):
+        conversation_id = request.data.get('conversation')
+        message_type = request.data.get('type')
+        content = request.data.get('content')
+
+        try:
+            conversation = ModuleConversation.objects.get(id=conversation_id)
+        except ModuleConversation.DoesNotExist:
+            return Response({'error': 'Conversation not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        message = ModuleConversationMessage.objects.create(
+            conversation=conversation,
+            type=message_type,
+            content=content
+        )
+
+        conversation.title = conversation.title or f"{conversation.module} Chat"
+        conversation.save()
+
+        serializer = self.get_serializer(message)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+@api_view(['POST'])
+def module_chat(request):
+    """Handle chat messages for module-specific conversations"""
+    conversation_id = request.data.get('conversation')
+    content = request.data.get('content')
+    module = request.data.get('module')
+
+    if not all([conversation_id, content, module]):
+        return Response({'error': 'Missing required fields'}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        conversation = ModuleConversation.objects.get(id=conversation_id)
+    except ModuleConversation.DoesNotExist:
+        return Response({'error': 'Conversation not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    user_message = ModuleConversationMessage.objects.create(
+        conversation=conversation,
+        type='user',
+        content=content
+    )
+
+    try:
+        history = list(conversation.messages.all().exclude(id=user_message.id).values_list('type', 'content'))
+        system_prompt = get_module_system_prompt(module)
+
+        try:
+            response = model.generate_content(
+                f"{system_prompt}\n\nUser message: {content}",
+                generation_config=genai.types.GenerationConfig(temperature=0.7)
+            )
+            assistant_content = response.text if response else "Unable to generate response"
+        except Exception:
+            assistant_content = f"I'm a {module.replace('_', ' ')} assistant. How can I help you today?"
+
+        assistant_message = ModuleConversationMessage.objects.create(
+            conversation=conversation,
+            type='assistant',
+            content=assistant_content
+        )
+
+        return Response({
+            'user_message': ModuleConversationMessageSerializer(user_message).data,
+            'assistant_message': ModuleConversationMessageSerializer(assistant_message).data,
+        })
+    except Exception as e:
+        assistant_message = ModuleConversationMessage.objects.create(
+            conversation=conversation,
+            type='assistant',
+            content=f"I'm a {module.replace('_', ' ')} assistant. I'm here to help with your questions about {module.replace('_', ' ').lower()}."
+        )
+        return Response({
+            'user_message': ModuleConversationMessageSerializer(user_message).data,
+            'assistant_message': ModuleConversationMessageSerializer(assistant_message).data,
+        })
+
+def get_module_system_prompt(module):
+    prompts = {
+        'market_analysis': 'You are a market analysis expert. Provide insights about market trends, competitive landscape, and market opportunities.',
+        'pricing_strategy': 'You are a pricing strategy expert. Help with pricing models, competitor analysis, and price optimization strategies.',
+        'revenue_strategy': 'You are a revenue strategy expert. Provide guidance on revenue optimization, growth strategies, and business metrics.',
+    }
+    return prompts.get(module, 'You are a business assistant.')
 
 class ChatMessageViewSet(viewsets.ModelViewSet):
     queryset = ChatMessage.objects.all()

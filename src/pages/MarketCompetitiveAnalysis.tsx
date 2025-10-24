@@ -17,6 +17,7 @@ import { MarketAnalysis } from "@/components/market/market-analysis";
 import { ReportNotes } from "@/components/market/report-notes";
 import { CompetitiveAnalysis } from "@/components/competitive/competitive-analysis";
 import { CompetitiveStrategy } from "@/components/competitive/competitive-strategy";
+import { ModuleConversation } from "@/components/conversation/module-conversation";
 import {
   BarChart3,
   TrendingUp,
@@ -115,7 +116,7 @@ export default function MarketCompetitiveAnalysis() {
           onValueChange={setActiveTab}
           className="space-y-6"
         >
-          <TabsList className="grid w-full grid-cols-5 bg-white border">
+          <TabsList className="grid w-full grid-cols-6 bg-white border">
             <TabsTrigger
               value="overview"
               className="data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700"
@@ -145,6 +146,12 @@ export default function MarketCompetitiveAnalysis() {
               className="data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700"
             >
               Report Notes
+            </TabsTrigger>
+            <TabsTrigger
+              value="conversation"
+              className="data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700"
+            >
+              JOSEPH
             </TabsTrigger>
           </TabsList>
 
@@ -329,6 +336,10 @@ export default function MarketCompetitiveAnalysis() {
 
           <TabsContent value="reports">
             <ReportNotes reportNotes={reportNotes} />
+          </TabsContent>
+
+          <TabsContent value="conversation" className="h-[600px]">
+            <ModuleConversation module="market_analysis" moduleTitle="Market Analysis" />
           </TabsContent>
         </Tabs>
       </div>

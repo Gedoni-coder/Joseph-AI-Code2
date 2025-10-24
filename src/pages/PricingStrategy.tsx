@@ -16,6 +16,7 @@ import { PricingStrategies } from "@/components/pricing/pricing-strategies";
 import { CompetitiveAnalysis } from "@/components/pricing/competitive-analysis";
 import { PriceTesting } from "@/components/pricing/price-testing";
 import { DynamicPricingComponent } from "@/components/pricing/dynamic-pricing";
+import { ModuleConversation } from "@/components/conversation/module-conversation";
 import {
   DollarSign,
   Target,
@@ -84,7 +85,7 @@ export default function PricingStrategy() {
           onValueChange={setActiveTab}
           className="space-y-6"
         >
-          <TabsList className="grid w-full grid-cols-5 bg-white border">
+          <TabsList className="grid w-full grid-cols-6 bg-white border">
             <TabsTrigger
               value="overview"
               className="data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700"
@@ -114,6 +115,12 @@ export default function PricingStrategy() {
               className="data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700"
             >
               Dynamic
+            </TabsTrigger>
+            <TabsTrigger
+              value="conversation"
+              className="data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700"
+            >
+              JOSEPH
             </TabsTrigger>
           </TabsList>
 
@@ -244,6 +251,10 @@ export default function PricingStrategy() {
 
           <TabsContent value="dynamic">
             <DynamicPricingComponent dynamicPrices={dynamicPrices} />
+          </TabsContent>
+
+          <TabsContent value="conversation" className="h-[600px]">
+            <ModuleConversation module="pricing_strategy" moduleTitle="Pricing Strategy" />
           </TabsContent>
         </Tabs>
       </div>

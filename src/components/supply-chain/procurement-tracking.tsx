@@ -112,8 +112,10 @@ export function ProcurementTracking({
     return supplier?.name || `Supplier ${supplierId}`;
   };
 
-  const getDaysUntilDelivery = (deliveryDate: string | Date) => {
+  const getDaysUntilDelivery = (deliveryDate: string | Date | undefined) => {
+    if (!deliveryDate) return 0;
     const delivery = new Date(deliveryDate);
+    if (isNaN(delivery.getTime())) return 0;
     const today = new Date();
     const diffTime = delivery.getTime() - today.getTime();
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
@@ -140,7 +142,7 @@ export function ProcurementTracking({
     const order = filteredOrders.find((o) => o.id === orderId);
     if (order) {
       alert(
-        `Order Details - ${orderId}:\n\nSupplier: ${getSupplierName(order.supplierId)}\nStatus: ${order.status}\nTotal Value: ${formatCurrency(order.totalValue || 0)}\nExpected Delivery: ${new Date(order.expectedDelivery).toLocaleDateString()}\nItems: ${order.items?.length || 0} items`,
+        `Order Details - ${orderId}:\n\nSupplier: ${getSupplierName(order.supplierId)}\nStatus: ${order.status}\nTotal Value: ${formatCurrency(order.totalValue || 0)}\nExpected Delivery: ${order.expectedDelivery ? new Date(order.expectedDelivery).toLocaleDateString() : "N/A"}\nItems: ${order.items?.length || 0} items`,
       );
     }
   };
@@ -366,9 +368,11 @@ export function ProcurementTracking({
                             }`}
                           >
                             <div className="font-medium">
-                              {new Date(
-                                order.expectedDelivery,
-                              ).toLocaleDateString()}
+                              {order.expectedDelivery
+                                ? new Date(
+                                    order.expectedDelivery,
+                                  ).toLocaleDateString()
+                                : "N/A"}
                             </div>
                             <div className="text-xs">
                               {isOverdue ? (

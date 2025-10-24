@@ -334,10 +334,15 @@ export function ProductionPlanning({
                       <td className="text-center py-3 px-4">
                         <div className="text-sm">
                           <div className="font-medium">
-                            {new Date(plan.startDate).toLocaleDateString()}
+                            {plan.startDate
+                              ? new Date(plan.startDate).toLocaleDateString()
+                              : "N/A"}
                           </div>
                           <div className="text-gray-600">
-                            to {new Date(plan.endDate).toLocaleDateString()}
+                            to{" "}
+                            {plan.endDate
+                              ? new Date(plan.endDate).toLocaleDateString()
+                              : "N/A"}
                           </div>
                         </div>
                       </td>

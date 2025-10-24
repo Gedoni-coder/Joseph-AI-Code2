@@ -17,6 +17,7 @@ import { RevenueStreams } from "@/components/revenue/revenue-streams";
 import { RevenueForecasting } from "@/components/revenue/revenue-forecasting";
 import { ChurnAnalysisComponent } from "@/components/revenue/churn-analysis";
 import { UpsellOpportunities } from "@/components/revenue/upsell-opportunities";
+import { ModuleConversation } from "@/components/conversation/module-conversation";
 import {
   DollarSign,
   TrendingUp,
@@ -89,7 +90,7 @@ export default function RevenueStrategy() {
           onValueChange={setActiveTab}
           className="space-y-6"
         >
-          <TabsList className="grid w-full grid-cols-5 bg-white border">
+          <TabsList className="grid w-full grid-cols-6 bg-white border">
             <TabsTrigger
               value="overview"
               className="data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700"
@@ -119,6 +120,12 @@ export default function RevenueStrategy() {
               className="data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700"
             >
               Upsell
+            </TabsTrigger>
+            <TabsTrigger
+              value="conversation"
+              className="data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700"
+            >
+              JOSEPH
             </TabsTrigger>
           </TabsList>
 
@@ -320,6 +327,10 @@ export default function RevenueStrategy() {
 
           <TabsContent value="upsell">
             <UpsellOpportunities upsells={upsells} />
+          </TabsContent>
+
+          <TabsContent value="conversation" className="h-[600px]">
+            <ModuleConversation module="revenue_strategy" moduleTitle="Revenue Strategy" />
           </TabsContent>
         </Tabs>
       </div>

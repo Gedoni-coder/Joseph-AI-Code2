@@ -16,6 +16,7 @@ import { KPIDashboard } from "@/components/business/kpi-dashboard";
 import { ScenarioPlanningComponent } from "@/components/business/scenario-planning";
 import { BusinessMetricsTable } from "@/components/business/business-metrics-table";
 import { FinancialLayout } from "@/components/business/financial-layout";
+import { DocumentsSection } from "@/components/business/documents-section";
 import {
   costStructure as mockCosts,
   cashFlowForecast as mockCashFlow,
@@ -146,13 +147,14 @@ const BusinessForecast = () => {
         {/* Main Content Tabs */}
         <Tabs defaultValue="overview" className="space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <TabsList className="grid grid-cols-6 w-full sm:w-auto">
+            <TabsList className="grid grid-cols-7 w-full sm:w-auto">
               <TabsTrigger value="overview">Overview</TabsTrigger>
               <TabsTrigger value="tables">Tables</TabsTrigger>
               <TabsTrigger value="revenue">Revenue</TabsTrigger>
               <TabsTrigger value="costs">Costs</TabsTrigger>
               <TabsTrigger value="planning">Planning</TabsTrigger>
               <TabsTrigger value="analytics">Analytics</TabsTrigger>
+              <TabsTrigger value="documents">Documents</TabsTrigger>
             </TabsList>
 
             <div className="flex items-center gap-2">
@@ -561,6 +563,12 @@ const BusinessForecast = () => {
                   </div>
                 </CardContent>
               </Card>
+            </section>
+          </TabsContent>
+
+          <TabsContent value="documents" className="space-y-8">
+            <section>
+              <DocumentsSection />
             </section>
           </TabsContent>
         </Tabs>
