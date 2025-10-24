@@ -436,7 +436,9 @@ export function RiskAssessmentComponent({
                     </div>
                     <div className="mt-3 text-xs text-gray-500">
                       Last reviewed:{" "}
-                      {new Date(risk.lastReviewed).toLocaleDateString()}
+                      {risk.lastReviewed
+                        ? new Date(risk.lastReviewed).toLocaleDateString()
+                        : 'N/A'}
                     </div>
                   </div>
                 ))}
