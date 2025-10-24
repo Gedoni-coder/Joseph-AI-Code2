@@ -190,7 +190,7 @@ export function EconomicTable({
                             <span>Source: {item.source}</span>
                             <span>Category: {item.category}</span>
                           </div>
-                          <span>{new Date(item.timestamp).toLocaleDateString()}</span>
+                          <span>{item.timestamp ? new Date(item.timestamp).toLocaleDateString() : 'N/A'}</span>
                         </div>
                       </div>
                     </TableCell>
