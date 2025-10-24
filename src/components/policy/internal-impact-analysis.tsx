@@ -348,7 +348,7 @@ export function InternalImpactAnalysis({
                       </div>
                       
                       <div className="text-xs text-muted-foreground">
-                        Last assessed: {new Date(impact.lastAssessed).toLocaleDateString()}
+                        Last assessed: {impact.lastAssessed ? new Date(impact.lastAssessed).toLocaleDateString() : 'N/A'}
                       </div>
                     </div>
                     
