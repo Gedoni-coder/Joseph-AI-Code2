@@ -28,14 +28,25 @@ export function DocumentsSection() {
   const fetchDocuments = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch('/api/business/documents/');
+      const response = await fetch('/api/business/documents/', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
       if (response.ok) {
         const data = await response.json();
-        setDocuments(data.results || data);
+        setDocuments(Array.isArray(data) ? data : (data.results || []));
+      } else if (response.status === 404) {
+        // API endpoint doesn't exist yet, set empty array
+        setDocuments([]);
+      } else {
+        console.error('Failed to fetch documents:', response.statusText);
       }
     } catch (error) {
       console.error('Error fetching documents:', error);
-      toast.error('Failed to load documents');
+      // Don't show error toast for development - just log
+      setDocuments([]);
     } finally {
       setIsLoading(false);
     }
