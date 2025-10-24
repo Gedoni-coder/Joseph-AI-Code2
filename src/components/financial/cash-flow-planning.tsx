@@ -350,7 +350,9 @@ export function CashFlowPlanning({
               {cashFlowProjections.slice(0, 3).map((projection) => (
                 <div key={projection.id} className="space-y-3">
                   <h4 className="font-medium text-gray-900">
-                    {new Date(projection.date).toLocaleDateString()}
+                    {projection.date
+                      ? new Date(projection.date).toLocaleDateString()
+                      : 'N/A'}
                   </h4>
                   <div className="space-y-2">
                     <div className="flex justify-between items-center">
@@ -394,7 +396,9 @@ export function CashFlowPlanning({
               {cashFlowProjections.slice(0, 3).map((projection) => (
                 <div key={projection.id} className="space-y-3">
                   <h4 className="font-medium text-gray-900">
-                    {new Date(projection.date).toLocaleDateString()}
+                    {projection.date
+                      ? new Date(projection.date).toLocaleDateString()
+                      : 'N/A'}
                   </h4>
                   <div className="space-y-2">
                     <div className="flex justify-between items-center">
