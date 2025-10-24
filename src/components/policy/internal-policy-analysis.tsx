@@ -292,11 +292,11 @@ export function InternalPolicyAnalysis({
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                         <div>
                           <p className="text-muted-foreground">Last Reviewed</p>
-                          <p className="font-medium">{new Date(policy.lastReviewed).toLocaleDateString()}</p>
+                          <p className="font-medium">{policy.lastReviewed ? new Date(policy.lastReviewed).toLocaleDateString() : 'N/A'}</p>
                         </div>
                         <div>
                           <p className="text-muted-foreground">Next Review</p>
-                          <p className="font-medium">{new Date(policy.nextReview).toLocaleDateString()}</p>
+                          <p className="font-medium">{policy.nextReview ? new Date(policy.nextReview).toLocaleDateString() : 'N/A'}</p>
                         </div>
                       </div>
                       
