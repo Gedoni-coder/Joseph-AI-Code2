@@ -287,7 +287,7 @@ export function EconomicImpactAnalysis({
                       </div>
                       <div className="flex items-center justify-between text-sm mt-1">
                         <span className="text-muted-foreground">Last Updated</span>
-                        <span>{new Date(indicator.lastUpdated).toLocaleDateString()}</span>
+                        <span>{indicator.lastUpdated ? new Date(indicator.lastUpdated).toLocaleDateString() : 'N/A'}</span>
                       </div>
                     </div>
                     
