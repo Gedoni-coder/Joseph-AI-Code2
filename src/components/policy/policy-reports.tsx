@@ -87,7 +87,7 @@ export function PolicyReports({
       `• ${f.category}: ${f.description} (${f.severity}) - ${f.recommendation}`
     ).join('\n');
     
-    alert(`Policy Report: ${report.title}\n\nGenerated: ${new Date(report.generatedDate).toLocaleDateString()}\nPeriod: ${report.period}\nCompliance Score: ${report.complianceScore}%\n\nSummary: ${report.summary}\n\nKey Findings:\n${findings}\n\nRecommendations:\n${report.recommendations.map(r => `• ${r}`).join('\n')}`);
+    alert(`Policy Report: ${report.title}\n\nGenerated: ${report.generatedDate ? new Date(report.generatedDate).toLocaleDateString() : 'N/A'}\nPeriod: ${report.period}\nCompliance Score: ${report.complianceScore}%\n\nSummary: ${report.summary}\n\nKey Findings:\n${findings}\n\nRecommendations:\n${report.recommendations.map(r => `• ${r}`).join('\n')}`);
   };
 
   const handleDownloadReport = (report: PolicyReport) => {
