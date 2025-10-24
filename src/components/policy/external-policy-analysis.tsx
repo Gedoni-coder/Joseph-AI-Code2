@@ -246,7 +246,7 @@ export function ExternalPolicyAnalysis({
                         </div>
                         <div>
                           <p className="text-sm text-muted-foreground">Effective Date</p>
-                          <p className="font-medium">{new Date(policy.effectiveDate).toLocaleDateString()}</p>
+                          <p className="font-medium">{policy.effectiveDate ? new Date(policy.effectiveDate).toLocaleDateString() : 'N/A'}</p>
                         </div>
                       </div>
                       
