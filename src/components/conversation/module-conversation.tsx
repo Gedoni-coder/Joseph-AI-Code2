@@ -100,11 +100,22 @@ export function ModuleConversation({
       if (response.ok) {
         const newConversation = await response.json();
         setConversation(newConversation);
+        return;
       }
     } catch (error) {
       console.error('Error creating conversation:', error);
-      toast.error('Failed to create conversation');
     }
+
+    // Fallback: Create a local conversation if API fails
+    const localConversation: Conversation = {
+      id: Date.now().toString(),
+      module,
+      title: `${moduleTitle} Discussion`,
+      messages: [],
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    };
+    setConversation(localConversation);
   };
 
   const handleSendMessage = async (e: React.FormEvent) => {
