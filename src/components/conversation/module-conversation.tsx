@@ -58,18 +58,30 @@ export function ModuleConversation({
       const response = await fetch(`/chatbot/conversations/?module=${module}`);
       if (response.ok) {
         const data = await response.json();
-        const conversations = data.results || data;
+        const conversations = Array.isArray(data) ? data : (data.results || []);
         if (conversations.length > 0) {
           setConversation(conversations[0]);
-        } else {
-          await createNewConversation();
+          return;
         }
-      } else {
-        await createNewConversation();
       }
     } catch (error) {
       console.error('Error loading conversation:', error);
+    }
+
+    try {
       await createNewConversation();
+    } catch (error) {
+      console.error('Error creating conversation:', error);
+      // Fallback: Create a local conversation if API fails
+      const localConversation: Conversation = {
+        id: Date.now().toString(),
+        module,
+        title: `${module.replace(/_/g, ' ')} Discussion`,
+        messages: [],
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      };
+      setConversation(localConversation);
     } finally {
       setIsLoading(false);
     }
