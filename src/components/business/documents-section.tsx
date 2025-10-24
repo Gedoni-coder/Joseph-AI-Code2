@@ -35,17 +35,20 @@ export function DocumentsSection() {
         },
       });
       if (response.ok) {
-        const data = await response.json();
-        setDocuments(Array.isArray(data) ? data : (data.results || []));
-      } else if (response.status === 404) {
-        // API endpoint doesn't exist yet, set empty array
-        setDocuments([]);
+        try {
+          const data = await response.json();
+          setDocuments(Array.isArray(data) ? data : (data.results || []));
+        } catch (parseError) {
+          console.error('Error parsing response:', parseError);
+          setDocuments([]);
+        }
       } else {
+        // For any error (404, 500, etc.), set empty array
         console.error('Failed to fetch documents:', response.statusText);
+        setDocuments([]);
       }
     } catch (error) {
       console.error('Error fetching documents:', error);
-      // Don't show error toast for development - just log
       setDocuments([]);
     } finally {
       setIsLoading(false);
