@@ -368,9 +368,9 @@ export function ProcurementTracking({
                             }`}
                           >
                             <div className="font-medium">
-                              {new Date(
-                                order.expectedDelivery,
-                              ).toLocaleDateString()}
+                              {order.expectedDelivery
+                                ? new Date(order.expectedDelivery).toLocaleDateString()
+                                : 'N/A'}
                             </div>
                             <div className="text-xs">
                               {isOverdue ? (
