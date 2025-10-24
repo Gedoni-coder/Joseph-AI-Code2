@@ -129,6 +129,7 @@ export function ModuleConversation({
       timestamp: new Date().toISOString(),
     };
 
+    const userInput = currentInput;
     setCurrentInput('');
     setConversation(prev => prev ? {
       ...prev,
@@ -143,7 +144,7 @@ export function ModuleConversation({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           conversation: conversation.id,
-          content: currentInput,
+          content: userInput,
           module,
         }),
       });
@@ -158,11 +159,31 @@ export function ModuleConversation({
           ],
         } : null);
       } else {
-        toast.error('Failed to get response');
+        // Provide fallback response if API fails
+        const fallbackMessage: ConversationMessage = {
+          id: (Date.now() + 1).toString(),
+          type: 'assistant',
+          content: `I'm currently unable to process your request about ${moduleTitle}. Please try again in a moment.`,
+          timestamp: new Date().toISOString(),
+        };
+        setConversation(prev => prev ? {
+          ...prev,
+          messages: [...prev.messages, fallbackMessage],
+        } : null);
       }
     } catch (error) {
       console.error('Error sending message:', error);
-      toast.error('Error sending message');
+      // Provide fallback response on error
+      const fallbackMessage: ConversationMessage = {
+        id: (Date.now() + 1).toString(),
+        type: 'assistant',
+        content: `I encountered an error while processing your request. Please check your connection and try again.`,
+        timestamp: new Date().toISOString(),
+      };
+      setConversation(prev => prev ? {
+        ...prev,
+        messages: [...prev.messages, fallbackMessage],
+      } : null);
     } finally {
       setIsTyping(false);
     }
