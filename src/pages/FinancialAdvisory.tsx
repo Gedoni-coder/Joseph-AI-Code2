@@ -305,7 +305,9 @@ export default function FinancialAdvisory() {
                 className="flex items-center gap-2 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700"
               >
                 <BarChart3 className="w-4 h-4" />
-                <span className="hidden sm:inline">Summary & Recommendation</span>
+                <span className="hidden sm:inline">
+                  Summary & Recommendation
+                </span>
                 <span className="sm:hidden">Summary</span>
               </TabsTrigger>
 
@@ -503,7 +505,6 @@ Implement comprehensive KPI dashboard for financial performance tracking. Establ
                 ]}
               />
             </TabsContent>
-
 
             <TabsContent value="cash-flow" className="space-y-6">
               <CashFlowPlanning

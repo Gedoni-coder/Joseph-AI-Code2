@@ -453,7 +453,6 @@ Establish competitive intelligence function to monitor competitor moves. Track c
             />
           </TabsContent>
 
-
           <TabsContent value="market">
             <MarketAnalysis
               marketSizes={marketSizes}

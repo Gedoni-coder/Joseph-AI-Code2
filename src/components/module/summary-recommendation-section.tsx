@@ -382,7 +382,9 @@ export function SummaryRecommendationSection({
       </div>
 
       {/* Combined Tabular View: Summary vs Recommendation */}
-      {(summaryMetrics.length > 0 || actionItems.length > 0 || nextSteps.length > 0) && (
+      {(summaryMetrics.length > 0 ||
+        actionItems.length > 0 ||
+        nextSteps.length > 0) && (
         <Card>
           <CardHeader>
             <CardTitle className="text-lg">Summary vs Recommendation</CardTitle>
@@ -390,7 +392,9 @@ export function SummaryRecommendationSection({
           <CardContent>
             <div className="overflow-x-auto">
               {(() => {
-                const summaryMap = new Map(summaryMetrics.map((m) => [m.index, m]));
+                const summaryMap = new Map(
+                  summaryMetrics.map((m) => [m.index, m]),
+                );
                 const actionMap = new Map(actionItems.map((a) => [a.index, a]));
                 const nextMap = new Map(nextSteps.map((n) => [n.index, n]));
                 const allIndexes = Array.from(
@@ -398,21 +402,37 @@ export function SummaryRecommendationSection({
                     ...summaryMetrics.map((m) => m.index),
                     ...actionItems.map((a) => a.index),
                     ...nextSteps.map((n) => n.index),
-                  ])
+                  ]),
                 ).sort((a, b) => a - b);
 
                 return (
                   <table className="w-full">
                     <thead>
                       <tr className="border-b border-gray-200 bg-gray-50/60">
-                        <th className="text-left py-3 px-4 font-semibold text-gray-700 text-sm">Index</th>
-                        <th className="text-left py-3 px-4 font-semibold text-gray-700 text-sm">Summary (Observation)</th>
-                        <th className="text-left py-3 px-4 font-semibold text-gray-700 text-sm">Recommendation</th>
-                        <th className="text-left py-3 px-4 font-semibold text-gray-700 text-sm">Action</th>
-                        <th className="text-left py-3 px-4 font-semibold text-gray-700 text-sm">Priority</th>
-                        <th className="text-left py-3 px-4 font-semibold text-gray-700 text-sm">Timeline</th>
-                        <th className="text-left py-3 px-4 font-semibold text-gray-700 text-sm">Owner</th>
-                        <th className="text-left py-3 px-4 font-semibold text-gray-700 text-sm">Due</th>
+                        <th className="text-left py-3 px-4 font-semibold text-gray-700 text-sm">
+                          Index
+                        </th>
+                        <th className="text-left py-3 px-4 font-semibold text-gray-700 text-sm">
+                          Summary (Observation)
+                        </th>
+                        <th className="text-left py-3 px-4 font-semibold text-gray-700 text-sm">
+                          Recommendation
+                        </th>
+                        <th className="text-left py-3 px-4 font-semibold text-gray-700 text-sm">
+                          Action
+                        </th>
+                        <th className="text-left py-3 px-4 font-semibold text-gray-700 text-sm">
+                          Priority
+                        </th>
+                        <th className="text-left py-3 px-4 font-semibold text-gray-700 text-sm">
+                          Timeline
+                        </th>
+                        <th className="text-left py-3 px-4 font-semibold text-gray-700 text-sm">
+                          Owner
+                        </th>
+                        <th className="text-left py-3 px-4 font-semibold text-gray-700 text-sm">
+                          Due
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -421,15 +441,28 @@ export function SummaryRecommendationSection({
                         const a = actionMap.get(idx);
                         const n = nextMap.get(idx);
                         return (
-                          <tr key={idx} className="border-b border-gray-100 align-top hover:bg-gray-50/60">
-                            <td className="py-3 px-4 text-gray-600 font-medium text-sm w-14">{idx}</td>
+                          <tr
+                            key={idx}
+                            className="border-b border-gray-100 align-top hover:bg-gray-50/60"
+                          >
+                            <td className="py-3 px-4 text-gray-600 font-medium text-sm w-14">
+                              {idx}
+                            </td>
                             <td className="py-3 px-4 text-gray-700 text-sm">
                               {m ? (
                                 <div>
-                                  <div className="font-semibold text-gray-900">{m.title}{m.value !== undefined && (
-                                    <span className="ml-1 text-gray-600 font-normal">({String(m.value)}{m.unit ? ` ${m.unit}` : ""})</span>
-                                  )}</div>
-                                  <div className="text-xs text-gray-600 mt-1 whitespace-pre-wrap">{m.insight}</div>
+                                  <div className="font-semibold text-gray-900">
+                                    {m.title}
+                                    {m.value !== undefined && (
+                                      <span className="ml-1 text-gray-600 font-normal">
+                                        ({String(m.value)}
+                                        {m.unit ? ` ${m.unit}` : ""})
+                                      </span>
+                                    )}
+                                  </div>
+                                  <div className="text-xs text-gray-600 mt-1 whitespace-pre-wrap">
+                                    {m.insight}
+                                  </div>
                                 </div>
                               ) : (
                                 <span className="text-xs text-gray-400">—</span>
@@ -438,26 +471,51 @@ export function SummaryRecommendationSection({
                             <td className="py-3 px-4 text-gray-700 text-sm">
                               {a ? (
                                 <div>
-                                  <div className="font-semibold text-gray-900">{a.title}</div>
-                                  <div className="text-xs text-gray-600 mt-1 whitespace-pre-wrap">{a.description}</div>
+                                  <div className="font-semibold text-gray-900">
+                                    {a.title}
+                                  </div>
+                                  <div className="text-xs text-gray-600 mt-1 whitespace-pre-wrap">
+                                    {a.description}
+                                  </div>
                                 </div>
                               ) : (
                                 <span className="text-xs text-gray-400">—</span>
                               )}
                             </td>
-                            <td className="py-3 px-4 text-gray-700 text-sm">{a ? a.title : <span className="text-xs text-gray-400">—</span>}</td>
                             <td className="py-3 px-4 text-gray-700 text-sm">
                               {a ? (
-                                <span className={`inline-flex items-center rounded px-2 py-0.5 text-xs font-medium ${getPriorityColor(a.priority)}`}>
-                                  {a.priority.charAt(0).toUpperCase() + a.priority.slice(1)}
+                                a.title
+                              ) : (
+                                <span className="text-xs text-gray-400">—</span>
+                              )}
+                            </td>
+                            <td className="py-3 px-4 text-gray-700 text-sm">
+                              {a ? (
+                                <span
+                                  className={`inline-flex items-center rounded px-2 py-0.5 text-xs font-medium ${getPriorityColor(a.priority)}`}
+                                >
+                                  {a.priority.charAt(0).toUpperCase() +
+                                    a.priority.slice(1)}
                                 </span>
                               ) : (
                                 <span className="text-xs text-gray-400">—</span>
                               )}
                             </td>
-                            <td className="py-3 px-4 text-gray-700 text-sm">{a?.timeline ?? <span className="text-xs text-gray-400">—</span>}</td>
-                            <td className="py-3 px-4 text-gray-700 text-sm">{n?.owner ?? <span className="text-xs text-gray-400">—</span>}</td>
-                            <td className="py-3 px-4 text-gray-700 text-sm">{n?.dueDate ?? <span className="text-xs text-gray-400">—</span>}</td>
+                            <td className="py-3 px-4 text-gray-700 text-sm">
+                              {a?.timeline ?? (
+                                <span className="text-xs text-gray-400">—</span>
+                              )}
+                            </td>
+                            <td className="py-3 px-4 text-gray-700 text-sm">
+                              {n?.owner ?? (
+                                <span className="text-xs text-gray-400">—</span>
+                              )}
+                            </td>
+                            <td className="py-3 px-4 text-gray-700 text-sm">
+                              {n?.dueDate ?? (
+                                <span className="text-xs text-gray-400">—</span>
+                              )}
+                            </td>
                           </tr>
                         );
                       })}

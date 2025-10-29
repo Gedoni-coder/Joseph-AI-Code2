@@ -451,7 +451,6 @@ Evaluate adjacent market opportunities for new revenue streams. Develop partner 
             />
           </TabsContent>
 
-
           <TabsContent value="streams">
             <RevenueStreams streams={streams} />
           </TabsContent>

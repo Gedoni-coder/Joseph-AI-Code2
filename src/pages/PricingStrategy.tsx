@@ -373,7 +373,6 @@ Implement revenue management system to optimize price, volume, and mix. Establis
             />
           </TabsContent>
 
-
           <TabsContent value="strategies">
             <PricingStrategies strategies={strategies} />
           </TabsContent>
