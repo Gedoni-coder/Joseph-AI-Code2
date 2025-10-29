@@ -18,8 +18,7 @@ import { RevenueForecasting } from "@/components/revenue/revenue-forecasting";
 import { ChurnAnalysisComponent } from "@/components/revenue/churn-analysis";
 import { UpsellOpportunities } from "@/components/revenue/upsell-opportunities";
 import { ModuleConversation } from "@/components/conversation/module-conversation";
-import { SummarySection } from "@/components/module/summary-section";
-import { RecommendationSection } from "@/components/module/recommendation-section";
+import { SummaryRecommendationSection } from "@/components/module/summary-recommendation-section";
 import {
   DollarSign,
   TrendingUp,
@@ -100,16 +99,10 @@ export default function RevenueStrategy() {
               Overview
             </TabsTrigger>
             <TabsTrigger
-              value="summary"
+              value="summary-recommendation"
               className="data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700"
             >
-              Summary
-            </TabsTrigger>
-            <TabsTrigger
-              value="recommendations"
-              className="data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700"
-            >
-              Recommendations
+              Summary & Recommendation
             </TabsTrigger>
             <TabsTrigger
               value="streams"
@@ -327,10 +320,10 @@ export default function RevenueStrategy() {
             </div>
           </TabsContent>
 
-          <TabsContent value="summary" className="space-y-8">
-            <SummarySection
-              title="Revenue Strategy Summary"
-              description="Executive summary of revenue performance and growth opportunities"
+          <TabsContent value="summary-recommendation" className="space-y-8">
+            <SummaryRecommendationSection
+              summaryTitle="Revenue Strategy Summary"
+              summaryDescription="Executive summary of revenue performance and growth opportunities"
               summaryText={`1. REVENUE OVERVIEW
 Total revenue streams are performing well with ${streams.length} active channels contributing to top-line growth. Revenue mix shows healthy diversification across customer segments and product lines, reducing dependency on any single source.
 
@@ -345,7 +338,7 @@ Churn analysis shows stable retention rates with ${churn.length} customer cohort
 
 5. EXPANSION OPPORTUNITIES
 Analysis identifies ${upsells.length} high-probability upsell and cross-sell opportunities that could generate incremental revenue of $XXM annually without requiring new customer acquisition.`}
-              metrics={[
+              summaryMetrics={[
                 {
                   index: 1,
                   title: "Total Revenue Streams",
@@ -371,13 +364,8 @@ Analysis identifies ${upsells.length} high-probability upsell and cross-sell opp
                   insight: "Revenue distribution channels",
                 },
               ]}
-            />
-          </TabsContent>
-
-          <TabsContent value="recommendations" className="space-y-8">
-            <RecommendationSection
-              title="Revenue Strategy Recommendations"
-              description="Strategic recommendations to accelerate revenue growth"
+              recommendationTitle="Revenue Strategy Recommendations"
+              recommendationDescription="Strategic recommendations to accelerate revenue growth"
               recommendationText={`1. REVENUE ACCELERATION
 Implement aggressive customer acquisition targets in highest-LTV segments. Optimize go-to-market approach based on channel profitability analysis. Allocate marketing spend to highest-performing channels and campaigns.
 
@@ -462,6 +450,7 @@ Evaluate adjacent market opportunities for new revenue streams. Develop partner 
               ]}
             />
           </TabsContent>
+
 
           <TabsContent value="streams">
             <RevenueStreams streams={streams} />
