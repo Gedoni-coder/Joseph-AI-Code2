@@ -17,6 +17,8 @@ import { ScenarioPlanningComponent } from "@/components/business/scenario-planni
 import { BusinessMetricsTable } from "@/components/business/business-metrics-table";
 import { FinancialLayout } from "@/components/business/financial-layout";
 import { DocumentsSection } from "@/components/business/documents-section";
+import { SummarySection } from "@/components/module/summary-section";
+import { RecommendationSection } from "@/components/module/recommendation-section";
 import {
   costStructure as mockCosts,
   cashFlowForecast as mockCashFlow,
