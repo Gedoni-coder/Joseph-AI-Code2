@@ -22,6 +22,8 @@ import { ProcurementTracking } from "@/components/supply-chain/procurement-track
 import { ProductionPlanning } from "@/components/supply-chain/production-planning";
 import { SupplyChainAnalytics } from "@/components/supply-chain/supply-chain-analytics";
 import ModuleHeader from "@/components/ui/module-header";
+import { SummarySection } from "@/components/module/summary-section";
+import { RecommendationSection } from "@/components/module/recommendation-section";
 import {
   Package,
   TrendingUp,
