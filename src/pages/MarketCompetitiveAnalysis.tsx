@@ -322,6 +322,147 @@ export default function MarketCompetitiveAnalysis() {
             </div>
           </TabsContent>
 
+          <TabsContent value="summary" className="space-y-8">
+            <SummarySection
+              title="Market & Competitive Analysis Summary"
+              description="Executive summary of market conditions and competitive positioning"
+              summaryText={`1. MARKET OVERVIEW
+Total addressable market (TAM) stands at approximately $${(
+                marketSizes.reduce((acc, m) => acc + m.tam, 0) / 1000000000
+              ).toFixed(0)}B with an average growth rate of ${(
+                marketSizes.reduce((acc, m) => acc + m.growthRate, 0) /
+                marketSizes.length
+              ).toFixed(1)}% across segments. The market is fragmented with ${competitors.length} active competitors.
+
+2. CUSTOMER SEGMENTATION
+We operate across ${customerSegments.length} distinct customer segments with varying needs and willingness to pay. Each segment shows unique growth trajectories and profit margins.
+
+3. COMPETITIVE LANDSCAPE
+The market shows clear differentiation between pure-play competitors and diversified incumbents. Our unique value proposition addresses underserved segments with strong growth potential.
+
+4. MARKET TRENDS
+Key trends shaping the market include digital transformation, consolidation among mid-market players, and increasing price sensitivity. These trends create both opportunities and threats to current positioning.
+
+5. STRATEGIC POSITIONING
+Our competitive position is differentiated through superior customer service and faster innovation cycles. Market share growth is achievable through selective expansion into adjacent segments.`}
+              metrics={[
+                {
+                  index: 1,
+                  title: "Total Market Size (TAM)",
+                  value: `$${(marketSizes.reduce((acc, m) => acc + m.tam, 0) / 1000000000).toFixed(0)}B`,
+                  insight: "Full addressable market across all segments",
+                },
+                {
+                  index: 2,
+                  title: "Market Growth Rate",
+                  value: `${(marketSizes.reduce((acc, m) => acc + m.growthRate, 0) / marketSizes.length).toFixed(1)}%`,
+                  insight: "Average annual growth across market segments",
+                },
+                {
+                  index: 3,
+                  title: "Customer Segments",
+                  value: customerSegments.length,
+                  insight: "Distinct market segments identified",
+                },
+                {
+                  index: 4,
+                  title: "Competitors",
+                  value: competitors.length,
+                  insight: "Direct and indirect competitors in market",
+                },
+              ]}
+            />
+          </TabsContent>
+
+          <TabsContent value="recommendations" className="space-y-8">
+            <RecommendationSection
+              title="Market & Competitive Recommendations"
+              description="Strategic recommendations for market expansion and competitive positioning"
+              recommendationText={`1. MARKET PENETRATION
+Focus on deepening market penetration in high-growth segments. Increase marketing investment in channels with highest ROI. Consider strategic partnerships to expand distribution reach.
+
+2. COMPETITIVE DIFFERENTIATION
+Strengthen unique value proposition through continuous innovation. Invest in brand building to create higher switching costs. Develop thought leadership to attract talent and customers.
+
+3. PRICING STRATEGY
+Optimize pricing across customer segments based on willingness to pay analysis. Implement dynamic pricing for seasonal demand variations. Bundle complementary products to increase customer lifetime value.
+
+4. MARKET EXPANSION
+Identify and evaluate adjacent market opportunities with similar customer profiles. Develop entry strategy for new geographies with high growth potential. Build capability in new product categories.
+
+5. COMPETITIVE MONITORING
+Establish competitive intelligence function to monitor competitor moves. Track customer satisfaction and NPS relative to competitors. Conduct quarterly strategic reviews to adapt positioning.`}
+              actionItems={[
+                {
+                  index: 1,
+                  title: "Market Segmentation Study",
+                  description:
+                    "Conduct detailed market segmentation analysis to identify highest-value customer segments and prioritize go-to-market strategy",
+                  priority: "high",
+                  timeline: "Q1 2025",
+                },
+                {
+                  index: 2,
+                  title: "Competitive Benchmarking",
+                  description:
+                    "Establish quarterly competitive benchmarking process to track competitor performance, pricing, and customer perception",
+                  priority: "high",
+                  timeline: "Q1 2025",
+                },
+                {
+                  index: 3,
+                  title: "Value Proposition Enhancement",
+                  description:
+                    "Refine and communicate unique value proposition through updated marketing materials and customer-facing messaging",
+                  priority: "medium",
+                  timeline: "Q1-Q2 2025",
+                },
+                {
+                  index: 4,
+                  title: "Customer Win/Loss Analysis",
+                  description:
+                    "Conduct win/loss interviews with customers and prospects to understand decision drivers and competitive strengths/weaknesses",
+                  priority: "medium",
+                  timeline: "Q2 2025",
+                },
+                {
+                  index: 5,
+                  title: "Market Entry Planning",
+                  description:
+                    "Develop detailed entry strategy for adjacent market segments including customer acquisition cost and revenue projections",
+                  priority: "low",
+                  timeline: "Q2-Q3 2025",
+                },
+              ]}
+              nextSteps={[
+                {
+                  index: 1,
+                  step: "Complete market sizing and TAM/SAM/SOM analysis",
+                  owner: "Strategy Team",
+                  dueDate: "End of Week 2",
+                },
+                {
+                  index: 2,
+                  step: "Conduct competitor SWOT analysis for top 5 competitors",
+                  owner: "Competitive Intel Team",
+                  dueDate: "End of Week 3",
+                },
+                {
+                  index: 3,
+                  step: "Develop customer persona profiles by segment",
+                  owner: "Product Marketing",
+                  dueDate: "End of Month",
+                },
+                {
+                  index: 4,
+                  step: "Present market recommendations to executive team",
+                  owner: "Chief Strategist",
+                  dueDate: "Mid-Month Review",
+                },
+              ]}
+            />
+          </TabsContent>
+
           <TabsContent value="market">
             <MarketAnalysis
               marketSizes={marketSizes}
