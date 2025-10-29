@@ -327,6 +327,142 @@ export default function RevenueStrategy() {
             </div>
           </TabsContent>
 
+          <TabsContent value="summary" className="space-y-8">
+            <SummarySection
+              title="Revenue Strategy Summary"
+              description="Executive summary of revenue performance and growth opportunities"
+              summaryText={`1. REVENUE OVERVIEW
+Total revenue streams are performing well with ${streams.length} active channels contributing to top-line growth. Revenue mix shows healthy diversification across customer segments and product lines, reducing dependency on any single source.
+
+2. KEY REVENUE METRICS
+Revenue per customer and monthly recurring revenue (MRR) are tracking favorably against targets. Average customer lifetime value has improved through enhanced retention and upsell programs. Gross margin remains strong at industry-leading levels.
+
+3. GROWTH DRIVERS
+Revenue growth is being driven by three primary levers: new customer acquisition through expanded marketing, upsell and cross-sell to existing customer base, and improved pricing realization. Each lever contributes meaningfully to overall growth trajectory.
+
+4. CUSTOMER RETENTION
+Churn analysis shows stable retention rates with ${churn.length} customer cohorts being actively managed. Cohort analysis reveals improving retention in newer customer segments as onboarding and success processes mature.
+
+5. EXPANSION OPPORTUNITIES
+Analysis identifies ${upsells.length} high-probability upsell and cross-sell opportunities that could generate incremental revenue of $XXM annually without requiring new customer acquisition.`}
+              metrics={[
+                {
+                  index: 1,
+                  title: "Total Revenue Streams",
+                  value: streams.length,
+                  insight: "Active revenue-generating channels",
+                },
+                {
+                  index: 2,
+                  title: "Average Annual Value",
+                  value: `$${(metrics.reduce((a, m) => a + m.value, 0) / Math.max(metrics.length, 1) / 1000).toFixed(0)}K`,
+                  insight: "Per customer annual revenue",
+                },
+                {
+                  index: 3,
+                  title: "Upsell Opportunities",
+                  value: upsells.length,
+                  insight: "Identified expansion revenue potential",
+                },
+                {
+                  index: 4,
+                  title: "Active Channels",
+                  value: channels.length,
+                  insight: "Revenue distribution channels",
+                },
+              ]}
+            />
+          </TabsContent>
+
+          <TabsContent value="recommendations" className="space-y-8">
+            <RecommendationSection
+              title="Revenue Strategy Recommendations"
+              description="Strategic recommendations to accelerate revenue growth"
+              recommendationText={`1. REVENUE ACCELERATION
+Implement aggressive customer acquisition targets in highest-LTV segments. Optimize go-to-market approach based on channel profitability analysis. Allocate marketing spend to highest-performing channels and campaigns.
+
+2. CUSTOMER EXPANSION
+Launch targeted upsell program focused on highest-probability expansion opportunities. Develop product bundling strategy to increase average order value. Implement usage-based upselling to monetize customer success.
+
+3. RETENTION OPTIMIZATION
+Implement proactive churn prevention program targeting at-risk cohorts. Enhance customer success resources to improve retention and expansion. Conduct win-loss analysis to improve competitive positioning.
+
+4. PRICING OPTIMIZATION
+Implement value-based pricing to capture more value from customers. Develop tier-based pricing structure to serve broader market. Implement price increases strategically to improve unit economics.
+
+5. NEW REVENUE STREAMS
+Evaluate adjacent market opportunities for new revenue streams. Develop partner channel strategy for market expansion. Consider marketplace or platform model to accelerate growth.`}
+              actionItems={[
+                {
+                  index: 1,
+                  title: "Upsell Campaign Launch",
+                  description:
+                    "Launch targeted upsell campaign to highest-probability customers with personalized value propositions and offers",
+                  priority: "high",
+                  timeline: "Q1 2025",
+                },
+                {
+                  index: 2,
+                  title: "Retention Program Expansion",
+                  description:
+                    "Develop and implement comprehensive retention program targeting high-churn cohorts with targeted interventions",
+                  priority: "high",
+                  timeline: "Q1 2025",
+                },
+                {
+                  index: 3,
+                  title: "Customer Lifetime Value Optimization",
+                  description:
+                    "Implement CLV-based customer segmentation and resource allocation for maximum profitability",
+                  priority: "medium",
+                  timeline: "Q2 2025",
+                },
+                {
+                  index: 4,
+                  title: "Channel Strategy Review",
+                  description:
+                    "Conduct comprehensive review of all revenue channels and optimize channel mix based on profitability",
+                  priority: "medium",
+                  timeline: "Q2 2025",
+                },
+                {
+                  index: 5,
+                  title: "New Revenue Stream Development",
+                  description:
+                    "Research and develop strategy for adjacent revenue opportunities to diversify revenue base",
+                  priority: "low",
+                  timeline: "Q2-Q3 2025",
+                },
+              ]}
+              nextSteps={[
+                {
+                  index: 1,
+                  step: "Analyze revenue contribution by customer segment and product",
+                  owner: "Analytics Team",
+                  dueDate: "End of Week 1",
+                },
+                {
+                  index: 2,
+                  step: "Identify top upsell opportunities and prioritize by impact",
+                  owner: "Revenue Operations",
+                  dueDate: "End of Week 2",
+                },
+                {
+                  index: 3,
+                  step: "Develop and present revenue growth recommendations",
+                  owner: "Revenue Strategy Lead",
+                  dueDate: "Mid-Month",
+                },
+                {
+                  index: 4,
+                  step: "Begin executing high-priority revenue initiatives",
+                  owner: "Sales & CS Teams",
+                  dueDate: "End of Month",
+                },
+              ]}
+            />
+          </TabsContent>
+
           <TabsContent value="streams">
             <RevenueStreams streams={streams} />
           </TabsContent>
