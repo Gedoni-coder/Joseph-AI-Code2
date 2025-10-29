@@ -29,6 +29,8 @@ import { ScenarioTesting } from "../components/financial/scenario-testing";
 import { RiskAssessmentComponent } from "../components/financial/risk-assessment";
 import { PerformanceDrivers } from "../components/financial/performance-drivers";
 import { AdvisoryInsights } from "../components/financial/advisory-insights";
+import { SummarySection } from "../components/module/summary-section";
+import { RecommendationSection } from "../components/module/recommendation-section";
 import {
   Loader2,
   Calculator,
