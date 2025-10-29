@@ -224,6 +224,142 @@ const BusinessForecast = () => {
             </section>
           </TabsContent>
 
+          <TabsContent value="summary" className="space-y-8">
+            <SummarySection
+              title="Business Forecast Summary"
+              description="Executive summary with key metrics and insights"
+              summaryText={`1. REVENUE OVERVIEW
+Current annual revenue target is set at $13.7M with ${customerProfiles.length} distinct customer segments identified. The forecast includes ${scenarios.length} scenario models to cover conservative, base, and aggressive growth cases.
+
+2. CUSTOMER BASE
+The business operates across multiple customer segments with varying demand patterns. Average order values and segment preferences have been analyzed to inform revenue projections and marketing strategies.
+
+3. KEY PERFORMANCE METRICS
+${kpis.length} key performance indicators are being tracked across operational, financial, and strategic dimensions. These KPIs provide early signals of business health and market opportunity.
+
+4. FORECAST METHODOLOGY
+The forecast employs Monte Carlo simulations, linear regression analysis, and scenario planning to account for uncertainty and provide a range of potential outcomes.
+
+5. NEXT QUARTER OUTLOOK
+Q1 2025 focuses on foundation building, with emphasis on customer retention and operational efficiency improvements. Expected growth rate aligns with market expansion strategy.`}
+              metrics={[
+                {
+                  index: 1,
+                  title: "Annual Revenue Target",
+                  value: "$13.7M",
+                  insight: "Primary revenue goal for fiscal year",
+                },
+                {
+                  index: 2,
+                  title: "Customer Segments",
+                  value: customerProfiles.length,
+                  insight: "Active market segments being served",
+                },
+                {
+                  index: 3,
+                  title: "KPIs Tracked",
+                  value: kpis.length,
+                  insight: "Performance metrics under active monitoring",
+                },
+                {
+                  index: 4,
+                  title: "Scenario Models",
+                  value: scenarios.length,
+                  insight: "Planning scenarios for different market conditions",
+                },
+              ]}
+            />
+          </TabsContent>
+
+          <TabsContent value="recommendations" className="space-y-8">
+            <RecommendationSection
+              title="Business Forecast Recommendations"
+              description="Strategic recommendations and action items based on forecast analysis"
+              recommendationText={`1. REVENUE OPTIMIZATION
+Prioritize high-margin customer segments that show strongest growth potential. Consider dynamic pricing strategies for products with high elasticity. Implement customer lifetime value modeling to focus acquisition and retention efforts on most valuable segments.
+
+2. SCENARIO PLANNING
+Develop contingency plans for downside scenarios (20% revenue below base case). Establish trigger points for strategy adjustments based on key leading indicators. Quarterly scenario reviews to adapt planning assumptions as market conditions evolve.
+
+3. OPERATIONAL EFFICIENCY
+Target 10-15% improvement in cost structure through process optimization. Invest in automation for repetitive tasks. Negotiate supplier contracts aligned with growth trajectory.
+
+4. CASH FLOW MANAGEMENT
+Establish working capital reserves equivalent to 60 days of operating expenses. Monitor cash conversion cycle monthly. Implement early warning system for cash flow stress signals.
+
+5. MARKET EXPANSION
+Identify 2-3 new market segments or geographies for expansion in next 12 months. Allocate 15-20% of resources to innovation and market testing. Build partnerships with complementary service providers.`}
+              actionItems={[
+                {
+                  index: 1,
+                  title: "Segment Revenue Analysis",
+                  description:
+                    "Conduct detailed profitability analysis for each customer segment to identify high-margin opportunities and optimize pricing strategy",
+                  priority: "high",
+                  timeline: "Q1 2025",
+                },
+                {
+                  index: 2,
+                  title: "Cash Flow Forecasting System",
+                  description:
+                    "Implement daily cash flow tracking and weekly rolling forecasts to improve liquidity management and decision-making",
+                  priority: "high",
+                  timeline: "Q1 2025",
+                },
+                {
+                  index: 3,
+                  title: "Cost Reduction Initiative",
+                  description:
+                    "Launch cross-functional program to identify and eliminate wasteful spending while maintaining service quality",
+                  priority: "medium",
+                  timeline: "Q2 2025",
+                },
+                {
+                  index: 4,
+                  title: "KPI Dashboard Enhancement",
+                  description:
+                    "Expand KPI dashboard with real-time alerts for critical metrics and predictive analytics for early warning signals",
+                  priority: "medium",
+                  timeline: "Q2 2025",
+                },
+                {
+                  index: 5,
+                  title: "Market Expansion Strategy",
+                  description:
+                    "Research and develop entry strategy for adjacent market segments or geographies with strong growth potential",
+                  priority: "low",
+                  timeline: "Q2-Q3 2025",
+                },
+              ]}
+              nextSteps={[
+                {
+                  index: 1,
+                  step: "Review and validate all revenue assumptions in the forecast model",
+                  owner: "Finance Team",
+                  dueDate: "End of Week 1",
+                },
+                {
+                  index: 2,
+                  step: "Conduct sensitivity analysis on key input variables",
+                  owner: "Analytics Team",
+                  dueDate: "End of Week 2",
+                },
+                {
+                  index: 3,
+                  step: "Present scenarios to executive team with recommended strategy",
+                  owner: "CFO",
+                  dueDate: "End of Month",
+                },
+                {
+                  index: 4,
+                  step: "Establish monthly forecast review cadence with updates",
+                  owner: "Planning Manager",
+                  dueDate: "Ongoing",
+                },
+              ]}
+            />
+          </TabsContent>
+
           <TabsContent value="tables" className="space-y-8">
             {/* Business Metrics Table */}
             <section>
