@@ -17,8 +17,7 @@ import { ScenarioPlanningComponent } from "@/components/business/scenario-planni
 import { BusinessMetricsTable } from "@/components/business/business-metrics-table";
 import { FinancialLayout } from "@/components/business/financial-layout";
 import { DocumentsSection } from "@/components/business/documents-section";
-import { SummarySection } from "@/components/module/summary-section";
-import { RecommendationSection } from "@/components/module/recommendation-section";
+import { SummaryRecommendationSection } from "@/components/module/summary-recommendation-section";
 import {
   costStructure as mockCosts,
   cashFlowForecast as mockCashFlow,
@@ -149,10 +148,9 @@ const BusinessForecast = () => {
         {/* Main Content Tabs */}
         <Tabs defaultValue="overview" className="space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <TabsList className="grid grid-cols-9 w-full sm:w-auto">
+            <TabsList className="grid grid-cols-8 w-full sm:w-auto">
               <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="summary">Summary</TabsTrigger>
-              <TabsTrigger value="recommendations">Recommendations</TabsTrigger>
+              <TabsTrigger value="summary-recommendation">Summary & Recommendation</TabsTrigger>
               <TabsTrigger value="tables">Tables</TabsTrigger>
               <TabsTrigger value="revenue">Revenue</TabsTrigger>
               <TabsTrigger value="costs">Costs</TabsTrigger>
@@ -224,10 +222,10 @@ const BusinessForecast = () => {
             </section>
           </TabsContent>
 
-          <TabsContent value="summary" className="space-y-8">
-            <SummarySection
-              title="Business Forecast Summary"
-              description="Executive summary with key metrics and insights"
+          <TabsContent value="summary-recommendation" className="space-y-8">
+            <SummaryRecommendationSection
+              summaryTitle="Business Forecast Summary"
+              summaryDescription="Executive summary with key metrics and insights"
               summaryText={`1. REVENUE OVERVIEW
 Current annual revenue target is set at $13.7M with ${customerProfiles.length} distinct customer segments identified. The forecast includes ${scenarios.length} scenario models to cover conservative, base, and aggressive growth cases.
 
@@ -242,7 +240,7 @@ The forecast employs Monte Carlo simulations, linear regression analysis, and sc
 
 5. NEXT QUARTER OUTLOOK
 Q1 2025 focuses on foundation building, with emphasis on customer retention and operational efficiency improvements. Expected growth rate aligns with market expansion strategy.`}
-              metrics={[
+              summaryMetrics={[
                 {
                   index: 1,
                   title: "Annual Revenue Target",
@@ -268,13 +266,8 @@ Q1 2025 focuses on foundation building, with emphasis on customer retention and 
                   insight: "Planning scenarios for different market conditions",
                 },
               ]}
-            />
-          </TabsContent>
-
-          <TabsContent value="recommendations" className="space-y-8">
-            <RecommendationSection
-              title="Business Forecast Recommendations"
-              description="Strategic recommendations and action items based on forecast analysis"
+              recommendationTitle="Business Forecast Recommendations"
+              recommendationDescription="Strategic recommendations and action items based on forecast analysis"
               recommendationText={`1. REVENUE OPTIMIZATION
 Prioritize high-margin customer segments that show strongest growth potential. Consider dynamic pricing strategies for products with high elasticity. Implement customer lifetime value modeling to focus acquisition and retention efforts on most valuable segments.
 
