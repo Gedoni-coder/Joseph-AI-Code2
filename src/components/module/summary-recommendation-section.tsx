@@ -71,8 +71,11 @@ export function SummaryRecommendationSection({
   const [summaryAudioUrl, setSummaryAudioUrl] = useState<string | null>(null);
   const summaryAudioRef = useRef<HTMLAudioElement>(null);
 
-  const [isPlayingRecommendationAudio, setIsPlayingRecommendationAudio] = useState(false);
-  const [recommendationAudioUrl, setRecommendationAudioUrl] = useState<string | null>(null);
+  const [isPlayingRecommendationAudio, setIsPlayingRecommendationAudio] =
+    useState(false);
+  const [recommendationAudioUrl, setRecommendationAudioUrl] = useState<
+    string | null
+  >(null);
   const recommendationAudioRef = useRef<HTMLAudioElement>(null);
 
   const handlePlaySummaryAudio = async () => {
@@ -144,7 +147,9 @@ export function SummaryRecommendationSection({
             <CardHeader className="flex flex-row items-start justify-between">
               <div className="flex-1">
                 <CardTitle>{summaryTitle}</CardTitle>
-                <p className="text-sm text-gray-600 mt-1">{summaryDescription}</p>
+                <p className="text-sm text-gray-600 mt-1">
+                  {summaryDescription}
+                </p>
               </div>
               <Button
                 variant="outline"
@@ -184,7 +189,9 @@ export function SummaryRecommendationSection({
           {summaryMetrics.length > 0 && (
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg">Key Metrics & Insights</CardTitle>
+                <CardTitle className="text-lg">
+                  Key Metrics & Insights
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="overflow-x-auto">
@@ -243,7 +250,9 @@ export function SummaryRecommendationSection({
             <CardHeader className="flex flex-row items-start justify-between">
               <div className="flex-1">
                 <CardTitle>{recommendationTitle}</CardTitle>
-                <p className="text-sm text-gray-600 mt-1">{recommendationDescription}</p>
+                <p className="text-sm text-gray-600 mt-1">
+                  {recommendationDescription}
+                </p>
               </div>
               <Button
                 variant="outline"
@@ -306,7 +315,8 @@ export function SummaryRecommendationSection({
                           </div>
                         </div>
                         <Badge className={getPriorityColor(item.priority)}>
-                          {item.priority.charAt(0).toUpperCase() + item.priority.slice(1)}
+                          {item.priority.charAt(0).toUpperCase() +
+                            item.priority.slice(1)}
                         </Badge>
                       </div>
                       <p className="text-gray-600 text-sm ml-11 mb-2">
@@ -314,7 +324,8 @@ export function SummaryRecommendationSection({
                       </p>
                       {item.timeline && (
                         <div className="ml-11 text-xs text-gray-500">
-                          Timeline: <span className="font-medium">{item.timeline}</span>
+                          Timeline:{" "}
+                          <span className="font-medium">{item.timeline}</span>
                         </div>
                       )}
                     </div>
@@ -343,7 +354,9 @@ export function SummaryRecommendationSection({
                         </div>
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="font-medium text-gray-900 mb-1 text-sm">{step.step}</p>
+                        <p className="font-medium text-gray-900 mb-1 text-sm">
+                          {step.step}
+                        </p>
                         <div className="flex flex-wrap gap-3 text-xs text-gray-600">
                           {step.owner && (
                             <span className="flex items-center">

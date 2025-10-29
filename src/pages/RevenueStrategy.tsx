@@ -480,7 +480,10 @@ Evaluate adjacent market opportunities for new revenue streams. Develop partner 
           </TabsContent>
 
           <TabsContent value="conversation" className="h-[600px]">
-            <ModuleConversation module="revenue_strategy" moduleTitle="Revenue Strategy" />
+            <ModuleConversation
+              module="revenue_strategy"
+              moduleTitle="Revenue Strategy"
+            />
           </TabsContent>
         </Tabs>
       </div>

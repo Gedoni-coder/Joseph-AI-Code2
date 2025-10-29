@@ -152,7 +152,9 @@ export function RecommendationSection({
                       </div>
                     </div>
                     <Badge className={getPriorityColor(item.priority)}>
-                      {item.priority.charAt(0).toUpperCase() + item.priority.slice(1)} Priority
+                      {item.priority.charAt(0).toUpperCase() +
+                        item.priority.slice(1)}{" "}
+                      Priority
                     </Badge>
                   </div>
                   <p className="text-gray-600 text-sm ml-11 mb-2">
@@ -160,7 +162,8 @@ export function RecommendationSection({
                   </p>
                   {item.timeline && (
                     <div className="ml-11 text-xs text-gray-500">
-                      Timeline: <span className="font-medium">{item.timeline}</span>
+                      Timeline:{" "}
+                      <span className="font-medium">{item.timeline}</span>
                     </div>
                   )}
                 </div>
@@ -189,7 +192,9 @@ export function RecommendationSection({
                     </div>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-medium text-gray-900 mb-1">{step.step}</p>
+                    <p className="font-medium text-gray-900 mb-1">
+                      {step.step}
+                    </p>
                     <div className="flex flex-wrap gap-3 text-xs text-gray-600">
                       {step.owner && (
                         <span className="flex items-center">

@@ -405,7 +405,10 @@ Implement revenue management system to optimize price, volume, and mix. Establis
           </TabsContent>
 
           <TabsContent value="conversation" className="h-[600px]">
-            <ModuleConversation module="pricing_strategy" moduleTitle="Pricing Strategy" />
+            <ModuleConversation
+              module="pricing_strategy"
+              moduleTitle="Pricing Strategy"
+            />
           </TabsContent>
         </Tabs>
       </div>

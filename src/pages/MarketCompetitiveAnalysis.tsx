@@ -332,7 +332,9 @@ Total addressable market (TAM) stands at approximately $${(
               ).toFixed(0)}B with an average growth rate of ${(
                 marketSizes.reduce((acc, m) => acc + m.growthRate, 0) /
                 marketSizes.length
-              ).toFixed(1)}% across segments. The market is fragmented with ${competitors.length} active competitors.
+              ).toFixed(
+                1,
+              )}% across segments. The market is fragmented with ${competitors.length} active competitors.
 
 2. CUSTOMER SEGMENTATION
 We operate across ${customerSegments.length} distinct customer segments with varying needs and willingness to pay. Each segment shows unique growth trajectories and profit margins.
@@ -494,7 +496,10 @@ Establish competitive intelligence function to monitor competitor moves. Track c
           </TabsContent>
 
           <TabsContent value="conversation" className="h-[600px]">
-            <ModuleConversation module="market_analysis" moduleTitle="Market Analysis" />
+            <ModuleConversation
+              module="market_analysis"
+              moduleTitle="Market Analysis"
+            />
           </TabsContent>
         </Tabs>
       </div>
