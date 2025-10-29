@@ -18,6 +18,8 @@ import { RevenueForecasting } from "@/components/revenue/revenue-forecasting";
 import { ChurnAnalysisComponent } from "@/components/revenue/churn-analysis";
 import { UpsellOpportunities } from "@/components/revenue/upsell-opportunities";
 import { ModuleConversation } from "@/components/conversation/module-conversation";
+import { SummarySection } from "@/components/module/summary-section";
+import { RecommendationSection } from "@/components/module/recommendation-section";
 import {
   DollarSign,
   TrendingUp,
