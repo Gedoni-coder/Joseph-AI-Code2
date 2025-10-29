@@ -87,12 +87,24 @@ export default function PricingStrategy() {
           onValueChange={setActiveTab}
           className="space-y-6"
         >
-          <TabsList className="grid w-full grid-cols-6 bg-white border">
+          <TabsList className="grid w-full grid-cols-8 bg-white border">
             <TabsTrigger
               value="overview"
               className="data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700"
             >
               Overview
+            </TabsTrigger>
+            <TabsTrigger
+              value="summary"
+              className="data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700"
+            >
+              Summary
+            </TabsTrigger>
+            <TabsTrigger
+              value="recommendations"
+              className="data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700"
+            >
+              Recommendations
             </TabsTrigger>
             <TabsTrigger
               value="strategies"
