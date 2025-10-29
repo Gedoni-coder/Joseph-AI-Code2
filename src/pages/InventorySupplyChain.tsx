@@ -22,6 +22,8 @@ import { ProcurementTracking } from "@/components/supply-chain/procurement-track
 import { ProductionPlanning } from "@/components/supply-chain/production-planning";
 import { SupplyChainAnalytics } from "@/components/supply-chain/supply-chain-analytics";
 import ModuleHeader from "@/components/ui/module-header";
+import { SummarySection } from "@/components/module/summary-section";
+import { RecommendationSection } from "@/components/module/recommendation-section";
 import {
   Package,
   TrendingUp,
@@ -154,12 +156,24 @@ export default function InventorySupplyChain() {
           onValueChange={setActiveTab}
           className="space-y-6"
         >
-          <TabsList className="grid w-full grid-cols-9 bg-white border text-sm">
+          <TabsList className="grid w-full grid-cols-11 bg-white border text-sm">
             <TabsTrigger
               value="overview"
               className="data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700"
             >
               Overview
+            </TabsTrigger>
+            <TabsTrigger
+              value="summary"
+              className="data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700"
+            >
+              Summary
+            </TabsTrigger>
+            <TabsTrigger
+              value="recommendations"
+              className="data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700"
+            >
+              Recommendations
             </TabsTrigger>
             <TabsTrigger
               value="stock-monitoring"
