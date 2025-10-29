@@ -29,8 +29,7 @@ import { ScenarioTesting } from "../components/financial/scenario-testing";
 import { RiskAssessmentComponent } from "../components/financial/risk-assessment";
 import { PerformanceDrivers } from "../components/financial/performance-drivers";
 import { AdvisoryInsights } from "../components/financial/advisory-insights";
-import { SummarySection } from "../components/module/summary-section";
-import { RecommendationSection } from "../components/module/recommendation-section";
+import { SummaryRecommendationSection } from "../components/module/summary-recommendation-section";
 import {
   Loader2,
   Calculator,
@@ -302,21 +301,14 @@ export default function FinancialAdvisory() {
               </TabsTrigger>
 
               <TabsTrigger
-                value="summary"
+                value="summary-recommendation"
                 className="flex items-center gap-2 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700"
               >
                 <BarChart3 className="w-4 h-4" />
-                <span className="hidden sm:inline">Summary</span>
+                <span className="hidden sm:inline">
+                  Summary & Recommendation
+                </span>
                 <span className="sm:hidden">Summary</span>
-              </TabsTrigger>
-
-              <TabsTrigger
-                value="recommendations"
-                className="flex items-center gap-2 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700"
-              >
-                <Target className="w-4 h-4" />
-                <span className="hidden sm:inline">Recommendations</span>
-                <span className="sm:hidden">Rec.</span>
               </TabsTrigger>
 
               <TabsTrigger
@@ -383,10 +375,10 @@ export default function FinancialAdvisory() {
               />
             </TabsContent>
 
-            <TabsContent value="summary" className="space-y-8">
-              <SummarySection
-                title="Financial Advisory Summary"
-                description="Executive summary of financial position and key metrics"
+            <TabsContent value="summary-recommendation" className="space-y-8">
+              <SummaryRecommendationSection
+                summaryTitle="Financial Advisory Summary"
+                summaryDescription="Executive summary of financial position and key metrics"
                 summaryText={`1. FINANCIAL POSITION OVERVIEW
 The organization maintains a strong financial position with healthy liquidity and profitability metrics. Cash flow projections show positive trends with adequate reserves to support operational needs and strategic investments.
 
@@ -401,7 +393,7 @@ ${riskAssessments.length} financial risks have been identified and are being act
 
 5. STRATEGIC FINANCIAL INITIATIVES
 Performance drivers analysis indicates key areas for financial optimization. Recommended initiatives focus on improving profitability, optimizing capital deployment, and enhancing shareholder value.`}
-                metrics={[
+                summaryMetrics={[
                   {
                     index: 1,
                     title: "Budget Forecasts",
@@ -427,13 +419,8 @@ Performance drivers analysis indicates key areas for financial optimization. Rec
                     insight: "Financial risks under active review",
                   },
                 ]}
-              />
-            </TabsContent>
-
-            <TabsContent value="recommendations" className="space-y-8">
-              <RecommendationSection
-                title="Financial Advisory Recommendations"
-                description="Strategic recommendations for financial optimization and risk management"
+                recommendationTitle="Financial Advisory Recommendations"
+                recommendationDescription="Strategic recommendations for financial optimization and risk management"
                 recommendationText={`1. BUDGET OPTIMIZATION
 Implement zero-based budgeting approach for discretionary spending categories. Establish monthly variance analysis with accountability for budget managers. Consider rolling forecasts to improve planning accuracy and flexibility.
 

@@ -18,8 +18,7 @@ import { ReportNotes } from "@/components/market/report-notes";
 import { CompetitiveAnalysis } from "@/components/competitive/competitive-analysis";
 import { CompetitiveStrategy } from "@/components/competitive/competitive-strategy";
 import { ModuleConversation } from "@/components/conversation/module-conversation";
-import { SummarySection } from "@/components/module/summary-section";
-import { RecommendationSection } from "@/components/module/recommendation-section";
+import { SummaryRecommendationSection } from "@/components/module/summary-recommendation-section";
 import {
   BarChart3,
   TrendingUp,
@@ -126,16 +125,10 @@ export default function MarketCompetitiveAnalysis() {
               Overview
             </TabsTrigger>
             <TabsTrigger
-              value="summary"
+              value="summary-recommendation"
               className="data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700"
             >
-              Summary
-            </TabsTrigger>
-            <TabsTrigger
-              value="recommendations"
-              className="data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700"
-            >
-              Recommendations
+              Summary & Recommendation
             </TabsTrigger>
             <TabsTrigger
               value="market"
@@ -322,10 +315,10 @@ export default function MarketCompetitiveAnalysis() {
             </div>
           </TabsContent>
 
-          <TabsContent value="summary" className="space-y-8">
-            <SummarySection
-              title="Market & Competitive Analysis Summary"
-              description="Executive summary of market conditions and competitive positioning"
+          <TabsContent value="summary-recommendation" className="space-y-8">
+            <SummaryRecommendationSection
+              summaryTitle="Market & Competitive Analysis Summary"
+              summaryDescription="Executive summary of market conditions and competitive positioning"
               summaryText={`1. MARKET OVERVIEW
 Total addressable market (TAM) stands at approximately $${(
                 marketSizes.reduce((acc, m) => acc + m.tam, 0) / 1000000000
@@ -347,7 +340,7 @@ Key trends shaping the market include digital transformation, consolidation amon
 
 5. STRATEGIC POSITIONING
 Our competitive position is differentiated through superior customer service and faster innovation cycles. Market share growth is achievable through selective expansion into adjacent segments.`}
-              metrics={[
+              summaryMetrics={[
                 {
                   index: 1,
                   title: "Total Market Size (TAM)",
@@ -373,13 +366,8 @@ Our competitive position is differentiated through superior customer service and
                   insight: "Direct and indirect competitors in market",
                 },
               ]}
-            />
-          </TabsContent>
-
-          <TabsContent value="recommendations" className="space-y-8">
-            <RecommendationSection
-              title="Market & Competitive Recommendations"
-              description="Strategic recommendations for market expansion and competitive positioning"
+              recommendationTitle="Market & Competitive Recommendations"
+              recommendationDescription="Strategic recommendations for market expansion and competitive positioning"
               recommendationText={`1. MARKET PENETRATION
 Focus on deepening market penetration in high-growth segments. Increase marketing investment in channels with highest ROI. Consider strategic partnerships to expand distribution reach.
 
