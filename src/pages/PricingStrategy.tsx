@@ -17,8 +17,7 @@ import { CompetitiveAnalysis } from "@/components/pricing/competitive-analysis";
 import { PriceTesting } from "@/components/pricing/price-testing";
 import { DynamicPricingComponent } from "@/components/pricing/dynamic-pricing";
 import { ModuleConversation } from "@/components/conversation/module-conversation";
-import { SummarySection } from "@/components/module/summary-section";
-import { RecommendationSection } from "@/components/module/recommendation-section";
+import { SummaryRecommendationSection } from "@/components/module/summary-recommendation-section";
 import {
   DollarSign,
   Target,
@@ -95,16 +94,10 @@ export default function PricingStrategy() {
               Overview
             </TabsTrigger>
             <TabsTrigger
-              value="summary"
+              value="summary-recommendation"
               className="data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700"
             >
-              Summary
-            </TabsTrigger>
-            <TabsTrigger
-              value="recommendations"
-              className="data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700"
-            >
-              Recommendations
+              Summary & Recommendation
             </TabsTrigger>
             <TabsTrigger
               value="strategies"
@@ -248,10 +241,10 @@ export default function PricingStrategy() {
             </div>
           </TabsContent>
 
-          <TabsContent value="summary" className="space-y-8">
-            <SummarySection
-              title="Pricing Strategy Summary"
-              description="Executive summary of pricing models and performance metrics"
+          <TabsContent value="summary-recommendation" className="space-y-8">
+            <SummaryRecommendationSection
+              summaryTitle="Pricing Strategy Summary"
+              summaryDescription="Executive summary of pricing models and performance metrics"
               summaryText={`1. CURRENT PRICING MODEL
 The organization employs a ${strategies.length > 0 ? "multi-strategy" : "value-based"} pricing model across ${metrics.length} key pricing metrics. Prices are optimized based on customer segment, competitive positioning, and willingness to pay analysis.
 
@@ -266,7 +259,7 @@ Our pricing positions the company as a premium player with differentiation based
 
 5. OPTIMIZATION OPPORTUNITIES
 Analysis identifies ${strategies.length} distinct pricing strategies that could enhance revenue while maintaining customer satisfaction. Implementation priorities should consider implementation complexity and expected impact.`}
-              metrics={[
+              summaryMetrics={[
                 {
                   index: 1,
                   title: "Average Price Point",
@@ -293,13 +286,8 @@ Analysis identifies ${strategies.length} distinct pricing strategies that could 
                   insight: "Price premium versus market average",
                 },
               ]}
-            />
-          </TabsContent>
-
-          <TabsContent value="recommendations" className="space-y-8">
-            <RecommendationSection
-              title="Pricing Recommendations"
-              description="Strategic pricing recommendations for revenue optimization"
+              recommendationTitle="Pricing Recommendations"
+              recommendationDescription="Strategic pricing recommendations for revenue optimization"
               recommendationText={`1. PRICE OPTIMIZATION
 Implement tiered pricing strategy that captures maximum value from high-willingness-to-pay segments. Use data from ongoing price tests to finalize optimal price points. Consider bundling strategies to increase average order value.
 
@@ -384,6 +372,7 @@ Implement revenue management system to optimize price, volume, and mix. Establis
               ]}
             />
           </TabsContent>
+
 
           <TabsContent value="strategies">
             <PricingStrategies strategies={strategies} />
