@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-svinma#7^fs$na$^1yk(oo)^^w9o6!#v5-n_v2-17srnhg9j-y')
 
 # Google Gemini API Key
-GEMINI_API_KEY = os.getenv('GEMINI_API_KEY', 'AIzaSyAY96qhn5P1eUQHl05MGHu3oZp5f_Sbmzs')
+GEMINI_API_KEY = os.getenv('GEMINI_API_KEY', 'AIzaSyAgu7GrgqBUr7eqTulLLvDlpWPQf2S8bPo')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'

@@ -15,7 +15,7 @@ from .agent import agent
 
 # Configure Gemini API
 genai.configure(api_key=settings.GEMINI_API_KEY)
-model = genai.GenerativeModel('gemini-pro')
+model = genai.GenerativeModel('gemini-2.0-flash')
 
 class ModuleConversationViewSet(viewsets.ModelViewSet):
     queryset = ModuleConversation.objects.all()
